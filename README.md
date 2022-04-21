@@ -1,5 +1,5 @@
 # LightFEM
-Light weight high order finite element library
+Light weight expression template based high order finite element library
 
 Example: Solving the wave equation with Absorbing boundary conditions and mass lumping.
 
