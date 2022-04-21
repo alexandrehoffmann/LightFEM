@@ -114,8 +114,6 @@ private:
 	typename RefTypeSelector<MatrixExpr>::Type m_matrix;
 };
 
-#include <iostream>
-
 template<typename ScalarExpr, typename MatrixExpr>
 class BinaryExpression<BinaryOp::DIV, ExprType::MATRIX, MatrixExpr, ExprType::SCALAR, ScalarExpr> : public MatrixExpression< BinaryExpression<BinaryOp::DIV, ExprType::MATRIX, MatrixExpr, ExprType::SCALAR, ScalarExpr> >
 {
@@ -125,7 +123,7 @@ public:
 	inline size_t getNrows() const { return m_matrix.getNrows(); }
 	inline size_t getNcols() const { return m_matrix.getNcols(); }
 public:
-	inline double operator()(const size_t i, const size_t j) const { std::cout << m_matrix(i,j) << " / " <<  m_scalar.eval() << " = " << m_matrix(i,j) / m_scalar.eval() << std::endl; return m_matrix(i,j) / m_scalar.eval(); }
+	inline double operator()(const size_t i, const size_t j) const { return m_matrix(i,j) / m_scalar.eval(); }
 private:
 	typename RefTypeSelector<ScalarExpr>::Type m_scalar;
 	typename RefTypeSelector<MatrixExpr>::Type m_matrix;
