@@ -6,6 +6,8 @@ Example: Solving the wave equation with Absorbing boundary conditions and mass l
 The library creates a list of matrix and vector entries. In this specific example, we use Eigen to handle the linear alegbra.
 However, we show in the test repository that similar results can be achieved with otrher linear algebra libraries such as the GLS. 
 
+The library uses openmp by default and can also use MPI as demonstrated in one of the example. 
+
 ```C++
 #include <eigen3/Eigen/Core>
 #include <eigen3/Eigen/Sparse>
