@@ -1,12 +1,15 @@
 # LightFEM
 Light weight expression template based high order finite element library
-
-Example: Solving the wave equation with Absorbing boundary conditions and mass lumping.
-
-The library creates a list of matrix and vector entries. In this specific example, we use Eigen to handle the linear alegbra.
-However, we show in the test repository that similar results can be achieved with otrher linear algebra libraries such as the GLS. 
+The library onmly creates a list of matrix/vector entries and let you do the linear algebra with your favorite library.
 
 The library uses openmp by default and can also use MPI as demonstrated in one of the example. 
+
+# Solving the wave equation with absorbing boundary conditions
+
+The following code shows how to discretize the PDE and how to solve it with a Newmark scheme.
+We used a mass lumping technique to ensure the mass matrix is diagonal. More specifically, the mass matrix is computed using a specific quadrature that ensures the orthogonality of the basis functions. 
+In this specific example, we use Eigen to handle the linear alegbra.
+However, we show in the test repository that similar results can be achieved with otrher linear algebra libraries such as the GLS. 
 
 ```C++
 #include <eigen3/Eigen/Core>
@@ -180,3 +183,25 @@ int main()
 }
 
 ```
+# Installation of the library
+
+```bash
+cd ../LightFEM-Build
+cmake ../LightFEM
+make 
+sudo make install
+```
+# Compilation of the test examples
+
+```bash
+cd ../Test-LightFEM-Buid
+cmake ../LightFEM/test
+make
+```
+7 executables are generated. You can compare the Mass lumping thechnique with the standard FEM method by doing:
+```bash
+./eigen_ABC
+./eigen_ABC_mass_lumping
+./make_movie
+```
+
