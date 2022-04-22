@@ -1,22 +1,15 @@
 #include <LightFEM/Mesh.hpp>
 #include <LightFEM/Analysis.hpp>
 #include <LightFEM/Expression.hpp>
-#include <LightFEM/LightFEM_MPI.hpp>
-#include <LightFEM/Tools/MpiRange.hpp>
 
 #include <chrono>
-
-#include <mpi.h>
+#include <iostream>
 
 #include <MySparseMatrix.hpp>
 
 int main(int argc, char** argv)
 {
-	MPI_Init(&argc, &argv);
-	
 	constexpr size_t degree = 7;
-	
-	LightFEM_MPI::init();
 	
 	//////////////////////////////////////////////////////////////////////
 	////  We want to solve the following PDE                          ////
@@ -54,22 +47,23 @@ int main(int argc, char** argv)
 	BilinearForm aK(&Vh, &Vh, [&mesh](const TrialFunction& u, const TestFunction& v) -> double
 	{
 		return integral(mesh, inner(grad(u), grad(v))); // the first argument is the domain, the second argument is an expression 
-	}, MPI_COMM_WORLD);
+	});
 	// create a bilinear form $a_M(u,v) := \int_\Omega uv dx$
 	BilinearForm aM(&Vh, &Vh, [&mesh, &c, &quadrature](const TrialFunction& u, const TestFunction& v) -> double
 	{
 		return integral(mesh, u*v / (c*c), quadrature); 
-	}, MPI_COMM_WORLD);
+	});
 	// create a bilinear form $a_C(u,v) := \int_\partial\Omega uv dx$
 	BilinearForm aC(&Vh, &Vh, [&mesh, &c, &quadrature](const TrialFunction& u, const TestFunction& v) -> double
 	{
 		return boundaryIntegral(mesh, u*v / c, quadrature);  
-	}, MPI_COMM_WORLD);
+	});
 	// create a linear form $l(v) := \int_\Omega v\delta_0 dx$
 	LinearForm l(&Vh, [&mesh, &delta](const TestFunction& v) -> double
 	{
 		return integral(mesh, v, delta); // the first argument is the domain, the second argument is an expression, the third argument is a measure (it can be a weighted sampling function or a quadrature) 
-	}, MPI_COMM_WORLD);
+	});
+	
 	//////////////////////////////////////////////////////////////////////
 	////              We discretize our PDE using eigen               ////
 	////         Note that any Linear algebra could be used.          ////
@@ -103,14 +97,11 @@ int main(int argc, char** argv)
 	
 	std::vector< double > f(l.getCoefData(), l.getCoefData() + l.getNCoefs()); // source term f_i = $l(v_i)$
 	
-	std::vector< double > reduced_uk(Vh.getNBasisFunction()); // wavefield $u(t_k)$
-	
 	std::vector< double > uk(Vh.getNBasisFunction()); // wavefield $u(t_k)$
 	std::vector< double > vk(Vh.getNBasisFunction()); // wavefield velocity $\dot{u}(t_k)$
 	std::vector< double > ak(Vh.getNBasisFunction()); // wavefield acceleration $\ddot{u}(t_k)$
 	
 	std::vector< double > ukp12(Vh.getNBasisFunction()); // $uk + dt*vk + 0.5*dt*dt*ak$
-	std::vector< double > reduced_ukp12(Vh.getNBasisFunction()); // $uk + dt*vk + 0.5*dt*dt*ak$
 	
 	// our source term can be written as $f(t,x) = s(t)\delta_0(x)$ where $f(t)$ is a ricker wavelet.
 	const double f_M = 3.5;
@@ -139,13 +130,7 @@ int main(int argc, char** argv)
 	
 	std::vector< double > duration(nt+1);
 	
-	MpiRange range(MPI_COMM_WORLD, Vh.getNBasisFunction());
-	
-	std::ofstream out;
-	if (range.getRank() == 0)
-	{
-	 out.open("norm_sem_u.dat");
-	}
+	std::ofstream out("norm_sem_u.dat");
 	
 	size_t idx=0;
 	for (size_t k=0;k<nt+1;++k)
@@ -155,41 +140,32 @@ int main(int argc, char** argv)
 		const double t = dt*k + t0;
 		
 		double norm_u = 0.0;
-		for (size_t i=range.begin();i<range.end();++i)
+		for (size_t i=0;i<uk.size();++i)
 		{ 
 			norm_u += uk[i]*sem_M[i]*uk[i]; 
 		}
-		double reduced_norm_u;
-		MPI_Reduce(&norm_u, &reduced_norm_u, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
-		if (range.getRank() == 0)
-		{
-			out << t << " " << reduced_norm_u << std::endl;
-		}
+		out << t << " " << norm_u << std::endl;
 		
 		if (k % 10 == 0) // print the function every 100 iterations
 		{
 			// create a ScalarField in Vh from a list of coefficients 
 			// at this point the ScalarField hasn't been discretized yet. 
 			// it must be discretized before being printed, integrated or used in an expression
-			MPI_Reduce(uk.data(), reduced_uk.data(), reduced_uk.size(), MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
-			if (range.getRank() == 0)
-			{
-				FiniteElementScalarField u(&Vh, reinterpret_cast< Scalar* >(reduced_uk.data()));
-				printFunction("sem_u_" + std::to_string(idx) + ".dat", u.discretize());
-			}
+			FiniteElementScalarField u(&Vh, reinterpret_cast< Scalar* >(uk.data()));
+			
+			printFunction("sem_u_" + std::to_string(idx) + ".dat", u.discretize());
 			++idx;
 		}
 		#pragma omp parallel for
-		for (size_t i=range.begin();i<range.end();++i)
+		for (size_t i=0;i<uk.size();++i)
 		{
 			ukp12[i] = uk[i] + dt*vk[i] + 0.5*dt*dt*ak[i];
 		}
-		MPI_Allreduce(ukp12.data(), reduced_ukp12.data(), reduced_ukp12.size(), MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
 		
 		#pragma omp parallel for
-		for (size_t i=range.begin();i<range.end();++i)
+		for (size_t i=0;i<uk.size();++i)
 		{
-			const double Kukp12i = K.apply(reduced_ukp12, i);
+			const double Kukp12i = K.apply(ukp12, i);
 			
 			const double akp1i = invSemM[i]*(ricker(t)*f[i] - sem_C[i]*(vk[i] + dt*(1.0 - gamma)*ak[i]) - Kukp12i);
 			const double vkp1i = vk[i] + (1.0 - gamma)*dt*ak[i] + gamma*dt*akp1i;
@@ -202,20 +178,9 @@ int main(int argc, char** argv)
 		
 		auto stop = std::chrono::high_resolution_clock::now();
 		duration[k] = double(std::chrono::duration_cast<std::chrono::microseconds>(stop - start).count())*1.0e-6;
-		if (range.getRank() == 0)
-		{
-			std::cout << "Iteration " << k << "/ " << nt << " computed in " << duration[k] << " seconds" << std::endl;
-		}
+		std::cout << "Iteration " << k << "/ " << nt << " computed in " << duration[k] << " seconds" << std::endl;
 	}
-	
-	if (range.getRank() == 0)
-	{
-		std::cout << "Average time for a single iteration: " << std::reduce(std::begin(duration), std::end(duration)) / duration.size() << std::endl;
-	}
-	
-	LightFEM_MPI::finalize();
-	
-	MPI_Finalize();
+	std::cout << "Average time for a single iteration: " << std::reduce(std::begin(duration), std::end(duration)) / duration.size() << std::endl;
 	
 	return EXIT_SUCCESS;
 }

@@ -26,23 +26,29 @@
 #include <cmath>
 #include <iostream>
 
-MpiRange::MpiRange(MPI_Comm com, const size_t ntasks)
+MpiRange::MpiRange(MPI_Comm com, const size_t ntasks) : 
+	m_ntasks(ntasks)
 {
-	int nProcess;
-	
 	MPI_Comm_rank(com, &m_rank);
-	MPI_Comm_size(com, &nProcess);
+	MPI_Comm_size(com, &m_nprocess);
 	
-	const int maxRank = nProcess-1;
-	const size_t ntasksPerProcess = ntasks / nProcess;
+	const int maxRank = m_nprocess-1;
+	const size_t ntasksPerProcess = size_t(double(m_ntasks) / double(m_nprocess));
 	
 	m_begin = m_rank*ntasksPerProcess;
-	if (m_rank == maxRank)
+	m_end = (m_rank == maxRank) ? m_ntasks : (m_rank + 1)*ntasksPerProcess;
+}
+
+int MpiRange::getWorker(const size_t taskId) const
+{
+	const int maxRank = m_nprocess-1;
+	
+	const size_t ntasksPerProcess = size_t(double(m_ntasks) / double(m_nprocess));
+	for (int rank=0;rank<m_nprocess;++rank)
 	{
-		m_end = ntasks;
+		const size_t begin = rank*ntasksPerProcess;
+		const size_t end = (rank == maxRank) ? m_ntasks : (rank + 1)*ntasksPerProcess;
+		if (begin <= taskId and taskId < end) { return rank; }
 	}
-	else
-	{
-		m_end = (m_rank + 1)*ntasksPerProcess;
-	}
+	return maxRank;
 }

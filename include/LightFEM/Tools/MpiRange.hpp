@@ -31,13 +31,18 @@ class MpiRange
 public:
 	MpiRange(MPI_Comm com, const size_t ntasks);
 
-	inline int getRank() const { return m_rank; }
+	int getWorker(const size_t taskId) const;
+	
+	inline int getRank()     const { return m_rank;    }
+	inline int getNProcess() const { return m_nprocess; }
 	
 	inline size_t begin() const { return m_begin; } 
 	inline size_t end()   const { return m_end; } 
 private:
 	int m_rank;
+	int m_nprocess;
 	
+	size_t m_ntasks;
 	size_t m_begin;
 	size_t m_end;
 };

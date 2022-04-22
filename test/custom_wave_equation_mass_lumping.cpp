@@ -3,6 +3,7 @@
 #include <LightFEM/Expression.hpp>
 
 #include <chrono>
+#include <iostream>
 
 #include <MySparseMatrix.hpp>
 
