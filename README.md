@@ -187,7 +187,7 @@ int main()
 
 ```bash
 cd ../LightFEM-Build
-cmake ../LightFEM
+cmake -DCMAKE_BUILD_TYPE=Release ../LightFEM
 make 
 sudo make install
 ```
@@ -195,7 +195,7 @@ sudo make install
 
 ```bash
 cd ../Test-LightFEM-Buid
-cmake ../LightFEM/test
+cmake -DCMAKE_BUILD_TYPE=Release ../LightFEM/test
 make
 ```
 7 executables are generated. You can compare the Mass lumping thechnique with the standard FEM method by doing:
