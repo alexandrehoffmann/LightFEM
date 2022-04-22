@@ -9,7 +9,7 @@ The library uses openmp by default and can also use MPI as demonstrated in one o
 The following code shows how to discretize the PDE and how to solve it with a Newmark scheme.
 We used a mass lumping technique to ensure the mass matrix is diagonal. More specifically, the mass matrix is computed using a specific quadrature that ensures the orthogonality of the basis functions. 
 In this specific example, we use Eigen to handle the linear alegbra.
-However, we show in the test repository that similar results can be achieved with otrher linear algebra libraries such as the GLS. 
+However, we show in the test repository that similar results can be achieved with otrher linear algebra libraries such as the GSL. 
 
 ```C++
 #include <eigen3/Eigen/Core>
