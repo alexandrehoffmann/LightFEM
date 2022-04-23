@@ -42,12 +42,13 @@ class BilinearForm
 public:
 	BilinearForm(const FunctionSpace* Uh, const FunctionSpace* Vh, const std::function<double(const TrialFunction&, const TestFunction&)>& form);
 	BilinearForm(const FunctionSpace* Uh, const FunctionSpace* Vh, const std::function<double(const TrialFunction&, const TestFunction&)>& form, MPI_Comm com);
+	BilinearForm(const BilinearForm& other) : m_Uh(other.m_Uh), m_Vh(other.m_Vh), m_entries(other.m_entries) {}
 	
 	void setIdentityOnBoundary();
-	void setZeroOnBoundary();
-
-	void setIdentityOnBoundary(std::initializer_list< std::string > boundaryNames);
-	void setZeroOnBoundary(std::initializer_list< std::string > boundaryNames);
+	void setZeroOnBoundary(const bool setTrialZero=true, const bool setTestZero=true);
+	
+	void setIdentityOnBoundary(std::initializer_list<std::string> boundaryNames);
+	void setZeroOnBoundary(std::initializer_list< std::string > boundaryNames, const bool setTrialZero=true, const bool setTestZero=true);
 	
 	inline const MatrixEntry* getCoefData() const { return m_entries.data(); }
 	inline const MatrixEntry& getCoef(const size_t i) const { return m_entries[i]; }
@@ -71,12 +72,13 @@ class CpxBilinearForm
 public:
 	CpxBilinearForm(const FunctionSpace* Uh, const FunctionSpace* Vh, const std::function<std::complex<double>(const TrialFunction&, const TestFunction&)>& form);
 	CpxBilinearForm(const FunctionSpace* Uh, const FunctionSpace* Vh, const std::function<std::complex<double>(const TrialFunction&, const TestFunction&)>& form, MPI_Comm com);
+	CpxBilinearForm(const CpxBilinearForm& other) : m_Uh(other.m_Uh), m_Vh(other.m_Vh), m_entries(other.m_entries) {}
 	
 	void setIdentityOnBoundary();
-	void setZeroOnBoundary();
+	void setZeroOnBoundary(const bool setTrialZero=true, const bool setTestZero=true);
 	
 	void setIdentityOnBoundary(std::initializer_list<std::string> boundaryNames);
-	void setZeroOnBoundary(std::initializer_list< std::string > boundaryNames);
+	void setZeroOnBoundary(std::initializer_list< std::string > boundaryNames, const bool setTrialZero=true, const bool setTestZero=true);
 	
 	inline const CpxMatrixEntry* getCoefData() const { return m_entries.data(); }
 	inline const CpxMatrixEntry& getCoef(const size_t i) const { return m_entries[i]; }

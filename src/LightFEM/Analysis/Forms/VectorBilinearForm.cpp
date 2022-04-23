@@ -117,11 +117,11 @@ void VectorBilinearForm::setIdentityOnBoundary()
 	pruneNullEntries();
 }
 
-void VectorBilinearForm::setZeroOnBoundary()
+void VectorBilinearForm::setZeroOnBoundary(const bool setTrialZero, const bool setTestZero)
 {
 	for (MatrixEntry& entry : m_entries)
 	{
-		if (m_Uh->isIdOnBoundary(entry.row) or m_Vh->isIdOnBoundary(entry.col))
+		if ((setTestZero and m_Uh->isIdOnBoundary(entry.row)) or (setTrialZero and m_Vh->isIdOnBoundary(entry.col)))
 		{
 			entry.value = 0.0;
 		}
@@ -173,7 +173,7 @@ void VectorBilinearForm::setIdentityOnBoundary(std::initializer_list<std::string
 	pruneNullEntries();
 }
 
-void VectorBilinearForm::setZeroOnBoundary(std::initializer_list<std::string> boundaryNames)
+void VectorBilinearForm::setZeroOnBoundary(std::initializer_list<std::string> boundaryNames, const bool setTrialZero, const bool setTestZero)
 {
 	const Mesh* mesh = m_Uh->getMesh();
 
@@ -209,7 +209,7 @@ void VectorBilinearForm::setZeroOnBoundary(std::initializer_list<std::string> bo
 
 	for (MatrixEntry& entry : m_entries)
 	{
-		if (rowConstrained[entry.row] or colConstrained[entry.col])
+		if ((setTestZero and rowConstrained[entry.row]) or (setTrialZero and colConstrained[entry.col]))
 		{
 			entry.value = 0.0;
 		}
@@ -315,11 +315,11 @@ void CpxVectorBilinearForm::setIdentityOnBoundary()
 	}
 }
 
-void CpxVectorBilinearForm::setZeroOnBoundary()
+void CpxVectorBilinearForm::setZeroOnBoundary(const bool setTrialZero, const bool setTestZero)
 {
 	for (CpxMatrixEntry& entry : m_entries)
 	{
-		if (m_Uh->isIdOnBoundary(entry.row) or m_Vh->isIdOnBoundary(entry.col))
+		if ((setTestZero and m_Uh->isIdOnBoundary(entry.row)) or (setTrialZero and m_Vh->isIdOnBoundary(entry.col)))
 		{
 			entry.value = 0.0;
 		}
@@ -371,7 +371,7 @@ void CpxVectorBilinearForm::setIdentityOnBoundary(std::initializer_list<std::str
 	pruneNullEntries();
 }
 
-void CpxVectorBilinearForm::setZeroOnBoundary(std::initializer_list<std::string> boundaryNames)
+void CpxVectorBilinearForm::setZeroOnBoundary(std::initializer_list<std::string> boundaryNames, const bool setTrialZero, const bool setTestZero)
 {
 	const Mesh* mesh = m_Uh->getMesh();
 
@@ -407,7 +407,7 @@ void CpxVectorBilinearForm::setZeroOnBoundary(std::initializer_list<std::string>
 
 	for (CpxMatrixEntry& entry : m_entries)
 	{
-		if (rowConstrained[entry.row] or colConstrained[entry.col])
+		if ((setTestZero and rowConstrained[entry.row]) or (setTrialZero and colConstrained[entry.col]))
 		{
 			entry.value = 0.0;
 		}

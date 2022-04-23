@@ -42,12 +42,13 @@ class VectorBilinearForm
 public:
 	VectorBilinearForm(const VectorFunctionSpace* Uh, const VectorFunctionSpace* Vh, const std::function<double(const VectorTrialFunction&, const VectorTestFunction&)>& form);
 	VectorBilinearForm(const VectorFunctionSpace* Uh, const VectorFunctionSpace* Vh, const std::function<double(const VectorTrialFunction&, const VectorTestFunction&)>& form, MPI_Comm com);
+	VectorBilinearForm(const VectorBilinearForm& other) : m_Uh(other.m_Uh), m_Vh(other.m_Vh), m_entries(other.m_entries) {}
 	
 	void setIdentityOnBoundary();
-	void setZeroOnBoundary();
+	void setZeroOnBoundary(const bool setTrialZero=true, const bool setTestZero=true);
 	
 	void setIdentityOnBoundary(std::initializer_list< std::string > boundaryNames);
-	void setZeroOnBoundary(std::initializer_list< std::string > boundaryNames);
+	void setZeroOnBoundary(std::initializer_list< std::string > boundaryNames, const bool setTrialZero=true, const bool setTestZero=true);
 	
 	inline const std::vector< MatrixEntry >& getCoefList() { return m_entries; }
 	inline const MatrixEntry& getCoef(const size_t i) const { return m_entries[i]; }
@@ -68,12 +69,13 @@ class CpxVectorBilinearForm
 public:
 	CpxVectorBilinearForm(const VectorFunctionSpace* Uh, const VectorFunctionSpace* Vh, const std::function<std::complex<double>(const VectorTrialFunction&, const VectorTestFunction&)>& form);
 	CpxVectorBilinearForm(const VectorFunctionSpace* Uh, const VectorFunctionSpace* Vh, const std::function<std::complex<double>(const VectorTrialFunction&, const VectorTestFunction&)>& form, MPI_Comm com);
+	CpxVectorBilinearForm(const CpxVectorBilinearForm& other) : m_Uh(other.m_Uh), m_Vh(other.m_Vh), m_entries(other.m_entries) {}
 	
 	void setIdentityOnBoundary();
-	void setZeroOnBoundary();
+	void setZeroOnBoundary(const bool setTrialZero=true, const bool setTestZero=true);
 	
 	void setIdentityOnBoundary(std::initializer_list<std::string> boundaryNames);
-	void setZeroOnBoundary(std::initializer_list< std::string > boundaryNames);
+	void setZeroOnBoundary(std::initializer_list< std::string > boundaryNames, const bool setTrialZero=true, const bool setTestZero=true);
 	
 	inline const CpxMatrixEntry& getCoef(const size_t i) const { return m_entries[i]; }
 	inline size_t getNCoefs() const { return m_entries.size(); }
