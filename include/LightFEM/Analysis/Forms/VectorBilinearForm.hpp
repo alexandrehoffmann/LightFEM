@@ -54,6 +54,7 @@ public:
 	inline size_t getNCoefs() const { return m_entries.size(); }
 private:
 	void initEntries(std::vector< MatrixEntry >& entries);
+	void pruneNullEntries();
 private:
 	const VectorFunctionSpace*       m_Uh;
 	const VectorFunctionSpace*       m_Vh;
@@ -78,6 +79,7 @@ public:
 	inline size_t getNCoefs() const { return m_entries.size(); }
 private:
 	void initEntries(std::vector< CpxMatrixEntry >& entries);
+	void pruneNullEntries();
 private:
 	const VectorFunctionSpace*          m_Uh;
 	const VectorFunctionSpace*          m_Vh;

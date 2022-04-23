@@ -49,6 +49,7 @@ VectorBilinearForm::VectorBilinearForm(const VectorFunctionSpace *Uh, const Vect
 		}
 	}
 	initEntries(entries);
+	pruneNullEntries();
 }
 
 VectorBilinearForm::VectorBilinearForm(const VectorFunctionSpace *Uh, const VectorFunctionSpace *Vh, const std::function<double (const VectorTrialFunction &, const VectorTestFunction &)> &form, MPI_Comm com) : 
@@ -78,6 +79,7 @@ VectorBilinearForm::VectorBilinearForm(const VectorFunctionSpace *Uh, const Vect
 	MPI_Allreduce(local_entries.data(), entries.data(), local_entries.size(), LightFEM_MPI::MPI_MATRIX_ENTRY, LightFEM_MPI::MPI_MATRIX_ENTRY_SUM, com);
 	
 	initEntries(entries);
+	pruneNullEntries();
 }
 
 void VectorBilinearForm::initEntries(std::vector< MatrixEntry >& entries)
@@ -112,6 +114,7 @@ void VectorBilinearForm::setIdentityOnBoundary()
 			entry.value = (entry.row == entry.col) ? 1.0 : 0.0;
 		}
 	}
+	pruneNullEntries();
 }
 
 void VectorBilinearForm::setZeroOnBoundary()
@@ -123,6 +126,7 @@ void VectorBilinearForm::setZeroOnBoundary()
 			entry.value = 0.0;
 		}
 	}
+	pruneNullEntries();
 }
 
 void VectorBilinearForm::setIdentityOnBoundary(std::initializer_list<std::string> boundaryNames)
@@ -166,6 +170,7 @@ void VectorBilinearForm::setIdentityOnBoundary(std::initializer_list<std::string
 			entry.value = (entry.row == entry.col) ? 1.0 : 0.0;
 		}
 	}
+	pruneNullEntries();
 }
 
 void VectorBilinearForm::setZeroOnBoundary(std::initializer_list<std::string> boundaryNames)
@@ -209,6 +214,16 @@ void VectorBilinearForm::setZeroOnBoundary(std::initializer_list<std::string> bo
 			entry.value = 0.0;
 		}
 	}
+	pruneNullEntries();
+}
+
+void VectorBilinearForm::pruneNullEntries()
+{
+	m_entries.erase(std::remove_if(std::begin(m_entries), std::end(m_entries), [](const MatrixEntry& entry) -> bool
+	{
+		if (std::fabs(entry.value) < 1.0e-15) { return true; }
+		return false; 
+	}));
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -234,6 +249,7 @@ CpxVectorBilinearForm::CpxVectorBilinearForm(const VectorFunctionSpace *Uh, cons
 		}
 	}
 	initEntries(entries);
+	pruneNullEntries();
 }
 
 CpxVectorBilinearForm::CpxVectorBilinearForm(const VectorFunctionSpace *Uh, const VectorFunctionSpace *Vh, const std::function<std::complex<double>(const VectorTrialFunction &, const VectorTestFunction &)> &form, MPI_Comm com) : 
@@ -263,6 +279,7 @@ CpxVectorBilinearForm::CpxVectorBilinearForm(const VectorFunctionSpace *Uh, cons
 	MPI_Allreduce(local_entries.data(), entries.data(), local_entries.size(), LightFEM_MPI::MPI_CPX_MATRIX_ENTRY, LightFEM_MPI::MPI_CPX_MATRIX_ENTRY_SUM, com);
 	
 	initEntries(entries);
+	pruneNullEntries();
 }
 
 void CpxVectorBilinearForm::initEntries(std::vector< CpxMatrixEntry >& entries)
@@ -307,6 +324,7 @@ void CpxVectorBilinearForm::setZeroOnBoundary()
 			entry.value = 0.0;
 		}
 	}
+	pruneNullEntries();
 }
 
 void CpxVectorBilinearForm::setIdentityOnBoundary(std::initializer_list<std::string> boundaryNames)
@@ -350,6 +368,7 @@ void CpxVectorBilinearForm::setIdentityOnBoundary(std::initializer_list<std::str
 			entry.value = (entry.row == entry.col) ? 1.0 : 0.0;
 		}
 	}
+	pruneNullEntries();
 }
 
 void CpxVectorBilinearForm::setZeroOnBoundary(std::initializer_list<std::string> boundaryNames)
@@ -393,4 +412,14 @@ void CpxVectorBilinearForm::setZeroOnBoundary(std::initializer_list<std::string>
 			entry.value = 0.0;
 		}
 	}
+	pruneNullEntries();
+}
+
+void CpxVectorBilinearForm::pruneNullEntries()
+{
+	m_entries.erase(std::remove_if(std::begin(m_entries), std::end(m_entries), [](const CpxMatrixEntry& entry) -> bool
+	{
+		if (std::fabs(entry.value) < 1.0e-15) { return true; }
+		return false; 
+	}));
 }
