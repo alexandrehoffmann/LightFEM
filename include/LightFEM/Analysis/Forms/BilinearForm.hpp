@@ -58,7 +58,6 @@ public:
 	inline const FunctionSpace* getTestFunctionSpace  () const { return m_Vh; } 
 private:
 	void initEntries(std::vector< MatrixEntry >& entries);
-	void pruneNullEntries();
 private:
 	const FunctionSpace*       m_Uh;
 	const FunctionSpace*       m_Vh;
@@ -88,7 +87,6 @@ public:
 	inline const FunctionSpace* getTestFunctionSpace  () const { return m_Vh; } 
 private:
 	void initEntries(std::vector< CpxMatrixEntry >& entries);
-	void pruneNullEntries();
 private:
 	const FunctionSpace*          m_Uh;
 	const FunctionSpace*          m_Vh;

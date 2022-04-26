@@ -78,7 +78,6 @@ BilinearForm::BilinearForm(const FunctionSpace *Uh, const FunctionSpace *Vh, con
 	MPI_Allreduce(local_entries.data(), entries.data(), local_entries.size(), LightFEM_MPI::MPI_MATRIX_ENTRY, LightFEM_MPI::MPI_MATRIX_ENTRY_SUM, com);
 	
 	initEntries(entries);
-	pruneNullEntries();
 }
 
 void BilinearForm::initEntries(std::vector< MatrixEntry >& entries)
@@ -113,7 +112,6 @@ void BilinearForm::setIdentityOnBoundary()
 			entry.value = (entry.row == entry.col) ? 1.0 : 0.0;
 		}
 	}
-	pruneNullEntries();
 }
 
 void BilinearForm::setZeroOnBoundary(const bool setTrialZero, const bool setTestZero)
@@ -125,7 +123,6 @@ void BilinearForm::setZeroOnBoundary(const bool setTrialZero, const bool setTest
 			entry.value = 0.0;
 		}
 	}
-	pruneNullEntries();
 }
 
 void BilinearForm::setIdentityOnBoundary(std::initializer_list<std::string> boundaryNames)
@@ -169,7 +166,6 @@ void BilinearForm::setIdentityOnBoundary(std::initializer_list<std::string> boun
 			entry.value = (entry.row == entry.col) ? 1.0 : 0.0;
 		}
 	}
-	pruneNullEntries();
 }
 
 void BilinearForm::setZeroOnBoundary(std::initializer_list<std::string> boundaryNames, const bool setTrialZero, const bool setTestZero)
@@ -213,16 +209,6 @@ void BilinearForm::setZeroOnBoundary(std::initializer_list<std::string> boundary
 			entry.value = 0.0;
 		}
 	}
-	pruneNullEntries();
-}
-
-void BilinearForm::pruneNullEntries()
-{
-	m_entries.erase(std::remove_if(std::begin(m_entries), std::end(m_entries), [](const MatrixEntry& entry) -> bool
-	{
-		if (std::fabs(entry.value) < 1.0e-15) { return true; }
-		return false; 
-	}));
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -248,7 +234,6 @@ CpxBilinearForm::CpxBilinearForm(const FunctionSpace *Uh, const FunctionSpace *V
 		}
 	}
 	initEntries(entries);
-	pruneNullEntries();
 }
 
 CpxBilinearForm::CpxBilinearForm(const FunctionSpace *Uh, const FunctionSpace *Vh, const std::function<std::complex<double>(const TrialFunction &, const TestFunction &)> &form, MPI_Comm com) :
@@ -278,7 +263,6 @@ CpxBilinearForm::CpxBilinearForm(const FunctionSpace *Uh, const FunctionSpace *V
 	MPI_Allreduce(local_entries.data(), entries.data(), local_entries.size(), LightFEM_MPI::MPI_CPX_MATRIX_ENTRY, LightFEM_MPI::MPI_CPX_MATRIX_ENTRY_SUM, com);
 	
 	initEntries(entries);
-	pruneNullEntries();
 }
 
 void CpxBilinearForm::initEntries(std::vector< CpxMatrixEntry >& entries)
@@ -312,7 +296,6 @@ void CpxBilinearForm::setIdentityOnBoundary()
 			entry.value = (entry.row == entry.col) ? 1.0 : 0.0;
 		}
 	}
-	pruneNullEntries();
 }
 
 void CpxBilinearForm::setZeroOnBoundary(const bool setTrialZero, const bool setTestZero)
@@ -324,7 +307,6 @@ void CpxBilinearForm::setZeroOnBoundary(const bool setTrialZero, const bool setT
 			entry.value = 0.0;
 		}
 	}
-	pruneNullEntries();
 }
 
 void CpxBilinearForm::setIdentityOnBoundary(std::initializer_list<std::string> boundaryNames)
@@ -368,7 +350,6 @@ void CpxBilinearForm::setIdentityOnBoundary(std::initializer_list<std::string> b
 			entry.value = (entry.row == entry.col) ? 1.0 : 0.0;
 		}
 	}
-	pruneNullEntries();
 }
 
 void CpxBilinearForm::setZeroOnBoundary(std::initializer_list<std::string> boundaryNames, const bool setTrialZero, const bool setTestZero)
@@ -412,14 +393,4 @@ void CpxBilinearForm::setZeroOnBoundary(std::initializer_list<std::string> bound
 			entry.value = 0.0;
 		}
 	}
-	pruneNullEntries();
-}
-
-void CpxBilinearForm::pruneNullEntries()
-{
-	m_entries.erase(std::remove_if(std::begin(m_entries), std::end(m_entries), [](const CpxMatrixEntry& entry) -> bool
-	{
-		if (std::fabs(entry.value) < 1.0e-15) { return true; }
-		return false; 
-	}));
 }
