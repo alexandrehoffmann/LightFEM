@@ -28,17 +28,14 @@ private:
 template<typename T>
 void MySparseMatrix<T>::setFromTriplets(typename std::vector< Entry >::const_iterator begin_entries, typename std::vector< Entry >::const_iterator end_entries)
 {
+	for (size_t i=0;i<m_rowSlice.size();++i)
+	{
+		m_rowSlice[i].clear();
+	}
 	for (typename std::vector< Entry >::const_iterator entryIt = begin_entries; entryIt != end_entries; ++entryIt)
 	{
 		const auto& [i, j, aij] = *entryIt;
-		//std::cout << "A(" << i << ", " << j << ") = " << aij << std::endl;
-		
-		//std::cout << "m_rowSlice[" << i << "].size() = " << m_rowSlice[i].size() << std::endl;
-		
 		RowSlice& Ai = m_rowSlice[i];
-		//std::cout << "A[" << i << ",:] = {" << std::flush;
-		//for (size_t idx=0;idx<Ai.size();++idx) { std::cout << "(" << Ai[idx].first << ", " << Ai[idx].second << ")" << std::endl; } 
-		//std::cout << "}" << std::endl;
 		typename RowSlice::const_iterator it = std::find_if(std::cbegin(Ai), std::cend(Ai), [j](const std::pair< int, T >& pair)
 		{
 			return pair.first == j;

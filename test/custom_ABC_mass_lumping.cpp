@@ -132,6 +132,8 @@ int main(int argc, char** argv)
 	
 	std::ofstream out("norm_sem_u.dat");
 	
+	std::vector< std::vector< double > > compressed_ub(nt+1);
+	
 	size_t idx=0;
 	for (size_t k=0;k<nt+1;++k)
 	{
