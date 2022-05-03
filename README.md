@@ -190,6 +190,7 @@ cd ../LightFEM-Build
 cmake -DCMAKE_BUILD_TYPE=Release ../LightFEM
 make 
 sudo make install
+sudo ldconfig
 ```
 # Compilation of the test examples
 
