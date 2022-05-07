@@ -34,7 +34,7 @@ double min(const ElementWiseFunctionExpression<ExprType::SCALAR, Expr>& expr)
 	{
 		for (size_t j=0;j<Element::getNxi();++j)
 		{
-			ret = std::min(expr[Element::index2d(i,j)], ret);
+			ret = std::min(expr[Element::index2d(i,j)].eval(), ret);
 		}
 	}
 	return ret;
@@ -48,7 +48,7 @@ std::complex< double > min(const CpxElementWiseFunctionExpression<ExprType::SCAL
 	{
 		for (size_t j=0;j<Element::getNxi();++j)
 		{
-			ret = std::min(expr[Element::index2d(i,j)], ret);
+			ret = std::min(expr[Element::index2d(i,j)].eval(), ret);
 		}
 	}
 	return ret;
@@ -62,7 +62,7 @@ double max(const ElementWiseFunctionExpression<ExprType::SCALAR, Expr>& expr)
 	{
 		for (size_t j=0;j<Element::getNxi();++j)
 		{
-			ret = std::max(expr[Element::index2d(i,j)], ret);
+			ret = std::max(expr[Element::index2d(i,j)].eval(), ret);
 		}
 	}
 	return ret;
@@ -76,7 +76,7 @@ std::complex< double > max(const CpxElementWiseFunctionExpression<ExprType::SCAL
 	{
 		for (size_t j=0;j<Element::getNxi();++j)
 		{
-			ret = std::max(expr[Element::index2d(i,j)], ret);
+			ret = std::max(expr[Element::index2d(i,j)].eval(), ret);
 		}
 	}
 	return ret;

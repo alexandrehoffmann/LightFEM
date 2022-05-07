@@ -47,6 +47,11 @@ int main()
 	// the filed can be displayed with set view 0,0; splot "err_1.dat" u 1:2:3 w pm3d
 	printFunction("c.dat", c);
 	
+	std::cout << "max(c) = " << max(c) << std::endl;
+	const double dx = Vh.getHMin();
+	std::cout << "h = " << dx << std::endl;
+	std::cout << "theoritical dt = " << 0.5*min(cst(dx) / c ) << std::endl;
+	
 	//// We define our time discretization and our Newmark scheme 
 	const double t0 = 0.0;
 	const double t1 = 3.0;
