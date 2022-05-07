@@ -25,6 +25,7 @@
 #define FINITE_ELEMENT_FUNCTION_HPP
 
 #include <LightFEM/Expression/FiniteElementFunction/FiniteElementFunctionExpression.hpp>
+#include <LightFEM/Tools/MpiRange.hpp>
 
 class functionNotDiscretized : public std::exception
 {
@@ -72,6 +73,12 @@ public:
 	inline const Mesh*       getMesh()          const { return m_fSpace->getMesh(); }
 
 	FiniteElementFunction<Type>& discretize();
+	/**
+	 * The discretizeation isn't broadcasted over MPI processes. If you want to use this in a bilinear or linear form please use the same MPI_Comm
+	 * if you want to compute the integral of this function or an expression involving this function, please use MPI_Allreduce with the same MPI_Comm
+	 */
+	FiniteElementFunction<Type>& discretize(MPI_Comm com); 
+	
 	inline bool isDiscretized() const { return m_isDiscretized; } 
 private:
 	std::vector< ValueType >     m_values;
@@ -129,6 +136,11 @@ public:
 	inline const Mesh*       getMesh()          const { return m_fSpace->getMesh(); }
 
 	CpxFiniteElementFunction<Type>& discretize();
+	/**
+	 * The discretizeation isn't broadcasted over MPI processes. If you want to use this in a bilinear or linear form please use the same MPI_Comm
+	 * if you want to compute the integral of this function or an expression involving this function, please use MPI_Allreduce with the same MPI_Comm
+	 */
+	CpxFiniteElementFunction<Type>& discretize(MPI_Comm com); 
 	inline bool isDiscretized() const { return m_isDiscretized; } 
 private:
 	std::vector< ValueType >     m_values;

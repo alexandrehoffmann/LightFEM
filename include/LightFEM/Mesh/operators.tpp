@@ -920,7 +920,7 @@ double boundaryIntegral(const Mesh& mesh, std::string domainName, const ElementW
 	{
 		if (expr.getElement() == mesh.getBoundaryElem(be)->getParentElement() and mesh.getBoundaryElem(be)->isInDomain(id))
 		{
-			return integral(*mesh.getBoundaryElem(be)->getParentElement(), mesh.getBoundaryElem(be)->getBoundary(), expr[mesh.getElemIdFromBoundaryElemId(be)]);
+			return integral(*mesh.getBoundaryElem(be)->getParentElement(), mesh.getBoundaryElem(be)->getBoundary(), expr);
 		}
 	}
 	return 0.0;
@@ -951,7 +951,7 @@ std::complex< double > boundaryIntegral(const Mesh& mesh, std::string domainName
 	{
 		if (expr.getElement() == mesh.getBoundaryElem(be)->getParentElement() and mesh.getBoundaryElem(be)->isInDomain(id))
 		{
-			return integral(*mesh.getBoundaryElem(be)->getParentElement(), mesh.getBoundaryElem(be)->getBoundary(), expr[mesh.getElemIdFromBoundaryElemId(be)]);
+			return integral(*mesh.getBoundaryElem(be)->getParentElement(), mesh.getBoundaryElem(be)->getBoundary(), expr);
 		}
 	}
 	return 0.0;
@@ -987,7 +987,7 @@ double boundaryIntegral(const Mesh& mesh, std::string domainName, const ElementW
 		if (expr.getElement() == mesh.getBoundaryElem(be)->getParentElement() and mesh.getBoundaryElem(be)->isInDomain(id))
 		{
 			const size_t e = mesh.getElemIdFromBoundaryElemId(be);
-			return integral(*mesh.getBoundaryElem(be)->getParentElement(), mesh.getBoundaryElem(be)->getBoundary(), expr[e], sampling.getBoundaryNodesAndWeights(e));
+			return integral(*mesh.getBoundaryElem(be)->getParentElement(), mesh.getBoundaryElem(be)->getBoundary(), expr, sampling.getBoundaryNodesAndWeights(e));
 		}
 	}
 	return 0.0;
@@ -1023,7 +1023,7 @@ std::complex< double > boundaryIntegral(const Mesh& mesh, std::string domainName
 		if (expr.getElement() == mesh.getBoundaryElem(be)->getParentElement() and mesh.getBoundaryElem(be)->isInDomain(id))
 		{
 			const size_t e = mesh.getElemIdFromBoundaryElemId(be);
-			return integral(*mesh.getBoundaryElem(be)->getParentElement(), mesh.getBoundaryElem(be)->getBoundary(), expr[e], sampling.getBoundaryNodesAndWeights(e));
+			return integral(*mesh.getBoundaryElem(be)->getParentElement(), mesh.getBoundaryElem(be)->getBoundary(), expr, sampling.getBoundaryNodesAndWeights(e));
 		}
 	}
 	return 0.0;
@@ -1059,7 +1059,7 @@ std::complex< double > boundaryIntegral(const Mesh& mesh, std::string domainName
 		if (expr.getElement() == mesh.getBoundaryElem(be)->getParentElement() and mesh.getBoundaryElem(be)->isInDomain(id))
 		{
 			const size_t e = mesh.getElemIdFromBoundaryElemId(be);
-			return integral(*mesh.getBoundaryElem(be)->getParentElement(), mesh.getBoundaryElem(be)->getBoundary(), expr[e], sampling.getBoundaryNodesAndWeights(e));
+			return integral(*mesh.getBoundaryElem(be)->getParentElement(), mesh.getBoundaryElem(be)->getBoundary(), expr, sampling.getBoundaryNodesAndWeights(e));
 		}
 	}
 	return 0.0;
@@ -1090,7 +1090,7 @@ std::complex< double > boundaryIntegral(const Mesh& mesh, std::string domainName
 	{
 		if (expr.getElement() == mesh.getBoundaryElem(be)->getParentElement() and mesh.getBoundaryElem(be)->isInDomain(id))
 		{
-			return integral(*mesh.getBoundaryElem(be)->getParentElement(), mesh.getBoundaryElem(be)->getBoundary(), expr[mesh.getElemIdFromBoundaryElemId(be)], sampling);
+			return integral(*mesh.getBoundaryElem(be)->getParentElement(), mesh.getBoundaryElem(be)->getBoundary(), expr, sampling);
 		}
 	}
 	return 0.0;

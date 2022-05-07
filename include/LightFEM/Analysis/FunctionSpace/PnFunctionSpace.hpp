@@ -38,14 +38,16 @@ public:
 	virtual size_t         getNLocalInterpolationNodes     ()               const { return m_interpNodes.size(); }
 	virtual const NodeRef& getLocalInterpolationNode       (const size_t i) const { return m_interpNodes[i]; }
 	virtual size_t         getLocalInterpolationFunctionId (const size_t i) const { return i; } // all our local functions are interpolation functions
+	
+	virtual double getHMin() const;
 protected:
 	virtual bool isLocIdOnBoundary(const size_t locId, const Element::Boundary b) const { return m_isLocIdOnBoundary[index2d(locId, b)]; }
 
 	virtual Scalar evalDiscBasisFunction      (const size_t locId, const double xi1, const double xi2) const { return m_basisFunctions[locId](xi1, xi2); }
 	virtual Vector evalDiscGradXiBasisFunction(const size_t locId, const double xi1, const double xi2) const { return m_gradXibasisFunctions[locId](xi1, xi2); }
 private:
-	inline std::size_t index2d(const std::size_t e, const std::size_t locId) const { return locId + m_basisFunctions.size()*e; }
-	inline std::size_t index2d(const std::size_t locId, const Element::Boundary b) const { return 4*locId + int(b); }
+	inline size_t index2d(const size_t e, const size_t locId) const { return locId + m_basisFunctions.size()*e; }
+	inline size_t index2d(const size_t locId, const Element::Boundary b) const { return 4*locId + int(b); }
 
 	double l(const size_t i, const double t) const;
 	double dl(const size_t i, const double t) const;

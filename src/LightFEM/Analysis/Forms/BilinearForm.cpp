@@ -36,11 +36,11 @@ BilinearForm::BilinearForm(const FunctionSpace *Uh, const FunctionSpace *Vh, con
 
 	std::vector< MatrixEntry > entries(m_Uh->getMesh()->getNElem()*m_Vh->getNBasisFunctionPerElement()*m_Uh->getNBasisFunctionPerElement());
 #pragma omp parallel for
-	for (std::size_t e=0;e<m_Uh->getMesh()->getNElem();++e)
+	for (size_t e=0;e<m_Uh->getMesh()->getNElem();++e)
 	{
-		for (std::size_t i=0;i<m_Vh->getNBasisFunctionPerElement();++i)
+		for (size_t i=0;i<m_Vh->getNBasisFunctionPerElement();++i)
 		{
-			for (std::size_t j=0;j<m_Uh->getNBasisFunctionPerElement();++j)
+			for (size_t j=0;j<m_Uh->getNBasisFunctionPerElement();++j)
 			{
 				entries[j + m_Uh->getNBasisFunctionPerElement()*(i + e*m_Vh->getNBasisFunctionPerElement())].row = m_Vh->getGlobalId(e, i);
 				entries[j + m_Uh->getNBasisFunctionPerElement()*(i + e*m_Vh->getNBasisFunctionPerElement())].col = m_Uh->getGlobalId(e, j);
@@ -61,11 +61,11 @@ BilinearForm::BilinearForm(const FunctionSpace *Uh, const FunctionSpace *Vh, con
 
 	std::vector< MatrixEntry > local_entries(m_Uh->getMesh()->getNElem()*m_Vh->getNBasisFunctionPerElement()*m_Uh->getNBasisFunctionPerElement());
 #pragma omp parallel for
-	for (std::size_t e=range.begin();e<range.end();++e)
+	for (size_t e=range.begin();e<range.end();++e)
 	{
-		for (std::size_t i=0;i<m_Vh->getNBasisFunctionPerElement();++i)
+		for (size_t i=0;i<m_Vh->getNBasisFunctionPerElement();++i)
 		{
-			for (std::size_t j=0;j<m_Uh->getNBasisFunctionPerElement();++j)
+			for (size_t j=0;j<m_Uh->getNBasisFunctionPerElement();++j)
 			{
 				local_entries[j + m_Uh->getNBasisFunctionPerElement()*(i + e*m_Vh->getNBasisFunctionPerElement())].row = m_Vh->getGlobalId(e, i);
 				local_entries[j + m_Uh->getNBasisFunctionPerElement()*(i + e*m_Vh->getNBasisFunctionPerElement())].col = m_Uh->getGlobalId(e, j);
@@ -145,12 +145,12 @@ void BilinearForm::setIdentityOnBoundary(std::initializer_list<std::string> boun
 			if (mesh->getBoundaryElem(be)->isInDomain(id))
 			{
 				const size_t e = mesh->getElemIdFromBoundaryElemId(be);
-				for (std::size_t locId=0;locId<m_Uh->getNBasisFunctionPerElement();++locId)
+				for (size_t locId=0;locId<m_Uh->getNBasisFunctionPerElement();++locId)
 				{
 					const size_t globId = m_Vh->getGlobalId(e, locId);
 					rowConstrained[globId] = rowConstrained[globId] or m_Vh->isIdOnBoundary(globId);
 				}
-				for (std::size_t locId=0;locId<m_Uh->getNBasisFunctionPerElement();++locId)
+				for (size_t locId=0;locId<m_Uh->getNBasisFunctionPerElement();++locId)
 				{
 					const size_t globId = m_Vh->getGlobalId(e, locId);
 					colConstrained[globId] = colConstrained[globId] or m_Uh->isIdOnBoundary(globId);
@@ -188,12 +188,12 @@ void BilinearForm::setZeroOnBoundary(std::initializer_list<std::string> boundary
 			if (mesh->getBoundaryElem(be)->isInDomain(id))
 			{
 				const size_t e = mesh->getElemIdFromBoundaryElemId(be);
-				for (std::size_t locId=0;locId<m_Uh->getNBasisFunctionPerElement();++locId)
+				for (size_t locId=0;locId<m_Uh->getNBasisFunctionPerElement();++locId)
 				{
 					const size_t globId = m_Vh->getGlobalId(e, locId);
 					rowConstrained[globId] = rowConstrained[globId] or m_Vh->isIdOnBoundary(globId);
 				}
-				for (std::size_t locId=0;locId<m_Uh->getNBasisFunctionPerElement();++locId)
+				for (size_t locId=0;locId<m_Uh->getNBasisFunctionPerElement();++locId)
 				{
 					const size_t globId = m_Vh->getGlobalId(e, locId);
 					colConstrained[globId] = colConstrained[globId] or m_Uh->isIdOnBoundary(globId);
@@ -211,6 +211,15 @@ void BilinearForm::setZeroOnBoundary(std::initializer_list<std::string> boundary
 	}
 }
 
+void BilinearForm::pruneNullEntries(const double tol)
+{
+	m_entries.erase(std::remove_if(std::begin(m_entries), std::end(m_entries), [tol](const MatrixEntry& entry) -> bool
+	{
+		if (std::fabs(entry.value) < tol) { return true; }
+		return false; 
+	}));
+}
+
 ////////////////////////////////////////////////////////////////////////
 
 CpxBilinearForm::CpxBilinearForm(const FunctionSpace *Uh, const FunctionSpace *Vh, const std::function<std::complex<double>(const TrialFunction &, const TestFunction &)> &form) :
@@ -221,11 +230,11 @@ CpxBilinearForm::CpxBilinearForm(const FunctionSpace *Uh, const FunctionSpace *V
 
 	std::vector< CpxMatrixEntry > entries(m_Uh->getMesh()->getNElem()*m_Vh->getNBasisFunctionPerElement()*m_Uh->getNBasisFunctionPerElement());
 #pragma omp parallel for
-	for (std::size_t e=0;e<m_Uh->getMesh()->getNElem();++e)
+	for (size_t e=0;e<m_Uh->getMesh()->getNElem();++e)
 	{
-		for (std::size_t i=0;i<m_Vh->getNBasisFunctionPerElement();++i)
+		for (size_t i=0;i<m_Vh->getNBasisFunctionPerElement();++i)
 		{
-			for (std::size_t j=0;j<m_Uh->getNBasisFunctionPerElement();++j)
+			for (size_t j=0;j<m_Uh->getNBasisFunctionPerElement();++j)
 			{
 				entries[j + m_Uh->getNBasisFunctionPerElement()*(i + e*m_Vh->getNBasisFunctionPerElement())].row = m_Vh->getGlobalId(e, i);
 				entries[j + m_Uh->getNBasisFunctionPerElement()*(i + e*m_Vh->getNBasisFunctionPerElement())].col = m_Uh->getGlobalId(e, j);
@@ -246,11 +255,11 @@ CpxBilinearForm::CpxBilinearForm(const FunctionSpace *Uh, const FunctionSpace *V
 
 	std::vector< CpxMatrixEntry > local_entries(m_Uh->getMesh()->getNElem()*m_Vh->getNBasisFunctionPerElement()*m_Uh->getNBasisFunctionPerElement());
 #pragma omp parallel for
-	for (std::size_t e=range.begin();e<range.end();++e)
+	for (size_t e=range.begin();e<range.end();++e)
 	{
-		for (std::size_t i=0;i<m_Vh->getNBasisFunctionPerElement();++i)
+		for (size_t i=0;i<m_Vh->getNBasisFunctionPerElement();++i)
 		{
-			for (std::size_t j=0;j<m_Uh->getNBasisFunctionPerElement();++j)
+			for (size_t j=0;j<m_Uh->getNBasisFunctionPerElement();++j)
 			{
 				local_entries[j + m_Uh->getNBasisFunctionPerElement()*(i + e*m_Vh->getNBasisFunctionPerElement())].row = m_Vh->getGlobalId(e, i);
 				local_entries[j + m_Uh->getNBasisFunctionPerElement()*(i + e*m_Vh->getNBasisFunctionPerElement())].col = m_Uh->getGlobalId(e, j);
@@ -329,12 +338,12 @@ void CpxBilinearForm::setIdentityOnBoundary(std::initializer_list<std::string> b
 			if (mesh->getBoundaryElem(be)->isInDomain(id))
 			{
 				const size_t e = mesh->getElemIdFromBoundaryElemId(be);
-				for (std::size_t locId=0;locId<m_Uh->getNBasisFunctionPerElement();++locId)
+				for (size_t locId=0;locId<m_Uh->getNBasisFunctionPerElement();++locId)
 				{
 					const size_t globId = m_Vh->getGlobalId(e, locId);
 					rowConstrained[globId] = rowConstrained[globId] or m_Vh->isIdOnBoundary(globId);
 				}
-				for (std::size_t locId=0;locId<m_Uh->getNBasisFunctionPerElement();++locId)
+				for (size_t locId=0;locId<m_Uh->getNBasisFunctionPerElement();++locId)
 				{
 					const size_t globId = m_Vh->getGlobalId(e, locId);
 					colConstrained[globId] = colConstrained[globId] or m_Uh->isIdOnBoundary(globId);
@@ -372,12 +381,12 @@ void CpxBilinearForm::setZeroOnBoundary(std::initializer_list<std::string> bound
 			if (mesh->getBoundaryElem(be)->isInDomain(id))
 			{
 				const size_t e = mesh->getElemIdFromBoundaryElemId(be);
-				for (std::size_t locId=0;locId<m_Uh->getNBasisFunctionPerElement();++locId)
+				for (size_t locId=0;locId<m_Uh->getNBasisFunctionPerElement();++locId)
 				{
 					const size_t globId = m_Vh->getGlobalId(e, locId);
 					rowConstrained[globId] = rowConstrained[globId] or m_Vh->isIdOnBoundary(globId);
 				}
-				for (std::size_t locId=0;locId<m_Uh->getNBasisFunctionPerElement();++locId)
+				for (size_t locId=0;locId<m_Uh->getNBasisFunctionPerElement();++locId)
 				{
 					const size_t globId = m_Vh->getGlobalId(e, locId);
 					colConstrained[globId] = colConstrained[globId] or m_Uh->isIdOnBoundary(globId);
@@ -393,4 +402,13 @@ void CpxBilinearForm::setZeroOnBoundary(std::initializer_list<std::string> bound
 			entry.value = 0.0;
 		}
 	}
+}
+
+void CpxBilinearForm::pruneNullEntries(const double tol)
+{
+	m_entries.erase(std::remove_if(std::begin(m_entries), std::end(m_entries), [tol](const CpxMatrixEntry& entry) -> bool
+	{
+		if (std::fabs(entry.value) < tol) { return true; }
+		return false; 
+	}));
 }

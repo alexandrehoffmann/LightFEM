@@ -113,6 +113,7 @@ FiniteElementFunction<Type>& FiniteElementFunction<Type>::discretize()
 		}
 	}
 
+#pragma omp parallel for
 	for (size_t e=0;e<getMesh()->getNElem();++e)
 	{
 		for (size_t locId=0;locId<m_fSpace->getNBasisFunctionPerElement();++locId)
@@ -124,6 +125,51 @@ FiniteElementFunction<Type>& FiniteElementFunction<Type>::discretize()
 			{
 				m_values[e][k] += m_coefs[m_fSpace->getGlobalId(e, locId)]*values[k];
 				m_grad[e][k] += m_coefs[m_fSpace->getGlobalId(e, locId)]*(transpose(getMesh()->getElem(e)->getInvJacobianDisc(k))*grad[k]);
+			}
+		}
+	}
+	m_isDiscretized = true;
+
+	return *this;
+}
+
+template<ExprType Type>
+FiniteElementFunction<Type>& FiniteElementFunction<Type>::discretize(MPI_Comm com)
+{
+	m_values.resize(getMesh()->getNElem());
+	m_grad.resize(getMesh()->getNElem());
+
+	for (size_t e=0;e<getMesh()->getNElem();++e)
+	{
+		m_values[e].setElement(getMesh()->getElem(e));
+		m_grad[e].setElement(getMesh()->getElem(e));
+
+		const std::vector< typename FSpace<Type>::ValueType >& values = m_fSpace->getDiscBasisFunction(-1);
+		const std::vector< typename FSpace<Type>::GradValueType >& grad = m_fSpace->getDiscGradXiBasisFunction(-1);
+		for (size_t k=0;k<Element::getNxiNd();++k)
+		{
+			m_values[e][k] = values[k];
+			m_grad[e][k] = grad[k];
+		}
+	}
+
+	#pragma omp parallel
+	{
+		MpiRange range(com, getMesh()->getNElem());
+		
+		#pragma omp for
+		for (size_t e=range.begin();e<range.end();++e)
+		{
+			for (size_t locId=0;locId<m_fSpace->getNBasisFunctionPerElement();++locId)
+			{
+				const std::vector< typename FSpace<Type>::ValueType >& values = m_fSpace->getDiscBasisFunction(locId);
+				const std::vector< typename FSpace<Type>::GradValueType >& grad = m_fSpace->getDiscGradXiBasisFunction(locId);
+
+				for (size_t k=0;k<Element::getNxiNd();++k)
+				{
+					m_values[e][k] += m_coefs[m_fSpace->getGlobalId(e, locId)]*values[k];
+					m_grad[e][k] += m_coefs[m_fSpace->getGlobalId(e, locId)]*(transpose(getMesh()->getElem(e)->getInvJacobianDisc(k))*grad[k]);
+				}
 			}
 		}
 	}
@@ -281,6 +327,7 @@ CpxFiniteElementFunction<Type>& CpxFiniteElementFunction<Type>::discretize()
 		}
 	}
 
+#pragma omp parallel for
 	for (size_t e=0;e<getMesh()->getNElem();++e)
 	{
 		for (size_t locId=0;locId<m_fSpace->getNBasisFunctionPerElement();++locId)
@@ -292,6 +339,50 @@ CpxFiniteElementFunction<Type>& CpxFiniteElementFunction<Type>::discretize()
 			{
 				m_values[e][k] += m_coefs[m_fSpace->getGlobalId(e, locId)]*values[k];
 				m_grad[e][k] += m_coefs[m_fSpace->getGlobalId(e, locId)]*(transpose(getMesh()->getElem(e)->getInvJacobian(k))*grad[k]);
+			}
+		}
+	}
+	m_isDiscretized = true;
+	return *this;
+}
+
+template<ExprType Type>
+CpxFiniteElementFunction<Type>& CpxFiniteElementFunction<Type>::discretize(MPI_Comm com)
+{
+	m_values.resize(getMesh()->getNElem());
+	m_grad.resize(getMesh()->getNElem());
+
+	for (size_t e=0;e<getMesh()->getNElem();++e)
+	{
+		m_values[e].setElement(getMesh()->getElem(e));
+		m_grad[e].setElement(getMesh()->getElem(e));
+
+		const std::vector< typename FSpace<Type>::ValueType >& values = m_fSpace->getDiscBasisFunction(-1);
+		const std::vector< typename FSpace<Type>::GradValueType >& grad = m_fSpace->getDiscGradXiBasisFunction(-1);
+		for (size_t k=0;k<Element::getNxiNd();++k)
+		{
+			m_values[e][k] = values[k];
+			m_grad[e][k] = grad[k];
+		}
+	}
+
+	#pragma omp parallel
+	{
+		MpiRange range(com, getMesh()->getNElem());
+		
+		#pragma omp for
+		for (size_t e=range.begin();e<range.end();++e)
+		{
+			for (size_t locId=0;locId<m_fSpace->getNBasisFunctionPerElement();++locId)
+			{
+				const std::vector< typename FSpace<Type>::ValueType >& values = m_fSpace->getDiscBasisFunction(locId);
+				const std::vector< typename FSpace<Type>::GradValueType >& grad = m_fSpace->getDiscGradXiBasisFunction(locId);
+
+				for (size_t k=0;k<Element::getNxiNd();++k)
+				{
+					m_values[e][k] += m_coefs[m_fSpace->getGlobalId(e, locId)]*values[k];
+					m_grad[e][k] += m_coefs[m_fSpace->getGlobalId(e, locId)]*(transpose(getMesh()->getElem(e)->getInvJacobian(k))*grad[k]);
+				}
 			}
 		}
 	}

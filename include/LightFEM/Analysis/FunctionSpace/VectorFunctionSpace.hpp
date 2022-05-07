@@ -47,9 +47,11 @@ public:
 	inline size_t getNBasisFunctionPerElement()                   const { return m_nBasisFunctionPerElement; }
 	inline size_t getNBasisFunction()                             const { return m_nDofs; }
 	
-	virtual size_t         getNLocalInterpolationNodes     ()               const = 0; // some functions may not be interpolating
-	virtual const NodeRef& getLocalInterpolationNode       (const size_t i) const = 0;
-	virtual size_t         getLocalInterpolationFunctionId (const size_t i) const = 0;
+	inline size_t         getNLocalInterpolationNodes     ()               const { return m_interpNodes.size(); }
+	inline const NodeRef& getLocalInterpolationNode       (const size_t i) const { return m_interpNodes[i]; }
+	inline size_t         getLocalInterpolationFunctionId (const size_t i) const { return m_interpFuncLocId[i]; }
+	
+	double getHMin() const;
 	
 	inline bool isIdOnBoundary(const size_t globId) const { return m_isIdOnBoundary[globId]; }
 	

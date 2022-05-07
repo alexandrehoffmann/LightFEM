@@ -117,6 +117,7 @@ set(HEADERS
 	include/LightFEM/Expression/ElementWise/ElementWiseDiff.hpp
 	include/LightFEM/Expression/ElementWise/Traits.hpp
 	include/LightFEM/Expression/ElementWise/operators.hpp
+	include/LightFEM/Expression/ElementWise/operators.tpp
 	#
 	include/LightFEM/Expression/Function/FunctionBinaryExpression.hpp
 	include/LightFEM/Expression/Function/FunctionExpression.hpp
@@ -126,6 +127,7 @@ set(HEADERS
 	include/LightFEM/Expression/Function/Const.hpp
 	include/LightFEM/Expression/Function/Traits.hpp
 	include/LightFEM/Expression/Function/operators.hpp
+	include/LightFEM/Expression/Function/operators.tpp
 	#
 	include/LightFEM/Expression/FiniteElementFunction/CoefBinaryOp.hpp
 	include/LightFEM/Expression/FiniteElementFunction/CoefUnaryOP.hpp

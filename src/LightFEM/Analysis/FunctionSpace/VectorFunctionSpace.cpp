@@ -146,6 +146,16 @@ VectorFunctionSpace::VectorFunctionSpace(const std::initializer_list<FunctionSpa
 	}
 }
 
+double VectorFunctionSpace::getHMin() const
+{
+	double hmin = m_functionSpaces[0]->getHMin();
+	for (size_t i=1;i<m_functionSpaces.size();++i)
+	{
+		hmin = std::min(hmin, m_functionSpaces[i]->getHMin());
+	}
+	return hmin;
+}
+
 VectorTrialFunction VectorFunctionSpace::getTrialFunction(const size_t e, const int locId) const
 {
 	return VectorTrialFunction(this, getMesh()->getElem(e), locId);

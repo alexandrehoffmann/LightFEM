@@ -68,7 +68,7 @@ PnFunctionSpace::PnFunctionSpace(const Mesh *mesh, const size_t order) :
 
 	/////// init global numbering
 
-	const std::size_t N = NInterpNodes;
+	const size_t N = NInterpNodes;
 
 	std::vector< NodeWorld > nodesWorld(m_mesh->getNElem()*NInterpNodes*NInterpNodes);
 	std::vector< size_t > idx(m_mesh->getNElem()*NInterpNodes*NInterpNodes);
@@ -76,7 +76,7 @@ PnFunctionSpace::PnFunctionSpace(const Mesh *mesh, const size_t order) :
 
 	m_interpNodes.resize(N*N);
 
-	for (std::size_t e=0;e<m_mesh->getNElem();++e)
+	for (size_t e=0;e<m_mesh->getNElem();++e)
 	{
 		for (size_t i=0;i<N;++i)
 		{
@@ -113,11 +113,53 @@ PnFunctionSpace::PnFunctionSpace(const Mesh *mesh, const size_t order) :
 	initIsIdOnBoundary();
 }
 
+double PnFunctionSpace::getHMin() const
+{
+	constexpr double epsilon = 1.0e-14;
+	
+	const size_t N = m_interpNodes1D.size();
+	
+	std::vector< NodeWorld > nodesWorld(getNBasisFunction());
+	std::valarray< bool > isComputed(false, getNBasisFunction());
+	
+	for (size_t e=0;e<m_mesh->getNElem();++e)
+	{
+		for (size_t i=0;i<N;++i)
+		{
+			for (size_t j=0;j<N;++j)
+			{
+				const size_t globId = getGlobalId(e,j+i*N);
+				
+				if (not isComputed[globId])
+				{
+					nodesWorld[globId] = m_mesh->getElem(e)->getXworld(m_interpNodes[j+i*N]);
+					if (fabs(nodesWorld[globId].x) < epsilon ) { nodesWorld[globId].x = 0.0; }
+					if (fabs(nodesWorld[globId].y) < epsilon ) { nodesWorld[globId].y = 0.0; }
+					
+					isComputed[globId] = true;
+				}
+			}
+		}
+	}
+	
+	double hmin = dist(nodesWorld[0], nodesWorld[1]);
+	
+	for (size_t i=0;i<getNBasisFunction();++i)
+	{
+		for (size_t j=i+1;j<getNBasisFunction();++j)
+		{
+			hmin = std::min(hmin, dist(nodesWorld[i], nodesWorld[j]));
+		}
+	}
+	
+	return hmin;
+}
+
 double PnFunctionSpace::l(const size_t i, const double t) const
 {
 	double lt = 1.0;
 
-	for (std::size_t j=0;j<m_interpNodes1D.size();++j)
+	for (size_t j=0;j<m_interpNodes1D.size();++j)
 	{
 		if (j != i) { lt *= (t - m_interpNodes1D[j]) / (m_interpNodes1D[i] - m_interpNodes1D[j]); }
 	}
@@ -129,12 +171,12 @@ double PnFunctionSpace::dl(const size_t i, const double t) const
 {
 	double dlt = 0.0;
 
-	for (std::size_t k=0;k<m_interpNodes1D.size();++k)
+	for (size_t k=0;k<m_interpNodes1D.size();++k)
 	{
 		if (k != i)
 		{
 			double prod = 1.0 / (m_interpNodes1D[i] - m_interpNodes1D[k]);
-			for (std::size_t j=0;j<m_interpNodes1D.size();++j)
+			for (size_t j=0;j<m_interpNodes1D.size();++j)
 			{
 				if (j != i and j != k) { prod *= (t - m_interpNodes1D[j]) / (m_interpNodes1D[i] - m_interpNodes1D[j]);  }
 			}

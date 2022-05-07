@@ -34,9 +34,9 @@ LinearForm::LinearForm(const FunctionSpace *Vh, const std::function<double (cons
 	{
 		std::vector< double > private_coefs(Vh->getNBasisFunction(), 0.0);
 		#pragma omp for
-		for (std::size_t e=0;e<m_Vh->getMesh()->getNElem();++e)
+		for (size_t e=0;e<m_Vh->getMesh()->getNElem();++e)
 		{
-			for (std::size_t id=0;id<m_Vh->getNBasisFunctionPerElement();++id)
+			for (size_t id=0;id<m_Vh->getNBasisFunctionPerElement();++id)
 			{
 				private_coefs[m_Vh->getGlobalId(e, id)] += form(m_Vh->getTestFunction(e, id));
 			}
@@ -63,9 +63,9 @@ LinearForm::LinearForm(const FunctionSpace *Vh, const std::function<double (cons
 		
 		std::vector< double > private_coefs(Vh->getNBasisFunction(), 0.0);
 		#pragma omp for
-		for (std::size_t e=range.begin();e<range.end();++e)
+		for (size_t e=range.begin();e<range.end();++e)
 		{
-			for (std::size_t id=0;id<m_Vh->getNBasisFunctionPerElement();++id)
+			for (size_t id=0;id<m_Vh->getNBasisFunctionPerElement();++id)
 			{
 				private_coefs[m_Vh->getGlobalId(e, id)] += form(m_Vh->getTestFunction(e, id));
 			}
@@ -111,7 +111,7 @@ void LinearForm::setZeroOnBoundary(std::initializer_list<std::string> boundaryNa
 			if (mesh->getBoundaryElem(be)->isInDomain(id))
 			{
 				const size_t e = mesh->getElemIdFromBoundaryElemId(be);
-				for (std::size_t locId=0;locId<m_Vh->getNBasisFunctionPerElement();++locId)
+				for (size_t locId=0;locId<m_Vh->getNBasisFunctionPerElement();++locId)
 				{
 					const size_t globId = m_Vh->getGlobalId(e, locId);
 					rowConstrained[globId] = rowConstrained[globId] or m_Vh->isIdOnBoundary(globId);
@@ -139,9 +139,9 @@ CpxLinearForm::CpxLinearForm(const FunctionSpace *Vh, const std::function<std::c
 	{
 		std::vector< std::complex< double > > private_coefs(Vh->getNBasisFunction(), 0.0);
 		#pragma omp for
-		for (std::size_t e=0;e<m_Vh->getMesh()->getNElem();++e)
+		for (size_t e=0;e<m_Vh->getMesh()->getNElem();++e)
 		{
-			for (std::size_t id=0;id<m_Vh->getNBasisFunctionPerElement();++id)
+			for (size_t id=0;id<m_Vh->getNBasisFunctionPerElement();++id)
 			{
 				private_coefs[m_Vh->getGlobalId(e, id)] += form(m_Vh->getTestFunction(e, id));
 			}
@@ -168,9 +168,9 @@ CpxLinearForm::CpxLinearForm(const FunctionSpace *Vh, const std::function<std::c
 		
 		std::vector< std::complex< double > > private_coefs(Vh->getNBasisFunction(), 0.0);
 		#pragma omp for
-		for (std::size_t e=range.begin();e<range.end();++e)
+		for (size_t e=range.begin();e<range.end();++e)
 		{
-			for (std::size_t id=0;id<m_Vh->getNBasisFunctionPerElement();++id)
+			for (size_t id=0;id<m_Vh->getNBasisFunctionPerElement();++id)
 			{
 				private_coefs[m_Vh->getGlobalId(e, id)] += form(m_Vh->getTestFunction(e, id));
 			}
@@ -216,7 +216,7 @@ void CpxLinearForm::setZeroOnBoundary(std::initializer_list<std::string> boundar
 			if (mesh->getBoundaryElem(be)->isInDomain(id))
 			{
 				const size_t e = mesh->getElemIdFromBoundaryElemId(be);
-				for (std::size_t locId=0;locId<m_Vh->getNBasisFunctionPerElement();++locId)
+				for (size_t locId=0;locId<m_Vh->getNBasisFunctionPerElement();++locId)
 				{
 					const size_t globId = m_Vh->getGlobalId(e, locId);
 					rowConstrained[globId] = rowConstrained[globId] or m_Vh->isIdOnBoundary(globId);

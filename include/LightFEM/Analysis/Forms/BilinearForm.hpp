@@ -50,6 +50,8 @@ public:
 	void setIdentityOnBoundary(std::initializer_list<std::string> boundaryNames);
 	void setZeroOnBoundary(std::initializer_list< std::string > boundaryNames, const bool setTrialZero=true, const bool setTestZero=true);
 	
+	void pruneNullEntries(const double tol=1.0e-14);
+	
 	inline const MatrixEntry* getCoefData() const { return m_entries.data(); }
 	inline const MatrixEntry& getCoef(const size_t i) const { return m_entries[i]; }
 	inline size_t getNCoefs() const { return m_entries.size(); }
@@ -78,6 +80,8 @@ public:
 	
 	void setIdentityOnBoundary(std::initializer_list<std::string> boundaryNames);
 	void setZeroOnBoundary(std::initializer_list< std::string > boundaryNames, const bool setTrialZero=true, const bool setTestZero=true);
+	
+	void pruneNullEntries(const double tol=1.0e-14);
 	
 	inline const CpxMatrixEntry* getCoefData() const { return m_entries.data(); }
 	inline const CpxMatrixEntry& getCoef(const size_t i) const { return m_entries[i]; }

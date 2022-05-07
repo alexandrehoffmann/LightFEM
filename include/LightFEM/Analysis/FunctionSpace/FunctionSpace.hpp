@@ -49,6 +49,8 @@ public:
 	virtual size_t         getNLocalInterpolationNodes     ()               const = 0; // some functions may not be interpolating
 	virtual const NodeRef& getLocalInterpolationNode       (const size_t i) const = 0;
 	virtual size_t         getLocalInterpolationFunctionId (const size_t i) const = 0;
+	
+	virtual double getHMin() const = 0;
 
 	inline bool isIdOnBoundary(const size_t globId) const { return m_isIdOnBoundary[globId]; }
 	

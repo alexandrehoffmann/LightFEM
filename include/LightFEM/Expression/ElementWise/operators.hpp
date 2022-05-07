@@ -20,7 +20,6 @@
  * 
  * 
  */
-
 #ifndef ELEMENT_WISE_FUNCTION_OPERATORS_HPP
 #define ELEMENT_WISE_FUNCTION_OPERATORS_HPP
 
@@ -30,6 +29,22 @@
 #include <LightFEM/Expression/ElementWise/ElementWiseFunctionExpression.hpp>
 #include <LightFEM/Expression/ElementWise/ElementWiseFunctionBinaryExpression.hpp>
 #include <LightFEM/Expression/ElementWise/ElementWiseFunctionUnaryExpression.hpp>
+
+////////////////////////////////////////////////////////////////////////
+////                       min/max operators                        ////
+////////////////////////////////////////////////////////////////////////
+
+template<typename Expr>
+double min(const ElementWiseFunctionExpression<ExprType::SCALAR, Expr>& expr);
+
+template<typename Expr>
+std::complex< double > min(const CpxElementWiseFunctionExpression<ExprType::SCALAR, Expr>& expr);
+
+template<typename Expr>
+double max(const ElementWiseFunctionExpression<ExprType::SCALAR, Expr>& expr);
+
+template<typename Expr>
+std::complex< double > max(const CpxElementWiseFunctionExpression<ExprType::SCALAR, Expr>& expr);
 
 ////////////////////////////////////////////////////////////////////////
 ////                         conj operators                         ////
@@ -514,5 +529,7 @@ inline CpxElementWiseFunctionBinaryExpression<BinaryOp::DIV, LeftType, LeftExpr,
 
 template<ExprType LeftType, typename LeftExpr, ExprType RightType, typename RightExpr, std::enable_if_t<BinaryOpType<BinaryOp::DIV, LeftType, RightType>::isDefined, bool> = true>
 inline CpxElementWiseFunctionBinaryExpression<BinaryOp::DIV, LeftType, LeftExpr, RightType, RightExpr> operator/(CpxElementWiseFunctionExpression<LeftType, LeftExpr>&& lhs, CpxElementWiseFunctionExpression<RightType, RightExpr>&& rhs) { return CpxElementWiseFunctionBinaryExpression<BinaryOp::DIV, LeftType, LeftExpr, RightType, RightExpr>(std::forward<LeftExpr>( static_cast<LeftExpr&&>(lhs) ), std::forward<RightExpr>( static_cast<RightExpr&&>(rhs) )); }
+
+#include <LightFEM/Expression/ElementWise/operators.tpp>
 
 #endif // ELEMENT_WISE_FUNCTION_OPERATORS_HPP

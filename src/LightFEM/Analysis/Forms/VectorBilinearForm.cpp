@@ -211,6 +211,15 @@ void VectorBilinearForm::setZeroOnBoundary(std::initializer_list<std::string> bo
 	}
 }
 
+void VectorBilinearForm::pruneNullEntries(const double tol)
+{
+	m_entries.erase(std::remove_if(std::begin(m_entries), std::end(m_entries), [tol](const MatrixEntry& entry) -> bool
+	{
+		if (std::fabs(entry.value) < tol) { return true; }
+		return false; 
+	}));
+}
+
 ////////////////////////////////////////////////////////////////////////
 
 CpxVectorBilinearForm::CpxVectorBilinearForm(const VectorFunctionSpace *Uh, const VectorFunctionSpace *Vh, const std::function<std::complex<double>(const VectorTrialFunction &, const VectorTestFunction &)> &form) :
@@ -394,3 +403,13 @@ void CpxVectorBilinearForm::setZeroOnBoundary(std::initializer_list<std::string>
 		}
 	}
 }
+
+void CpxVectorBilinearForm::pruneNullEntries(const double tol)
+{
+	m_entries.erase(std::remove_if(std::begin(m_entries), std::end(m_entries), [tol](const CpxMatrixEntry& entry) -> bool
+	{
+		if (std::fabs(entry.value) < tol) { return true; }
+		return false; 
+	}));
+}
+
