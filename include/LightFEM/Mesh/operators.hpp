@@ -29,6 +29,7 @@
 
 #include <LightFEM/Analysis/Measure/Measure.hpp>
 
+#include <LightFEM/Expression/Function/Function.hpp>
 #include <LightFEM/Expression/Function/FunctionExpression.hpp>
 #include <LightFEM/Expression/ElementWise/ElementWiseFunctionExpression.hpp>
 
@@ -47,6 +48,12 @@ void printFunctionCoarse(const std::string& fname, const FunctionExpression<Expr
 
 template<typename Expr>
 void printFunctionCoarse(const std::string& fname, const CpxFunctionExpression<ExprType::SCALAR, Expr>& expr);
+
+void printFunctionBin(const std::string& fname, const ScalarField& expr);
+void printFunctionBin(const std::string& fname, const CpxScalarField& expr);
+
+ScalarField readFunctionBin(const std::string& fname, const Mesh* mesh);
+CpxScalarField readCpxFunctionBin(const std::string& fname, const Mesh* mesh);
 
 ////////////////////////////////////////////////////////////////////////
 ////                     integral on an element                     ////

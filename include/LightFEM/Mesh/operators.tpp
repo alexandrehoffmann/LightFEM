@@ -75,6 +75,28 @@ void printFunction(const std::string& fname, const CpxFunctionExpression<ExprTyp
 	}
 }
 
+
+template<typename Expr>
+void printFunctionCoarse(const std::string& fname, const FunctionExpression<ExprType::SCALAR, Expr>& expr)
+{
+	std::ofstream out(fname);
+
+	for (size_t e=0;e<expr.getMesh()->getNElem();++e)
+	{
+		const Element* element = expr.getMesh()->getElem(e);
+
+		for (const size_t i : {size_t(0), Element::getNxi()-1})
+		{
+			for (const size_t j : {size_t(0), Element::getNxi()-1})
+			{
+				out << element->getXworld(Element::get_xi(i), Element::get_xi(j)).x << " " << element->getXworld(Element::get_xi(i), Element::get_xi(j)).y << " " << expr[e][Element::index2d(i,j)] << std::endl;
+			}
+			out << std::endl;
+		}
+		out << std::endl;
+	}
+}
+
 template<typename Expr>
 void printFunctionCoarse(const std::string& fname, const CpxFunctionExpression<ExprType::SCALAR, Expr>& expr)
 {
@@ -88,7 +110,7 @@ void printFunctionCoarse(const std::string& fname, const CpxFunctionExpression<E
 		{
 			for (const size_t j : {size_t(0), Element::getNxi()-1})
 			{
-				out << element->getXworld(Element::get_xi(i), Element::get_xi(j)).x << " " << element->getXworld(Element::get_xi(i), Element::get_xi(j)).y << " " << expr[e][Element::index2d(i,j)] << std::endl;
+				out << element->getXworld(Element::get_xi(i), Element::get_xi(j)).x << " " << element->getXworld(Element::get_xi(i), Element::get_xi(j)).y << " " << expr[e][Element::index2d(i,j)].real() << " " << expr[e][Element::index2d(i,j)].imag() << std::endl;
 			}
 			out << std::endl;
 		}

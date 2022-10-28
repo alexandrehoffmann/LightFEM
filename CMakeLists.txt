@@ -25,6 +25,7 @@ set(SRCS
 	src/LightFEM/Mesh/Mesh.cpp
 	src/LightFEM/Mesh/GmshMesh.cpp
 	src/LightFEM/Mesh/RectangularMesh.cpp
+	src/LightFEM/Mesh/operators.cpp
 	#
 	src/LightFEM/Expression/LinAlg/RankFourTensor.cpp
 	src/LightFEM/Expression/LinAlg/RankTwoTensor.cpp
@@ -45,6 +46,7 @@ set(SRCS
 	src/LightFEM/Analysis/Forms/LinearForm.cpp
 	src/LightFEM/Analysis/Forms/VectorLinearForm.cpp
 	src/LightFEM/Analysis/Forms/BilinearForm.cpp
+	src/LightFEM/Analysis/Forms/DiagonalBilinearForm.cpp
 	src/LightFEM/Analysis/Forms/VectorBilinearForm.cpp
 )
 
@@ -161,6 +163,7 @@ set(HEADERS
 	include/LightFEM/Analysis/Forms/LinearForm.hpp
 	include/LightFEM/Analysis/Forms/VectorLinearForm.hpp
 	include/LightFEM/Analysis/Forms/BilinearForm.hpp
+	include/LightFEM/Analysis/Forms/DiagonalBilinearForm.hpp
 	include/LightFEM/Analysis/Forms/VectorBilinearForm.hpp
 )
 

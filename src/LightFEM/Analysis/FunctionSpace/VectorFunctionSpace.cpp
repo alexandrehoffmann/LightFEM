@@ -156,6 +156,28 @@ double VectorFunctionSpace::getHMin() const
 	return hmin;
 }
 
+std::vector< double > VectorFunctionSpace::getHMinPerElement() const
+{
+	std::vector< std::vector< double > > hminPerElementList(m_functionSpaces.size());
+	std::vector< double > hminPerElement(getMesh()->getNElem());
+	
+	for (size_t i=0;i<m_functionSpaces.size();++i)
+	{
+		hminPerElementList[i] = m_functionSpaces[i]->getHMinPerElement();
+	}
+	
+	for (size_t e=0;e<getMesh()->getNElem();++e)
+	{
+		hminPerElement[e] = hminPerElementList[0][e];
+		for (size_t i=1;i<m_functionSpaces.size();++i)
+		{
+			hminPerElement[e] = std::min(hminPerElement[e], hminPerElementList[i][e]);
+		}
+	}
+	
+	return hminPerElement;
+}
+
 VectorTrialFunction VectorFunctionSpace::getTrialFunction(const size_t e, const int locId) const
 {
 	return VectorTrialFunction(this, getMesh()->getElem(e), locId);

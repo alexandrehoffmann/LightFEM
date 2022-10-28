@@ -29,7 +29,17 @@
 enum UnaryOp
 {
 	MINUS,
+	ABS,
 	CONJ,
+	EXP,
+	LOG,
+	SQRT,
+	SIN,
+	COS,
+	TAN,
+	ASIN,
+	ACOS,
+	ATAN,
 	NORM,
 	TRANSPOSE,
 	ADJOINT

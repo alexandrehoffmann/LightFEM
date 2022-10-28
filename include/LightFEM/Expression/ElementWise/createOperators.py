@@ -3,14 +3,14 @@ header_name = "ELEMENT_WISE_FUNCTION_OPERATORS_HPP"
 binaryOperatorAllowed = {}
 unaryOperatorAllowed = {}
 
-unaryop_list = ["CONJ", "NORM", "TRANSPOSE", "ADJOINT", "MINUS"]
+unaryop_list = ["MINUS", "ABS", "CONJ", "EXP", "LOG", "SQRT", "SIN", "COS", "TAN", "ASIN", "ACOS", "ATAN", "NORM", "TRANSPOSE", "ADJOINT"]
 binaryop_list = ["DDOT", "INNER", "OUTER", "CROSS", "SUM", "SUB", "PROD", "DIV"]
 
 binaryop_name = {"SUM":"operator+", "SUB":"operator-", "PROD":"operator*", "DIV":"operator/", "DDOT":"ddot", "INNER":"inner", "OUTER":"outer", "CROSS":"cross"}
-unaryop_name = {"MINUS":"operator-", "CONJ":"conj", "NORM":"norm", "TRANSPOSE":"transpose", "ADJOINT":"adjoint"}
+unaryop_name = {"MINUS":"operator-", "ABS":"abs", "CONJ":"conj", "EXP":"exp", "LOG":"log", "SQRT":"sqrt", "SIN":"sin", "COS":"cos", "TAN":"tan", "ASIN":"asin", "ACOS":"acos", "ATAN":"atan", "NORM":"norm", "TRANSPOSE":"transpose", "ADJOINT":"adjoint"}
 
-unaryop_for_cpx = {"MINUS":True, "CONJ":True, "NORM":True, "TRANSPOSE":True, "ADJOINT":True}
-unaryop_for_rl = {"MINUS":True, "CONJ":False, "NORM":True, "TRANSPOSE":True, "ADJOINT":False}
+unaryop_for_cpx = {"MINUS":True, "ABS":False, "CONJ":True, "EXP":True, "LOG":True, "SQRT":True, "SIN":True, "COS":True, "TAN":True, "ASIN":True, "ACOS":True, "ATAN":True, "NORM":True, "TRANSPOSE":True, "ADJOINT":True}
+unaryop_for_rl = {"MINUS":True, "ABS":True, "CONJ":False, "EXP":True, "LOG":True, "SQRT":True, "SIN":True, "COS":True, "TAN":True, "ASIN":True, "ACOS":True, "ATAN":True, "NORM":True, "TRANSPOSE":True, "ADJOINT":False}
 
 def get_base_name(cpx):
 	if cpx:
@@ -47,12 +47,28 @@ with open("operators.hpp", "w") as f:
 	f.write("#ifndef " + header_name + "\n")
 	f.write("#define " + header_name + "\n")
 	f.write("\n")
-	f.write("#include <Expression/LinAlg/BinaryExpression.hpp>\n")
+	f.write("#include <LightFEM/Expression/LinAlg/BinaryExpression.hpp>\n")
 	f.write("#include <Expression/LinAlg/UnaryExpression.hpp>\n")
 	f.write("\n")
-	f.write("#include <Expression/ElementWise/ElementWiseFunctionExpression.hpp>\n")
-	f.write("#include <Expression/ElementWise/ElementWiseFunctionBinaryExpression.hpp>\n")
-	f.write("#include <Expression/ElementWise/ElementWiseFunctionUnaryExpression.hpp>\n")
+	f.write("#include <LightFEM/Expression/ElementWise/ElementWiseFunctionExpression.hpp>\n")
+	f.write("#include <LightFEM/Expression/ElementWise/ElementWiseFunctionBinaryExpression.hpp>\n")
+	f.write("#include <LightFEM/Expression/ElementWise/ElementWiseFunctionUnaryExpression.hpp>\n")
+	f.write("\n")
+	f.write("////////////////////////////////////////////////////////////////////////\n")
+	f.write("////                       min/max operators                        ////\n")
+	f.write("////////////////////////////////////////////////////////////////////////\n")
+	f.write("\n")
+	f.write("template<typename Expr>\n")
+	f.write("double min(const ElementWiseFunctionExpression<ExprType::SCALAR, Expr>& expr);\n")
+	f.write("\n")
+	f.write("template<typename Expr>\n")
+	f.write("std::complex< double > min(const CpxElementWiseFunctionExpression<ExprType::SCALAR, Expr>& expr);\n")
+	f.write("\n")
+	f.write("template<typename Expr>\n")
+	f.write("double max(const ElementWiseFunctionExpression<ExprType::SCALAR, Expr>& expr);\n")
+	f.write("\n")
+	f.write("template<typename Expr>\n")
+	f.write("std::complex< double > max(const CpxElementWiseFunctionExpression<ExprType::SCALAR, Expr>& expr);\n")
 	f.write("\n")
 	for op_name in unaryop_list:
 		f.write("////////////////////////////////////////////////////////////////////////\n")

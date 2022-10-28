@@ -54,6 +54,4 @@ public:
 	static double epsilon;
 };
 
-#undef UNARY_TEMPLATE_MACRO
-
 #endif // SAMPLING_FUNCTION_HPP

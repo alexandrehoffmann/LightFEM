@@ -20,6 +20,7 @@
  * 
  * 
  */
+
 #ifndef ELEMENT_WISE_FUNCTION_OPERATORS_HPP
 #define ELEMENT_WISE_FUNCTION_OPERATORS_HPP
 
@@ -47,6 +48,38 @@ template<typename Expr>
 std::complex< double > max(const CpxElementWiseFunctionExpression<ExprType::SCALAR, Expr>& expr);
 
 ////////////////////////////////////////////////////////////////////////
+////                        minus operators                         ////
+////////////////////////////////////////////////////////////////////////
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::MINUS, Type>::isDefined, bool> = true>
+inline ElementWiseFunctionUnaryExpression<UnaryOp::MINUS, Type, const Expr&> operator-(const ElementWiseFunctionExpression<Type, Expr>& expr) { return ElementWiseFunctionUnaryExpression<UnaryOp::MINUS, Type, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::MINUS, Type>::isDefined, bool> = true>
+inline CpxElementWiseFunctionUnaryExpression<UnaryOp::MINUS, Type, const Expr&> operator-(const CpxElementWiseFunctionExpression<Type, Expr>& expr) { return CpxElementWiseFunctionUnaryExpression<UnaryOp::MINUS, Type, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::MINUS, Type>::isDefined, bool> = true>
+inline ElementWiseFunctionUnaryExpression<UnaryOp::MINUS, Type, Expr> operator-(ElementWiseFunctionExpression<Type, Expr>&& expr) { return ElementWiseFunctionUnaryExpression<UnaryOp::MINUS, Type, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::MINUS, Type>::isDefined, bool> = true>
+inline CpxElementWiseFunctionUnaryExpression<UnaryOp::MINUS, Type, Expr> operator-(CpxElementWiseFunctionExpression<Type, Expr>&& expr) { return CpxElementWiseFunctionUnaryExpression<UnaryOp::MINUS, Type, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+////////////////////////////////////////////////////////////////////////
+////                         abs operators                          ////
+////////////////////////////////////////////////////////////////////////
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::ABS, Type>::isDefined, bool> = true>
+inline ElementWiseFunctionUnaryExpression<UnaryOp::ABS, Type, const Expr&> abs(const ElementWiseFunctionExpression<Type, Expr>& expr) { return ElementWiseFunctionUnaryExpression<UnaryOp::ABS, Type, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::ABS, Type>::isDefined, bool> = true>
+inline ElementWiseFunctionUnaryExpression<UnaryOp::ABS, Type, Expr> abs(ElementWiseFunctionExpression<Type, Expr>&& expr) { return ElementWiseFunctionUnaryExpression<UnaryOp::ABS, Type, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::ABS, Type>::isDefined, bool> = true>
+inline ElementWiseFunctionUnaryExpression<UnaryOp::ABS, Type, const Expr&> abs(const CpxElementWiseFunctionExpression<Type, Expr>& expr) { return ElementWiseFunctionUnaryExpression<UnaryOp::ABS, Type, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::ABS, Type>::isDefined, bool> = true>
+inline ElementWiseFunctionUnaryExpression<UnaryOp::ABS, Type, Expr> abs(CpxElementWiseFunctionExpression<Type, Expr>&& expr) { return ElementWiseFunctionUnaryExpression<UnaryOp::ABS, Type, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+////////////////////////////////////////////////////////////////////////
 ////                         conj operators                         ////
 ////////////////////////////////////////////////////////////////////////
 
@@ -55,6 +88,150 @@ inline CpxElementWiseFunctionUnaryExpression<UnaryOp::CONJ, Type, const Expr&> c
 
 template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::CONJ, Type>::isDefined, bool> = true>
 inline CpxElementWiseFunctionUnaryExpression<UnaryOp::CONJ, Type, Expr> conj(CpxElementWiseFunctionExpression<Type, Expr>&& expr) { return CpxElementWiseFunctionUnaryExpression<UnaryOp::CONJ, Type, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+////////////////////////////////////////////////////////////////////////
+////                         exp operators                          ////
+////////////////////////////////////////////////////////////////////////
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::EXP, Type>::isDefined, bool> = true>
+inline ElementWiseFunctionUnaryExpression<UnaryOp::EXP, Type, const Expr&> exp(const ElementWiseFunctionExpression<Type, Expr>& expr) { return ElementWiseFunctionUnaryExpression<UnaryOp::EXP, Type, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::EXP, Type>::isDefined, bool> = true>
+inline CpxElementWiseFunctionUnaryExpression<UnaryOp::EXP, Type, const Expr&> exp(const CpxElementWiseFunctionExpression<Type, Expr>& expr) { return CpxElementWiseFunctionUnaryExpression<UnaryOp::EXP, Type, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::EXP, Type>::isDefined, bool> = true>
+inline ElementWiseFunctionUnaryExpression<UnaryOp::EXP, Type, Expr> exp(ElementWiseFunctionExpression<Type, Expr>&& expr) { return ElementWiseFunctionUnaryExpression<UnaryOp::EXP, Type, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::EXP, Type>::isDefined, bool> = true>
+inline CpxElementWiseFunctionUnaryExpression<UnaryOp::EXP, Type, Expr> exp(CpxElementWiseFunctionExpression<Type, Expr>&& expr) { return CpxElementWiseFunctionUnaryExpression<UnaryOp::EXP, Type, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+////////////////////////////////////////////////////////////////////////
+////                         log operators                          ////
+////////////////////////////////////////////////////////////////////////
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::LOG, Type>::isDefined, bool> = true>
+inline ElementWiseFunctionUnaryExpression<UnaryOp::LOG, Type, const Expr&> log(const ElementWiseFunctionExpression<Type, Expr>& expr) { return ElementWiseFunctionUnaryExpression<UnaryOp::LOG, Type, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::LOG, Type>::isDefined, bool> = true>
+inline CpxElementWiseFunctionUnaryExpression<UnaryOp::LOG, Type, const Expr&> log(const CpxElementWiseFunctionExpression<Type, Expr>& expr) { return CpxElementWiseFunctionUnaryExpression<UnaryOp::LOG, Type, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::LOG, Type>::isDefined, bool> = true>
+inline ElementWiseFunctionUnaryExpression<UnaryOp::LOG, Type, Expr> log(ElementWiseFunctionExpression<Type, Expr>&& expr) { return ElementWiseFunctionUnaryExpression<UnaryOp::LOG, Type, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::LOG, Type>::isDefined, bool> = true>
+inline CpxElementWiseFunctionUnaryExpression<UnaryOp::LOG, Type, Expr> log(CpxElementWiseFunctionExpression<Type, Expr>&& expr) { return CpxElementWiseFunctionUnaryExpression<UnaryOp::LOG, Type, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+////////////////////////////////////////////////////////////////////////
+////                         sqrt operators                         ////
+////////////////////////////////////////////////////////////////////////
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::SQRT, Type>::isDefined, bool> = true>
+inline ElementWiseFunctionUnaryExpression<UnaryOp::SQRT, Type, const Expr&> sqrt(const ElementWiseFunctionExpression<Type, Expr>& expr) { return ElementWiseFunctionUnaryExpression<UnaryOp::SQRT, Type, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::SQRT, Type>::isDefined, bool> = true>
+inline CpxElementWiseFunctionUnaryExpression<UnaryOp::SQRT, Type, const Expr&> sqrt(const CpxElementWiseFunctionExpression<Type, Expr>& expr) { return CpxElementWiseFunctionUnaryExpression<UnaryOp::SQRT, Type, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::SQRT, Type>::isDefined, bool> = true>
+inline ElementWiseFunctionUnaryExpression<UnaryOp::SQRT, Type, Expr> sqrt(ElementWiseFunctionExpression<Type, Expr>&& expr) { return ElementWiseFunctionUnaryExpression<UnaryOp::SQRT, Type, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::SQRT, Type>::isDefined, bool> = true>
+inline CpxElementWiseFunctionUnaryExpression<UnaryOp::SQRT, Type, Expr> sqrt(CpxElementWiseFunctionExpression<Type, Expr>&& expr) { return CpxElementWiseFunctionUnaryExpression<UnaryOp::SQRT, Type, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+////////////////////////////////////////////////////////////////////////
+////                         sin operators                          ////
+////////////////////////////////////////////////////////////////////////
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::SIN, Type>::isDefined, bool> = true>
+inline ElementWiseFunctionUnaryExpression<UnaryOp::SIN, Type, const Expr&> sin(const ElementWiseFunctionExpression<Type, Expr>& expr) { return ElementWiseFunctionUnaryExpression<UnaryOp::SIN, Type, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::SIN, Type>::isDefined, bool> = true>
+inline CpxElementWiseFunctionUnaryExpression<UnaryOp::SIN, Type, const Expr&> sin(const CpxElementWiseFunctionExpression<Type, Expr>& expr) { return CpxElementWiseFunctionUnaryExpression<UnaryOp::SIN, Type, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::SIN, Type>::isDefined, bool> = true>
+inline ElementWiseFunctionUnaryExpression<UnaryOp::SIN, Type, Expr> sin(ElementWiseFunctionExpression<Type, Expr>&& expr) { return ElementWiseFunctionUnaryExpression<UnaryOp::SIN, Type, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::SIN, Type>::isDefined, bool> = true>
+inline CpxElementWiseFunctionUnaryExpression<UnaryOp::SIN, Type, Expr> sin(CpxElementWiseFunctionExpression<Type, Expr>&& expr) { return CpxElementWiseFunctionUnaryExpression<UnaryOp::SIN, Type, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+////////////////////////////////////////////////////////////////////////
+////                         cos operators                          ////
+////////////////////////////////////////////////////////////////////////
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::COS, Type>::isDefined, bool> = true>
+inline ElementWiseFunctionUnaryExpression<UnaryOp::COS, Type, const Expr&> cos(const ElementWiseFunctionExpression<Type, Expr>& expr) { return ElementWiseFunctionUnaryExpression<UnaryOp::COS, Type, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::COS, Type>::isDefined, bool> = true>
+inline CpxElementWiseFunctionUnaryExpression<UnaryOp::COS, Type, const Expr&> cos(const CpxElementWiseFunctionExpression<Type, Expr>& expr) { return CpxElementWiseFunctionUnaryExpression<UnaryOp::COS, Type, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::COS, Type>::isDefined, bool> = true>
+inline ElementWiseFunctionUnaryExpression<UnaryOp::COS, Type, Expr> cos(ElementWiseFunctionExpression<Type, Expr>&& expr) { return ElementWiseFunctionUnaryExpression<UnaryOp::COS, Type, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::COS, Type>::isDefined, bool> = true>
+inline CpxElementWiseFunctionUnaryExpression<UnaryOp::COS, Type, Expr> cos(CpxElementWiseFunctionExpression<Type, Expr>&& expr) { return CpxElementWiseFunctionUnaryExpression<UnaryOp::COS, Type, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+////////////////////////////////////////////////////////////////////////
+////                         tan operators                          ////
+////////////////////////////////////////////////////////////////////////
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::TAN, Type>::isDefined, bool> = true>
+inline ElementWiseFunctionUnaryExpression<UnaryOp::TAN, Type, const Expr&> tan(const ElementWiseFunctionExpression<Type, Expr>& expr) { return ElementWiseFunctionUnaryExpression<UnaryOp::TAN, Type, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::TAN, Type>::isDefined, bool> = true>
+inline CpxElementWiseFunctionUnaryExpression<UnaryOp::TAN, Type, const Expr&> tan(const CpxElementWiseFunctionExpression<Type, Expr>& expr) { return CpxElementWiseFunctionUnaryExpression<UnaryOp::TAN, Type, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::TAN, Type>::isDefined, bool> = true>
+inline ElementWiseFunctionUnaryExpression<UnaryOp::TAN, Type, Expr> tan(ElementWiseFunctionExpression<Type, Expr>&& expr) { return ElementWiseFunctionUnaryExpression<UnaryOp::TAN, Type, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::TAN, Type>::isDefined, bool> = true>
+inline CpxElementWiseFunctionUnaryExpression<UnaryOp::TAN, Type, Expr> tan(CpxElementWiseFunctionExpression<Type, Expr>&& expr) { return CpxElementWiseFunctionUnaryExpression<UnaryOp::TAN, Type, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+////////////////////////////////////////////////////////////////////////
+////                         asin operators                         ////
+////////////////////////////////////////////////////////////////////////
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::ASIN, Type>::isDefined, bool> = true>
+inline ElementWiseFunctionUnaryExpression<UnaryOp::ASIN, Type, const Expr&> asin(const ElementWiseFunctionExpression<Type, Expr>& expr) { return ElementWiseFunctionUnaryExpression<UnaryOp::ASIN, Type, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::ASIN, Type>::isDefined, bool> = true>
+inline CpxElementWiseFunctionUnaryExpression<UnaryOp::ASIN, Type, const Expr&> asin(const CpxElementWiseFunctionExpression<Type, Expr>& expr) { return CpxElementWiseFunctionUnaryExpression<UnaryOp::ASIN, Type, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::ASIN, Type>::isDefined, bool> = true>
+inline ElementWiseFunctionUnaryExpression<UnaryOp::ASIN, Type, Expr> asin(ElementWiseFunctionExpression<Type, Expr>&& expr) { return ElementWiseFunctionUnaryExpression<UnaryOp::ASIN, Type, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::ASIN, Type>::isDefined, bool> = true>
+inline CpxElementWiseFunctionUnaryExpression<UnaryOp::ASIN, Type, Expr> asin(CpxElementWiseFunctionExpression<Type, Expr>&& expr) { return CpxElementWiseFunctionUnaryExpression<UnaryOp::ASIN, Type, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+////////////////////////////////////////////////////////////////////////
+////                         acos operators                         ////
+////////////////////////////////////////////////////////////////////////
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::ACOS, Type>::isDefined, bool> = true>
+inline ElementWiseFunctionUnaryExpression<UnaryOp::ACOS, Type, const Expr&> acos(const ElementWiseFunctionExpression<Type, Expr>& expr) { return ElementWiseFunctionUnaryExpression<UnaryOp::ACOS, Type, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::ACOS, Type>::isDefined, bool> = true>
+inline CpxElementWiseFunctionUnaryExpression<UnaryOp::ACOS, Type, const Expr&> acos(const CpxElementWiseFunctionExpression<Type, Expr>& expr) { return CpxElementWiseFunctionUnaryExpression<UnaryOp::ACOS, Type, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::ACOS, Type>::isDefined, bool> = true>
+inline ElementWiseFunctionUnaryExpression<UnaryOp::ACOS, Type, Expr> acos(ElementWiseFunctionExpression<Type, Expr>&& expr) { return ElementWiseFunctionUnaryExpression<UnaryOp::ACOS, Type, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::ACOS, Type>::isDefined, bool> = true>
+inline CpxElementWiseFunctionUnaryExpression<UnaryOp::ACOS, Type, Expr> acos(CpxElementWiseFunctionExpression<Type, Expr>&& expr) { return CpxElementWiseFunctionUnaryExpression<UnaryOp::ACOS, Type, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+////////////////////////////////////////////////////////////////////////
+////                         atan operators                         ////
+////////////////////////////////////////////////////////////////////////
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::ATAN, Type>::isDefined, bool> = true>
+inline ElementWiseFunctionUnaryExpression<UnaryOp::ATAN, Type, const Expr&> atan(const ElementWiseFunctionExpression<Type, Expr>& expr) { return ElementWiseFunctionUnaryExpression<UnaryOp::ATAN, Type, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::ATAN, Type>::isDefined, bool> = true>
+inline CpxElementWiseFunctionUnaryExpression<UnaryOp::ATAN, Type, const Expr&> atan(const CpxElementWiseFunctionExpression<Type, Expr>& expr) { return CpxElementWiseFunctionUnaryExpression<UnaryOp::ATAN, Type, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::ATAN, Type>::isDefined, bool> = true>
+inline ElementWiseFunctionUnaryExpression<UnaryOp::ATAN, Type, Expr> atan(ElementWiseFunctionExpression<Type, Expr>&& expr) { return ElementWiseFunctionUnaryExpression<UnaryOp::ATAN, Type, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::ATAN, Type>::isDefined, bool> = true>
+inline CpxElementWiseFunctionUnaryExpression<UnaryOp::ATAN, Type, Expr> atan(CpxElementWiseFunctionExpression<Type, Expr>&& expr) { return CpxElementWiseFunctionUnaryExpression<UnaryOp::ATAN, Type, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
 
 ////////////////////////////////////////////////////////////////////////
 ////                         norm operators                         ////
@@ -97,22 +274,6 @@ inline CpxElementWiseFunctionUnaryExpression<UnaryOp::ADJOINT, Type, const Expr&
 
 template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::ADJOINT, Type>::isDefined, bool> = true>
 inline CpxElementWiseFunctionUnaryExpression<UnaryOp::ADJOINT, Type, Expr> adjoint(CpxElementWiseFunctionExpression<Type, Expr>&& expr) { return CpxElementWiseFunctionUnaryExpression<UnaryOp::ADJOINT, Type, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
-
-////////////////////////////////////////////////////////////////////////
-////                        minus operators                         ////
-////////////////////////////////////////////////////////////////////////
-
-template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::MINUS, Type>::isDefined, bool> = true>
-inline ElementWiseFunctionUnaryExpression<UnaryOp::MINUS, Type, const Expr&> operator-(const ElementWiseFunctionExpression<Type, Expr>& expr) { return ElementWiseFunctionUnaryExpression<UnaryOp::MINUS, Type, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
-
-template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::MINUS, Type>::isDefined, bool> = true>
-inline CpxElementWiseFunctionUnaryExpression<UnaryOp::MINUS, Type, const Expr&> operator-(const CpxElementWiseFunctionExpression<Type, Expr>& expr) { return CpxElementWiseFunctionUnaryExpression<UnaryOp::MINUS, Type, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
-
-template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::MINUS, Type>::isDefined, bool> = true>
-inline ElementWiseFunctionUnaryExpression<UnaryOp::MINUS, Type, Expr> operator-(ElementWiseFunctionExpression<Type, Expr>&& expr) { return ElementWiseFunctionUnaryExpression<UnaryOp::MINUS, Type, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
-
-template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::MINUS, Type>::isDefined, bool> = true>
-inline CpxElementWiseFunctionUnaryExpression<UnaryOp::MINUS, Type, Expr> operator-(CpxElementWiseFunctionExpression<Type, Expr>&& expr) { return CpxElementWiseFunctionUnaryExpression<UnaryOp::MINUS, Type, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
 
 ////////////////////////////////////////////////////////////////////////
 ////                         ddot operators                         ////

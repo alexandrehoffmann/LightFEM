@@ -23,114 +23,64 @@
 
 #include <LightFEM/Analysis/Measure/ElementWiseInterpolator.hpp>
 
-//// https://github.com/gregvw/barycentric-lagrange/blob/master/lagrange.cpp
-
-std::valarray< double > ElementWiseInterpolator::s_wi;
-
-double ElementWiseInterpolator::eval(const double xi1, const double xi2)
+double ElementWiseInterpolator::eval(const double xi1, const double xi2) const
 {
-	initDists(xi1, xi2);
-
-	for (size_t i=0;i<Element::getNxi();++i)
-	{
-		m_wi1[i] = s_wi[i] / m_dist_xi1[i];
-		m_wi2[i] = s_wi[i] / m_dist_xi2[i];
-	}
-
-	const auto [l1, l2] = l();
-
-	double value(0.0);
+	double value = 0.0;
+	
 	for (size_t i=0;i<Element::getNxi();++i)
 	{
 		for (size_t j=0;j<Element::getNxi();++j)
 		{
-			value += m_fi[Element::index2d(i,j)]*m_wi1[i]*m_wi2[j];
+			const double lx = lagrange_1d(xi1, i);
+			const double ly = lagrange_1d(xi2, j);
+			
+			value += m_fi[Element::index2d(i,j)]*lx*ly;
 		}
 	}
-	return value*l1*l2;
+	
+	return value;
 }
 
-std::pair<double, double> ElementWiseInterpolator::l()
+double ElementWiseInterpolator::lagrange_1d(const double xi, const size_t i)
 {
-	std::pair< double, double > l = std::make_pair(1.0, 1.0);
-	for(size_t i=0;i<Element::getNxi();i++)
+	double li = 1.0;
+	
+	for (size_t j=0;j<Element::getNxi();++j) { if (i != j)
 	{
-		std::get<0>(l) *= m_dist_xi1[i];
-		std::get<1>(l) *= m_dist_xi2[i];
-	}
-	return l;
-}
-
-void ElementWiseInterpolator::initWeights()
-{
-	s_wi.resize(Element::getNxi());
-	for (size_t i=0;i<Element::getNxi();++i)
-	{
-		double prod = 1.0;
-		for (size_t j=0;j<Element::getNxi();++j)
-		{
-			if (i != j)
-			{
-				prod *= (Element::get_xi(i) - Element::get_xi(j));
-			}
-		}
-		s_wi[i] = 1.0 / prod;
-	}
+		li *= (xi - Element::get_xi(j)) / (Element::get_xi(i) - Element::get_xi(j));
+	}}
+	
+	return li;
 }
 
 ////////////////////////////////////////////////////////////////////////
 
-//// https://github.com/gregvw/barycentric-lagrange/blob/master/lagrange.cpp
-
-std::valarray< double > CpxElementWiseInterpolator::s_wi;
-
-std::complex< double > CpxElementWiseInterpolator::eval(const double xi1, const double xi2)
+std::complex< double > CpxElementWiseInterpolator::eval(const double xi1, const double xi2) const
 {
-	initDists(xi1, xi2);
-
-	for (size_t i=0;i<Element::getNxi();++i)
-	{
-		m_wi1[i] = s_wi[i] / m_dist_xi1[i];
-		m_wi2[i] = s_wi[i] / m_dist_xi2[i];
-	}
-
-	const auto [l1, l2] = l();
-
-	std::complex< double > value(0.0, 0.0);
+	std::complex< double > value = 0.0;
+	
 	for (size_t i=0;i<Element::getNxi();++i)
 	{
 		for (size_t j=0;j<Element::getNxi();++j)
 		{
-			value += m_fi[Element::index2d(i,j)]*m_wi1[i]*m_wi2[j];
+			const double lx = lagrange_1d(xi1, i);
+			const double ly = lagrange_1d(xi2, j);
+			
+			value += m_fi[Element::index2d(i,j)]*lx*ly;
 		}
 	}
-	return value*l1*l2;
+	
+	return value;
 }
 
-std::pair<double, double> CpxElementWiseInterpolator::l()
+double CpxElementWiseInterpolator::lagrange_1d(const double xi, const size_t i)
 {
-	std::pair< double, double > l = std::make_pair(1.0, 1.0);
-	for(size_t i=0;i<Element::getNxi();i++)
+	double li = 1.0;
+	
+	for (size_t j=0;j<Element::getNxi();++j) { if (i != j)
 	{
-		std::get<0>(l) *= m_dist_xi1[i];
-		std::get<1>(l) *= m_dist_xi2[i];
-	}
-	return l;
-}
-
-void CpxElementWiseInterpolator::initWeights()
-{
-	s_wi.resize(Element::getNxi());
-	for (size_t i=0;i<Element::getNxi();++i)
-	{
-		double prod = 1.0;
-		for (size_t j=0;j<Element::getNxi();++j)
-		{
-			if (i != j)
-			{
-				prod *= (Element::get_xi(i) - Element::get_xi(j));
-			}
-		}
-		s_wi[i] = 1.0 / prod;
-	}
+		li *= (xi - Element::get_xi(j)) / (Element::get_xi(i) - Element::get_xi(j));
+	}}
+	
+	return li;
 }

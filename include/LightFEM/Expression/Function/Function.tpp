@@ -62,7 +62,7 @@ Function<Type>& Function<Type>::operator=  (const FunctionExpression< Type, Expr
 {
 	m_containsTrial = expr.containsTrial();
 	m_containsTest = expr.containsTest();
-	m_mesh = expr(expr.getMesh());
+	m_mesh = expr.getMesh();
 
 	for (size_t e=0;e<expr.getMesh()->getNElem();++e)
 	{

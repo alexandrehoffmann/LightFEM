@@ -28,14 +28,8 @@
 
 template<typename Expr>
 ElementWiseInterpolator::ElementWiseInterpolator(const ElementWiseFunctionExpression<ExprType::SCALAR, Expr>& f) :
-	m_fi(Element::getNxiNd()),
-	m_dist_xi1(Element::getNxiNd()),
-	m_dist_xi2(Element::getNxiNd()),
-	m_wi1(Element::getNxiNd()),
-	m_wi2(Element::getNxiNd())
+	m_fi(Element::getNxiNd())
 {
-	if (s_wi.size() != Element::getNxi()) { initWeights(); }
-
 	for (size_t k=0;k<Element::getNxiNd();++k)
 	{
 		m_fi[k] = f[k];
@@ -46,14 +40,8 @@ ElementWiseInterpolator::ElementWiseInterpolator(const ElementWiseFunctionExpres
 
 template<typename Expr>
 CpxElementWiseInterpolator::CpxElementWiseInterpolator(const ElementWiseFunctionExpression<ExprType::SCALAR, Expr>& f) :
-	m_fi(Element::getNxiNd()),
-	m_dist_xi1(Element::getNxiNd()),
-	m_dist_xi2(Element::getNxiNd()),
-	m_wi1(Element::getNxiNd()),
-	m_wi2(Element::getNxiNd())
+	m_fi(Element::getNxiNd())
 {
-	if (s_wi.size() != Element::getNxi()) { initWeights(); }
-
 	for (size_t k=0;k<Element::getNxiNd();++k)
 	{
 		m_fi[k] = f[k];
@@ -62,14 +50,8 @@ CpxElementWiseInterpolator::CpxElementWiseInterpolator(const ElementWiseFunction
 
 template<typename Expr>
 CpxElementWiseInterpolator::CpxElementWiseInterpolator(const CpxElementWiseFunctionExpression<ExprType::SCALAR, Expr>& f) :
-	m_fi(Element::getNxiNd()),
-	m_dist_xi1(Element::getNxiNd()),
-	m_dist_xi2(Element::getNxiNd()),
-	m_wi1(Element::getNxiNd()),
-	m_wi2(Element::getNxiNd())
+	m_fi(Element::getNxiNd())
 {
-	if (s_wi.size() != Element::getNxi()) { initWeights(); }
-
 	for (size_t k=0;k<Element::getNxiNd();++k)
 	{
 		m_fi[k] = f[k];

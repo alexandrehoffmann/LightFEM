@@ -52,6 +52,38 @@ template<typename Expr>
 std::complex< double > max(const CpxFunctionExpression<ExprType::SCALAR, Expr>& expr);
 
 ////////////////////////////////////////////////////////////////////////
+////                        minus operators                         ////
+////////////////////////////////////////////////////////////////////////
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::MINUS, Type>::isDefined, bool> = true>
+inline FunctionUnaryExpression<UnaryOp::MINUS, Type, const Expr&> operator-(const FunctionExpression<Type, Expr>& expr) { return FunctionUnaryExpression<UnaryOp::MINUS, Type, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::MINUS, Type>::isDefined, bool> = true>
+inline CpxFunctionUnaryExpression<UnaryOp::MINUS, Type, const Expr&> operator-(const CpxFunctionExpression<Type, Expr>& expr) { return CpxFunctionUnaryExpression<UnaryOp::MINUS, Type, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::MINUS, Type>::isDefined, bool> = true>
+inline FunctionUnaryExpression<UnaryOp::MINUS, Type, Expr> operator-(FunctionExpression<Type, Expr>&& expr) { return FunctionUnaryExpression<UnaryOp::MINUS, Type, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::MINUS, Type>::isDefined, bool> = true>
+inline CpxFunctionUnaryExpression<UnaryOp::MINUS, Type, Expr> operator-(CpxFunctionExpression<Type, Expr>&& expr) { return CpxFunctionUnaryExpression<UnaryOp::MINUS, Type, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+////////////////////////////////////////////////////////////////////////
+////                         abs operators                          ////
+////////////////////////////////////////////////////////////////////////
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::ABS, Type>::isDefined, bool> = true>
+inline FunctionUnaryExpression<UnaryOp::ABS, Type, const Expr&> abs(const FunctionExpression<Type, Expr>& expr) { return FunctionUnaryExpression<UnaryOp::ABS, Type, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::ABS, Type>::isDefined, bool> = true>
+inline FunctionUnaryExpression<UnaryOp::ABS, Type, Expr> abs(FunctionExpression<Type, Expr>&& expr) { return FunctionUnaryExpression<UnaryOp::ABS, Type, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::ABS, Type>::isDefined, bool> = true>
+inline FunctionUnaryExpression<UnaryOp::ABS, Type, const Expr&> abs(const CpxFunctionExpression<Type, Expr>& expr) { return FunctionUnaryExpression<UnaryOp::ABS, Type, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::ABS, Type>::isDefined, bool> = true>
+inline FunctionUnaryExpression<UnaryOp::ABS, Type, Expr> abs(CpxFunctionExpression<Type, Expr>&& expr) { return FunctionUnaryExpression<UnaryOp::ABS, Type, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+////////////////////////////////////////////////////////////////////////
 ////                         conj operators                         ////
 ////////////////////////////////////////////////////////////////////////
 
@@ -60,6 +92,150 @@ inline CpxFunctionUnaryExpression<UnaryOp::CONJ, Type, const Expr&> conj(const C
 
 template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::CONJ, Type>::isDefined, bool> = true>
 inline CpxFunctionUnaryExpression<UnaryOp::CONJ, Type, Expr> conj(CpxFunctionExpression<Type, Expr>&& expr) { return CpxFunctionUnaryExpression<UnaryOp::CONJ, Type, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+////////////////////////////////////////////////////////////////////////
+////                         exp operators                          ////
+////////////////////////////////////////////////////////////////////////
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::EXP, Type>::isDefined, bool> = true>
+inline FunctionUnaryExpression<UnaryOp::EXP, Type, const Expr&> exp(const FunctionExpression<Type, Expr>& expr) { return FunctionUnaryExpression<UnaryOp::EXP, Type, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::EXP, Type>::isDefined, bool> = true>
+inline CpxFunctionUnaryExpression<UnaryOp::EXP, Type, const Expr&> exp(const CpxFunctionExpression<Type, Expr>& expr) { return CpxFunctionUnaryExpression<UnaryOp::EXP, Type, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::EXP, Type>::isDefined, bool> = true>
+inline FunctionUnaryExpression<UnaryOp::EXP, Type, Expr> exp(FunctionExpression<Type, Expr>&& expr) { return FunctionUnaryExpression<UnaryOp::EXP, Type, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::EXP, Type>::isDefined, bool> = true>
+inline CpxFunctionUnaryExpression<UnaryOp::EXP, Type, Expr> exp(CpxFunctionExpression<Type, Expr>&& expr) { return CpxFunctionUnaryExpression<UnaryOp::EXP, Type, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+////////////////////////////////////////////////////////////////////////
+////                         log operators                          ////
+////////////////////////////////////////////////////////////////////////
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::LOG, Type>::isDefined, bool> = true>
+inline FunctionUnaryExpression<UnaryOp::LOG, Type, const Expr&> log(const FunctionExpression<Type, Expr>& expr) { return FunctionUnaryExpression<UnaryOp::LOG, Type, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::LOG, Type>::isDefined, bool> = true>
+inline CpxFunctionUnaryExpression<UnaryOp::LOG, Type, const Expr&> log(const CpxFunctionExpression<Type, Expr>& expr) { return CpxFunctionUnaryExpression<UnaryOp::LOG, Type, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::LOG, Type>::isDefined, bool> = true>
+inline FunctionUnaryExpression<UnaryOp::LOG, Type, Expr> log(FunctionExpression<Type, Expr>&& expr) { return FunctionUnaryExpression<UnaryOp::LOG, Type, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::LOG, Type>::isDefined, bool> = true>
+inline CpxFunctionUnaryExpression<UnaryOp::LOG, Type, Expr> log(CpxFunctionExpression<Type, Expr>&& expr) { return CpxFunctionUnaryExpression<UnaryOp::LOG, Type, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+////////////////////////////////////////////////////////////////////////
+////                         sqrt operators                         ////
+////////////////////////////////////////////////////////////////////////
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::SQRT, Type>::isDefined, bool> = true>
+inline FunctionUnaryExpression<UnaryOp::SQRT, Type, const Expr&> sqrt(const FunctionExpression<Type, Expr>& expr) { return FunctionUnaryExpression<UnaryOp::SQRT, Type, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::SQRT, Type>::isDefined, bool> = true>
+inline CpxFunctionUnaryExpression<UnaryOp::SQRT, Type, const Expr&> sqrt(const CpxFunctionExpression<Type, Expr>& expr) { return CpxFunctionUnaryExpression<UnaryOp::SQRT, Type, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::SQRT, Type>::isDefined, bool> = true>
+inline FunctionUnaryExpression<UnaryOp::SQRT, Type, Expr> sqrt(FunctionExpression<Type, Expr>&& expr) { return FunctionUnaryExpression<UnaryOp::SQRT, Type, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::SQRT, Type>::isDefined, bool> = true>
+inline CpxFunctionUnaryExpression<UnaryOp::SQRT, Type, Expr> sqrt(CpxFunctionExpression<Type, Expr>&& expr) { return CpxFunctionUnaryExpression<UnaryOp::SQRT, Type, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+////////////////////////////////////////////////////////////////////////
+////                         sin operators                          ////
+////////////////////////////////////////////////////////////////////////
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::SIN, Type>::isDefined, bool> = true>
+inline FunctionUnaryExpression<UnaryOp::SIN, Type, const Expr&> sin(const FunctionExpression<Type, Expr>& expr) { return FunctionUnaryExpression<UnaryOp::SIN, Type, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::SIN, Type>::isDefined, bool> = true>
+inline CpxFunctionUnaryExpression<UnaryOp::SIN, Type, const Expr&> sin(const CpxFunctionExpression<Type, Expr>& expr) { return CpxFunctionUnaryExpression<UnaryOp::SIN, Type, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::SIN, Type>::isDefined, bool> = true>
+inline FunctionUnaryExpression<UnaryOp::SIN, Type, Expr> sin(FunctionExpression<Type, Expr>&& expr) { return FunctionUnaryExpression<UnaryOp::SIN, Type, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::SIN, Type>::isDefined, bool> = true>
+inline CpxFunctionUnaryExpression<UnaryOp::SIN, Type, Expr> sin(CpxFunctionExpression<Type, Expr>&& expr) { return CpxFunctionUnaryExpression<UnaryOp::SIN, Type, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+////////////////////////////////////////////////////////////////////////
+////                         cos operators                          ////
+////////////////////////////////////////////////////////////////////////
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::COS, Type>::isDefined, bool> = true>
+inline FunctionUnaryExpression<UnaryOp::COS, Type, const Expr&> cos(const FunctionExpression<Type, Expr>& expr) { return FunctionUnaryExpression<UnaryOp::COS, Type, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::COS, Type>::isDefined, bool> = true>
+inline CpxFunctionUnaryExpression<UnaryOp::COS, Type, const Expr&> cos(const CpxFunctionExpression<Type, Expr>& expr) { return CpxFunctionUnaryExpression<UnaryOp::COS, Type, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::COS, Type>::isDefined, bool> = true>
+inline FunctionUnaryExpression<UnaryOp::COS, Type, Expr> cos(FunctionExpression<Type, Expr>&& expr) { return FunctionUnaryExpression<UnaryOp::COS, Type, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::COS, Type>::isDefined, bool> = true>
+inline CpxFunctionUnaryExpression<UnaryOp::COS, Type, Expr> cos(CpxFunctionExpression<Type, Expr>&& expr) { return CpxFunctionUnaryExpression<UnaryOp::COS, Type, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+////////////////////////////////////////////////////////////////////////
+////                         tan operators                          ////
+////////////////////////////////////////////////////////////////////////
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::TAN, Type>::isDefined, bool> = true>
+inline FunctionUnaryExpression<UnaryOp::TAN, Type, const Expr&> tan(const FunctionExpression<Type, Expr>& expr) { return FunctionUnaryExpression<UnaryOp::TAN, Type, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::TAN, Type>::isDefined, bool> = true>
+inline CpxFunctionUnaryExpression<UnaryOp::TAN, Type, const Expr&> tan(const CpxFunctionExpression<Type, Expr>& expr) { return CpxFunctionUnaryExpression<UnaryOp::TAN, Type, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::TAN, Type>::isDefined, bool> = true>
+inline FunctionUnaryExpression<UnaryOp::TAN, Type, Expr> tan(FunctionExpression<Type, Expr>&& expr) { return FunctionUnaryExpression<UnaryOp::TAN, Type, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::TAN, Type>::isDefined, bool> = true>
+inline CpxFunctionUnaryExpression<UnaryOp::TAN, Type, Expr> tan(CpxFunctionExpression<Type, Expr>&& expr) { return CpxFunctionUnaryExpression<UnaryOp::TAN, Type, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+////////////////////////////////////////////////////////////////////////
+////                         asin operators                         ////
+////////////////////////////////////////////////////////////////////////
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::ASIN, Type>::isDefined, bool> = true>
+inline FunctionUnaryExpression<UnaryOp::ASIN, Type, const Expr&> asin(const FunctionExpression<Type, Expr>& expr) { return FunctionUnaryExpression<UnaryOp::ASIN, Type, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::ASIN, Type>::isDefined, bool> = true>
+inline CpxFunctionUnaryExpression<UnaryOp::ASIN, Type, const Expr&> asin(const CpxFunctionExpression<Type, Expr>& expr) { return CpxFunctionUnaryExpression<UnaryOp::ASIN, Type, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::ASIN, Type>::isDefined, bool> = true>
+inline FunctionUnaryExpression<UnaryOp::ASIN, Type, Expr> asin(FunctionExpression<Type, Expr>&& expr) { return FunctionUnaryExpression<UnaryOp::ASIN, Type, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::ASIN, Type>::isDefined, bool> = true>
+inline CpxFunctionUnaryExpression<UnaryOp::ASIN, Type, Expr> asin(CpxFunctionExpression<Type, Expr>&& expr) { return CpxFunctionUnaryExpression<UnaryOp::ASIN, Type, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+////////////////////////////////////////////////////////////////////////
+////                         acos operators                         ////
+////////////////////////////////////////////////////////////////////////
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::ACOS, Type>::isDefined, bool> = true>
+inline FunctionUnaryExpression<UnaryOp::ACOS, Type, const Expr&> acos(const FunctionExpression<Type, Expr>& expr) { return FunctionUnaryExpression<UnaryOp::ACOS, Type, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::ACOS, Type>::isDefined, bool> = true>
+inline CpxFunctionUnaryExpression<UnaryOp::ACOS, Type, const Expr&> acos(const CpxFunctionExpression<Type, Expr>& expr) { return CpxFunctionUnaryExpression<UnaryOp::ACOS, Type, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::ACOS, Type>::isDefined, bool> = true>
+inline FunctionUnaryExpression<UnaryOp::ACOS, Type, Expr> acos(FunctionExpression<Type, Expr>&& expr) { return FunctionUnaryExpression<UnaryOp::ACOS, Type, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::ACOS, Type>::isDefined, bool> = true>
+inline CpxFunctionUnaryExpression<UnaryOp::ACOS, Type, Expr> acos(CpxFunctionExpression<Type, Expr>&& expr) { return CpxFunctionUnaryExpression<UnaryOp::ACOS, Type, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+////////////////////////////////////////////////////////////////////////
+////                         atan operators                         ////
+////////////////////////////////////////////////////////////////////////
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::ATAN, Type>::isDefined, bool> = true>
+inline FunctionUnaryExpression<UnaryOp::ATAN, Type, const Expr&> atan(const FunctionExpression<Type, Expr>& expr) { return FunctionUnaryExpression<UnaryOp::ATAN, Type, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::ATAN, Type>::isDefined, bool> = true>
+inline CpxFunctionUnaryExpression<UnaryOp::ATAN, Type, const Expr&> atan(const CpxFunctionExpression<Type, Expr>& expr) { return CpxFunctionUnaryExpression<UnaryOp::ATAN, Type, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::ATAN, Type>::isDefined, bool> = true>
+inline FunctionUnaryExpression<UnaryOp::ATAN, Type, Expr> atan(FunctionExpression<Type, Expr>&& expr) { return FunctionUnaryExpression<UnaryOp::ATAN, Type, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::ATAN, Type>::isDefined, bool> = true>
+inline CpxFunctionUnaryExpression<UnaryOp::ATAN, Type, Expr> atan(CpxFunctionExpression<Type, Expr>&& expr) { return CpxFunctionUnaryExpression<UnaryOp::ATAN, Type, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
 
 ////////////////////////////////////////////////////////////////////////
 ////                         norm operators                         ////
@@ -102,22 +278,6 @@ inline CpxFunctionUnaryExpression<UnaryOp::ADJOINT, Type, const Expr&> adjoint(c
 
 template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::ADJOINT, Type>::isDefined, bool> = true>
 inline CpxFunctionUnaryExpression<UnaryOp::ADJOINT, Type, Expr> adjoint(CpxFunctionExpression<Type, Expr>&& expr) { return CpxFunctionUnaryExpression<UnaryOp::ADJOINT, Type, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
-
-////////////////////////////////////////////////////////////////////////
-////                        minus operators                         ////
-////////////////////////////////////////////////////////////////////////
-
-template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::MINUS, Type>::isDefined, bool> = true>
-inline FunctionUnaryExpression<UnaryOp::MINUS, Type, const Expr&> operator-(const FunctionExpression<Type, Expr>& expr) { return FunctionUnaryExpression<UnaryOp::MINUS, Type, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
-
-template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::MINUS, Type>::isDefined, bool> = true>
-inline CpxFunctionUnaryExpression<UnaryOp::MINUS, Type, const Expr&> operator-(const CpxFunctionExpression<Type, Expr>& expr) { return CpxFunctionUnaryExpression<UnaryOp::MINUS, Type, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
-
-template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::MINUS, Type>::isDefined, bool> = true>
-inline FunctionUnaryExpression<UnaryOp::MINUS, Type, Expr> operator-(FunctionExpression<Type, Expr>&& expr) { return FunctionUnaryExpression<UnaryOp::MINUS, Type, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
-
-template<ExprType Type, typename Expr, std::enable_if_t<UnaryOpType<UnaryOp::MINUS, Type>::isDefined, bool> = true>
-inline CpxFunctionUnaryExpression<UnaryOp::MINUS, Type, Expr> operator-(CpxFunctionExpression<Type, Expr>&& expr) { return CpxFunctionUnaryExpression<UnaryOp::MINUS, Type, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
 
 ////////////////////////////////////////////////////////////////////////
 ////                         ddot operators                         ////

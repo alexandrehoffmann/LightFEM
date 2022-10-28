@@ -52,6 +52,7 @@ public:
 	inline size_t         getLocalInterpolationFunctionId (const size_t i) const { return m_interpFuncLocId[i]; }
 	
 	double getHMin() const;
+	std::vector< double > getHMinPerElement() const;
 	
 	inline bool isIdOnBoundary(const size_t globId) const { return m_isIdOnBoundary[globId]; }
 	

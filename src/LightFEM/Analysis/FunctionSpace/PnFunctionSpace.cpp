@@ -32,11 +32,9 @@
 PnFunctionSpace::PnFunctionSpace(const Mesh *mesh, const size_t order) :
 	FunctionSpace(mesh)
 {
-	constexpr double epsilon = 1.0e-14;
-
 	/////// init 1d local interpolation function
 
-	m_interpNodes1D = GaussLobattoQuadrature::getNodes(order+1);;
+	m_interpNodes1D = GaussLobattoQuadrature::getNodes(order+1);
 
 	const size_t NInterpNodes = m_interpNodes1D.size();
 
@@ -95,12 +93,16 @@ PnFunctionSpace::PnFunctionSpace(const Mesh *mesh, const size_t order) :
 	}
 	std::stable_sort(std::begin(idx), std::end(idx), [&nodesWorld](const size_t i1, const size_t i2) -> bool
 	{
-		return std::tie(nodesWorld[i1].x, nodesWorld[i1].y) < std::tie(nodesWorld[i2].x, nodesWorld[i2].y);
+		if (fabs(nodesWorld[i1].x - nodesWorld[i2].x) > epsilon)
+		{
+			return nodesWorld[i1].x < nodesWorld[i2].x;
+		}
+		return nodesWorld[i1].y < nodesWorld[i2].y;
 	});
 
 	m_globalIds.resize(nodesWorld.size());
 	m_globalIds[idx[0]] = 0;
-
+	
 	for (size_t i=1;i<idx.size();++i)
 	{
 		if ( eq(nodesWorld[idx[i]], nodesWorld[idx[i-1]], epsilon) ) { m_globalIds[idx[i]] = m_globalIds[idx[i-1]]; }
@@ -115,8 +117,6 @@ PnFunctionSpace::PnFunctionSpace(const Mesh *mesh, const size_t order) :
 
 double PnFunctionSpace::getHMin() const
 {
-	constexpr double epsilon = 1.0e-14;
-	
 	const size_t N = m_interpNodes1D.size();
 	
 	std::vector< NodeWorld > nodesWorld(getNBasisFunction());
@@ -153,6 +153,43 @@ double PnFunctionSpace::getHMin() const
 	}
 	
 	return hmin;
+}
+
+std::vector< double > PnFunctionSpace::getHMinPerElement() const
+{	
+	const size_t N = m_interpNodes1D.size();
+	
+	std::vector< double > hminPerElement(m_mesh->getNElem());
+	
+	std::vector< NodeWorld > nodesWorldPerElement(N*N);
+	
+	for (size_t e=0;e<m_mesh->getNElem();++e)
+	{
+		for (size_t i=0;i<N;++i)
+		{
+			for (size_t j=0;j<N;++j)
+			{
+				const size_t globId = getGlobalId(e,j+i*N);
+				
+				nodesWorldPerElement[j+i*N] = m_mesh->getElem(e)->getXworld(m_interpNodes[j+i*N]);
+				if (fabs(nodesWorldPerElement[j+i*N].x) < epsilon ) { nodesWorldPerElement[globId].x = 0.0; }
+				if (fabs(nodesWorldPerElement[j+i*N].y) < epsilon ) { nodesWorldPerElement[globId].y = 0.0; }
+			}
+		}
+		
+		hminPerElement[e] = dist(nodesWorldPerElement[0], nodesWorldPerElement[1]);
+		
+		for (size_t i=0;i<nodesWorldPerElement.size();++i)
+		{
+			for (size_t j=i+1;j<nodesWorldPerElement.size();++j)
+			{
+				hminPerElement[e] = std::min(hminPerElement[e], dist(nodesWorldPerElement[i], nodesWorldPerElement[j]));
+			}
+		}
+		
+	}
+	
+	return hminPerElement;
 }
 
 double PnFunctionSpace::l(const size_t i, const double t) const

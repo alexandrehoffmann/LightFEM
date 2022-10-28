@@ -3,14 +3,14 @@ header_name = "LINALG_OPERATORS_HPP"
 binaryOperatorAllowed = {}
 unaryOperatorAllowed = {}
 
-unaryop_list = ["CONJ", "NORM", "TRANSPOSE", "ADJOINT", "MINUS"]
+unaryop_list = ["MINUS", "ABS", "CONJ", "EXP", "LOG", "SQRT", "SIN", "COS", "TAN", "ASIN", "ACOS", "ATAN", "NORM", "TRANSPOSE", "ADJOINT"]
 binaryop_list = ["DDOT", "INNER", "OUTER", "CROSS", "SUM", "SUB", "PROD", "DIV"]
 
 type_list = ["RK4_TENSOR", "RK2_TENSOR", "MATRIX", "VECTOR", "SCALAR"]
 base_list = {"RK4_TENSOR":"RankFourTensorExpression", "RK2_TENSOR":"RankTwoTensorExpression", "MATRIX":"MatrixExpression", "VECTOR":"VectorExpression", "SCALAR":"ScalarExpression"}
 
 binaryop_name = {"SUM":"operator+", "SUB":"operator-", "PROD":"operator*", "DIV":"operator/", "DDOT":"ddot", "INNER":"inner", "OUTER":"outer", "CROSS":"cross"}
-unaryop_name = {"MINUS":"operator-", "CONJ":"conj", "NORM":"norm", "TRANSPOSE":"transpose", "ADJOINT":"adjoint"}
+unaryop_name = {"MINUS":"operator-", "ABS":"abs", "CONJ":"conj", "EXP":"exp", "LOG":"log", "SQRT":"sqrt", "SIN":"sin", "COS":"cos", "TAN":"tan", "ASIN":"asin", "ACOS":"acos", "ATAN":"atan", "NORM":"norm", "TRANSPOSE":"transpose", "ADJOINT":"adjoint"}
 
 def get_base_name(base, cpx):
 	if cpx:
@@ -57,16 +57,27 @@ unaryOperatorAllowed[("MINUS","MATRIX")] = (True, True)
 unaryOperatorAllowed[("MINUS","VECTOR")] = (True, True)
 unaryOperatorAllowed[("MINUS","SCALAR")] = (True, True)
 
+unaryOperatorAllowed[("ABS","SCALAR")] = (True, False)
+
 unaryOperatorAllowed[("CONJ","RK4_TENSOR")] = (False, True)
 unaryOperatorAllowed[("CONJ","RK2_TENSOR")] = (False, True)
 unaryOperatorAllowed[("CONJ","MATRIX")] = (False, True)
 unaryOperatorAllowed[("CONJ","VECTOR")] = (False, True)
 unaryOperatorAllowed[("CONJ","SCALAR")] = (False, True)
 
+unaryOperatorAllowed[("EXP","SCALAR")] = (True, True)
+unaryOperatorAllowed[("LOG","SCALAR")] = (True, True)
+unaryOperatorAllowed[("SQRT","SCALAR")] = (True, True)
+unaryOperatorAllowed[("SIN","SCALAR")] = (True, True)
+unaryOperatorAllowed[("COS","SCALAR")] = (True, True)
+unaryOperatorAllowed[("TAN","SCALAR")] = (True, True)
+unaryOperatorAllowed[("ASIN","SCALAR")] = (True, True)
+unaryOperatorAllowed[("ACOS","SCALAR")] = (True, True)
+unaryOperatorAllowed[("ATAN","SCALAR")] = (True, True)
+
 unaryOperatorAllowed[("NORM","RK2_TENSOR")] = (True, True)
 unaryOperatorAllowed[("NORM","MATRIX")] = (True, True)
 unaryOperatorAllowed[("NORM","VECTOR")] = (True, True)
-unaryOperatorAllowed[("NORM","SCALAR")] = (True, True)
 
 unaryOperatorAllowed[("TRANSPOSE","RK4_TENSOR")] = (True, True)
 unaryOperatorAllowed[("TRANSPOSE","RK2_TENSOR")] = (True, True)
@@ -121,8 +132,8 @@ with open("operators.hpp", "w") as f:
 	f.write("#ifndef " + header_name + "\n")
 	f.write("#define " + header_name + "\n")
 	f.write("\n")
-	f.write("#include <Expression/LinAlg/BinaryExpression.hpp>\n")
-	f.write("#include <Expression/LinAlg/UnaryExpression.hpp>\n")
+	f.write("#include <LightFEM/Expression/LinAlg/BinaryExpression.hpp>\n")
+	f.write("#include <LightFEM/Expression/LinAlg/UnaryExpression.hpp>\n")
 	f.write("\n")
 	for lhs in type_list:
 		f.write("////////////////////////////////////////////////////////////////////////\n")

@@ -32,6 +32,8 @@
 #include <LightFEM/Expression/ElementWise/ElementWiseDiff.hpp>
 #include <LightFEM/Expression/Function/FunctionExpression.hpp>
 #include <LightFEM/Expression/Function/Function.hpp>
+#include <LightFEM/Expression/FiniteElementFunction/FiniteElementFunctionExpression.hpp>
+#include <LightFEM/Expression/FiniteElementFunction/FiniteElementFunction.hpp>
 
 typedef ElementWiseDiff<ExprType::SCALAR, GradTrialFunction> DiffTrialFunction;
 typedef ElementWiseDiff<ExprType::SCALAR, GradTestFunction> DiffTestFunction;
@@ -55,6 +57,46 @@ inline DiffVectorTestFunction dx  (const VectorTestFunction& u) { return DiffVec
 inline DiffVectorTestFunction dy  (const VectorTestFunction& u) { return DiffVectorTestFunction(GradVectorTestFunction(u), 1); }
 inline GradVectorTestFunction grad(const VectorTestFunction& u) { return GradVectorTestFunction(u);    }
 
+////////////////////////////////////////////////////////////////////////
+
+template<ExprType Type, typename Expr> 
+FiniteElementFunctionDiffExpression<Type, Expr> dx(const FiniteElementFunctionExpression<Type, Expr>& expr) { return FiniteElementFunctionDiffExpression<Type, Expr>(expr, 0); }
+
+template<ExprType Type, typename Expr> 
+FiniteElementFunctionDiffExpression<Type, Expr> dx(FiniteElementFunctionExpression<Type, Expr>&& expr) { return FiniteElementFunctionDiffExpression<Type, Expr>(expr, 0); }
+
+template<ExprType Type, typename Expr> 
+CpxFiniteElementFunctionDiffExpression<Type, Expr> dx(const CpxFiniteElementFunctionExpression<Type, Expr>& expr) { return CpxFiniteElementFunctionDiffExpression<Type, Expr>(expr, 0); }
+
+template<ExprType Type, typename Expr> 
+CpxFiniteElementFunctionDiffExpression<Type, Expr> dx(CpxFiniteElementFunctionExpression<Type, Expr>&& expr) { return CpxFiniteElementFunctionDiffExpression<Type, Expr>(expr, 0); }
+
+template<ExprType Type, typename Expr> 
+FiniteElementFunctionDiffExpression<Type, Expr> dy(const FiniteElementFunctionExpression<Type, Expr>& expr) { return FiniteElementFunctionDiffExpression<Type, Expr>(expr, 1); }
+
+template<ExprType Type, typename Expr> 
+FiniteElementFunctionDiffExpression<Type, Expr> dy(FiniteElementFunctionExpression<Type, Expr>&& expr) { return FiniteElementFunctionDiffExpression<Type, Expr>(expr, 1); }
+
+template<ExprType Type, typename Expr> 
+CpxFiniteElementFunctionDiffExpression<Type, Expr> dy(const CpxFiniteElementFunctionExpression<Type, Expr>& expr) { return CpxFiniteElementFunctionDiffExpression<Type, Expr>(expr, 1); }
+
+template<ExprType Type, typename Expr> 
+CpxFiniteElementFunctionDiffExpression<Type, Expr> dy(CpxFiniteElementFunctionExpression<Type, Expr>&& expr) { return CpxFiniteElementFunctionDiffExpression<Type, Expr>(expr, 1); }
+
+template<ExprType Type, typename Expr> 
+FiniteElementFunctionGradExpression<Type, Expr> grad(const FiniteElementFunctionExpression<Type, Expr>& expr) { return FiniteElementFunctionGradExpression<Type, Expr>(expr); }
+
+template<ExprType Type, typename Expr> 
+FiniteElementFunctionGradExpression<Type, Expr> grad(FiniteElementFunctionExpression<Type, Expr>&& expr) { return FiniteElementFunctionGradExpression<Type, Expr>(expr); }
+
+template<ExprType Type, typename Expr> 
+CpxFiniteElementFunctionGradExpression<Type, Expr> grad(const CpxFiniteElementFunctionExpression<Type, Expr>& expr) { return CpxFiniteElementFunctionGradExpression<Type, Expr>(expr); }
+
+template<ExprType Type, typename Expr> 
+CpxFiniteElementFunctionGradExpression<Type, Expr> grad(CpxFiniteElementFunctionExpression<Type, Expr>&& expr) { return CpxFiniteElementFunctionGradExpression<Type, Expr>(expr); }
+
+////////////////////////////////////////////////////////////////////////
+
 template<ExprType Type, typename Expr> 
 FiniteElementFunction<Type> interp(const typename FiniteElementFunction<Type>::FSpaceType* Vh, const FunctionExpression<Type, Expr>& expr);
 
@@ -65,7 +107,7 @@ template<ExprType Type, typename Expr>
 CpxFiniteElementFunction<Type> interp(const typename FiniteElementFunction<Type>::FSpaceType* Vh, const CpxFunctionExpression<Type, Expr>& expr);
 
 template<ExprType Type>
-FiniteElementFunction<Type> interp(const typename FiniteElementFunction<Type>::FSpaceType* Vh, typename CpxFunctor<Type>::type expr);
+CpxFiniteElementFunction<Type> interp(const typename FiniteElementFunction<Type>::FSpaceType* Vh, typename CpxFunctor<Type>::type expr);
 
 #include <LightFEM/Analysis/operators.tpp>
 

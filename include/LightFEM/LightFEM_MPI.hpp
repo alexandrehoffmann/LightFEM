@@ -28,17 +28,29 @@
 
 #include <LightFEM/Analysis/Forms/MatrixEntry.hpp>
 
+#include <LightFEM/Expression/ElementWise/ElementWiseFunction.hpp>
+#include <LightFEM/Expression/Function/Function.hpp>
+
 namespace LightFEM_MPI
 {
 
 void init();
 void finalize();
 
+void allReduce(const ScalarField& local_f, ScalarField& f, MPI_Comm comm);
+void allReduce(const CpxScalarField& local_f, CpxScalarField& f, MPI_Comm comm);
+
+////////////////////////////////////////////////////////////////////////
+
 extern MPI_Datatype MPI_MATRIX_ENTRY;
 extern MPI_Datatype MPI_CPX_MATRIX_ENTRY;
+extern MPI_Datatype MPI_ELEMENT_WISE_SCALAR_FIELD;
+extern MPI_Datatype MPI_CPX_ELEMENT_WISE_SCALAR_FIELD;
 
 extern MPI_Op MPI_MATRIX_ENTRY_SUM;
 extern MPI_Op MPI_CPX_MATRIX_ENTRY_SUM;
+extern MPI_Op MPI_ELEMENT_WISE_SCALAR_FIELD_SUM;
+extern MPI_Op MPI_CPX_ELEMENT_WISE_SCALAR_FIELD_SUM;
 
 ////////////////////////////////////////////////////////////////////////
 
@@ -51,6 +63,20 @@ void defineMatrixEntry();
 void sum_MPI_CpxMatrixEntry(void* in, void* inout, int* len, MPI_Datatype* MPI_matrixEntry);
 
 void defineCpxMatrixEntry();
+
+////////////////////////////////////////////////////////////////////////
+
+void sum_MPI_ElementWiseScalarField(void* in, void* inout, int* len, MPI_Datatype* MPI_elementWiseScalarField);
+
+void defineElementWiseScalarField();
+
+////////////////////////////////////////////////////////////////////////
+
+void sum_MPI_CpxElementWiseScalarField(void* in, void* inout, int* len, MPI_Datatype* MPI_elementWiseScalarField);
+
+void defineCpxElementWiseScalarField();
+
+////////////////////////////////////////////////////////////////////////
 
 }
 

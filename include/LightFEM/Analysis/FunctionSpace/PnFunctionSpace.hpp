@@ -40,6 +40,7 @@ public:
 	virtual size_t         getLocalInterpolationFunctionId (const size_t i) const { return i; } // all our local functions are interpolation functions
 	
 	virtual double getHMin() const;
+	virtual std::vector< double > getHMinPerElement() const;
 protected:
 	virtual bool isLocIdOnBoundary(const size_t locId, const Element::Boundary b) const { return m_isLocIdOnBoundary[index2d(locId, b)]; }
 
@@ -64,6 +65,8 @@ private:
 	size_t m_nDofs;
 
 	std::valarray< bool > m_isLocIdOnBoundary;
+private:
+	static constexpr double epsilon = 1.0e-11;
 };
 
 #endif // PN_FUNCTION_SPACE_HPP

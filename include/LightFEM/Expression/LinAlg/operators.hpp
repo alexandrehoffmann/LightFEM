@@ -20,7 +20,7 @@
  * 
  * 
  */
-
+ 
 #ifndef LINALG_OPERATORS_HPP
 #define LINALG_OPERATORS_HPP
 
@@ -30,6 +30,18 @@
 ////////////////////////////////////////////////////////////////////////
 ////                      rk4_tensor operators                      ////
 ////////////////////////////////////////////////////////////////////////
+
+template<typename Expr>
+inline UnaryExpression<UnaryOp::MINUS, ExprType::RK4_TENSOR, const Expr&> operator-(const RankFourTensorExpression<Expr>& expr) { return UnaryExpression<UnaryOp::MINUS, ExprType::RK4_TENSOR, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<typename Expr>
+inline UnaryExpression<UnaryOp::MINUS, ExprType::RK4_TENSOR, Expr> operator-(RankFourTensorExpression<Expr>&& expr) { return UnaryExpression<UnaryOp::MINUS, ExprType::RK4_TENSOR, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+template<typename Expr>
+inline CpxUnaryExpression<UnaryOp::MINUS, ExprType::RK4_TENSOR, const Expr&> operator-(const CpxRankFourTensorExpression<Expr>& expr) { return CpxUnaryExpression<UnaryOp::MINUS, ExprType::RK4_TENSOR, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<typename Expr>
+inline CpxUnaryExpression<UnaryOp::MINUS, ExprType::RK4_TENSOR, Expr> operator-(CpxRankFourTensorExpression<Expr>&& expr) { return CpxUnaryExpression<UnaryOp::MINUS, ExprType::RK4_TENSOR, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
 
 template<typename Expr>
 inline CpxUnaryExpression<UnaryOp::CONJ, ExprType::RK4_TENSOR, const Expr&> conj(const CpxRankFourTensorExpression<Expr>& expr) { return CpxUnaryExpression<UnaryOp::CONJ, ExprType::RK4_TENSOR, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
@@ -54,18 +66,6 @@ inline CpxUnaryExpression<UnaryOp::ADJOINT, ExprType::RK4_TENSOR, const Expr&> a
 
 template<typename Expr>
 inline CpxUnaryExpression<UnaryOp::ADJOINT, ExprType::RK4_TENSOR, Expr> adjoint(CpxRankFourTensorExpression<Expr>&& expr) { return CpxUnaryExpression<UnaryOp::ADJOINT, ExprType::RK4_TENSOR, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
-
-template<typename Expr>
-inline UnaryExpression<UnaryOp::MINUS, ExprType::RK4_TENSOR, const Expr&> operator-(const RankFourTensorExpression<Expr>& expr) { return UnaryExpression<UnaryOp::MINUS, ExprType::RK4_TENSOR, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
-
-template<typename Expr>
-inline UnaryExpression<UnaryOp::MINUS, ExprType::RK4_TENSOR, Expr> operator-(RankFourTensorExpression<Expr>&& expr) { return UnaryExpression<UnaryOp::MINUS, ExprType::RK4_TENSOR, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
-
-template<typename Expr>
-inline CpxUnaryExpression<UnaryOp::MINUS, ExprType::RK4_TENSOR, const Expr&> operator-(const CpxRankFourTensorExpression<Expr>& expr) { return CpxUnaryExpression<UnaryOp::MINUS, ExprType::RK4_TENSOR, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
-
-template<typename Expr>
-inline CpxUnaryExpression<UnaryOp::MINUS, ExprType::RK4_TENSOR, Expr> operator-(CpxRankFourTensorExpression<Expr>&& expr) { return CpxUnaryExpression<UnaryOp::MINUS, ExprType::RK4_TENSOR, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
 
 template<typename LeftExpr, typename RightExpr>
 inline BinaryExpression<BinaryOp::DDOT, ExprType::RK4_TENSOR, const LeftExpr&, ExprType::RK2_TENSOR, const RightExpr&> ddot(const RankFourTensorExpression<LeftExpr>& lhs, const RankTwoTensorExpression<RightExpr>& rhs) { return BinaryExpression<BinaryOp::DDOT, ExprType::RK4_TENSOR, const LeftExpr&, ExprType::RK2_TENSOR, const RightExpr&>(std::forward<const LeftExpr>( static_cast<const LeftExpr&>(lhs) ), std::forward<const RightExpr>( static_cast<const RightExpr&>(rhs) )); }
@@ -360,6 +360,18 @@ inline CpxBinaryExpression<BinaryOp::DIV, ExprType::RK4_TENSOR, LeftExpr, ExprTy
 ////////////////////////////////////////////////////////////////////////
 
 template<typename Expr>
+inline UnaryExpression<UnaryOp::MINUS, ExprType::RK2_TENSOR, const Expr&> operator-(const RankTwoTensorExpression<Expr>& expr) { return UnaryExpression<UnaryOp::MINUS, ExprType::RK2_TENSOR, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<typename Expr>
+inline UnaryExpression<UnaryOp::MINUS, ExprType::RK2_TENSOR, Expr> operator-(RankTwoTensorExpression<Expr>&& expr) { return UnaryExpression<UnaryOp::MINUS, ExprType::RK2_TENSOR, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+template<typename Expr>
+inline CpxUnaryExpression<UnaryOp::MINUS, ExprType::RK2_TENSOR, const Expr&> operator-(const CpxRankTwoTensorExpression<Expr>& expr) { return CpxUnaryExpression<UnaryOp::MINUS, ExprType::RK2_TENSOR, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<typename Expr>
+inline CpxUnaryExpression<UnaryOp::MINUS, ExprType::RK2_TENSOR, Expr> operator-(CpxRankTwoTensorExpression<Expr>&& expr) { return CpxUnaryExpression<UnaryOp::MINUS, ExprType::RK2_TENSOR, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+template<typename Expr>
 inline CpxUnaryExpression<UnaryOp::CONJ, ExprType::RK2_TENSOR, const Expr&> conj(const CpxRankTwoTensorExpression<Expr>& expr) { return CpxUnaryExpression<UnaryOp::CONJ, ExprType::RK2_TENSOR, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
 
 template<typename Expr>
@@ -394,18 +406,6 @@ inline CpxUnaryExpression<UnaryOp::ADJOINT, ExprType::RK2_TENSOR, const Expr&> a
 
 template<typename Expr>
 inline CpxUnaryExpression<UnaryOp::ADJOINT, ExprType::RK2_TENSOR, Expr> adjoint(CpxRankTwoTensorExpression<Expr>&& expr) { return CpxUnaryExpression<UnaryOp::ADJOINT, ExprType::RK2_TENSOR, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
-
-template<typename Expr>
-inline UnaryExpression<UnaryOp::MINUS, ExprType::RK2_TENSOR, const Expr&> operator-(const RankTwoTensorExpression<Expr>& expr) { return UnaryExpression<UnaryOp::MINUS, ExprType::RK2_TENSOR, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
-
-template<typename Expr>
-inline UnaryExpression<UnaryOp::MINUS, ExprType::RK2_TENSOR, Expr> operator-(RankTwoTensorExpression<Expr>&& expr) { return UnaryExpression<UnaryOp::MINUS, ExprType::RK2_TENSOR, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
-
-template<typename Expr>
-inline CpxUnaryExpression<UnaryOp::MINUS, ExprType::RK2_TENSOR, const Expr&> operator-(const CpxRankTwoTensorExpression<Expr>& expr) { return CpxUnaryExpression<UnaryOp::MINUS, ExprType::RK2_TENSOR, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
-
-template<typename Expr>
-inline CpxUnaryExpression<UnaryOp::MINUS, ExprType::RK2_TENSOR, Expr> operator-(CpxRankTwoTensorExpression<Expr>&& expr) { return CpxUnaryExpression<UnaryOp::MINUS, ExprType::RK2_TENSOR, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
 
 template<typename LeftExpr, typename RightExpr>
 inline BinaryExpression<BinaryOp::INNER, ExprType::RK2_TENSOR, const LeftExpr&, ExprType::RK2_TENSOR, const RightExpr&> inner(const RankTwoTensorExpression<LeftExpr>& lhs, const RankTwoTensorExpression<RightExpr>& rhs) { return BinaryExpression<BinaryOp::INNER, ExprType::RK2_TENSOR, const LeftExpr&, ExprType::RK2_TENSOR, const RightExpr&>(std::forward<const LeftExpr>( static_cast<const LeftExpr&>(lhs) ), std::forward<const RightExpr>( static_cast<const RightExpr&>(rhs) )); }
@@ -652,6 +652,18 @@ inline CpxBinaryExpression<BinaryOp::DIV, ExprType::RK2_TENSOR, LeftExpr, ExprTy
 ////////////////////////////////////////////////////////////////////////
 
 template<typename Expr>
+inline UnaryExpression<UnaryOp::MINUS, ExprType::MATRIX, const Expr&> operator-(const MatrixExpression<Expr>& expr) { return UnaryExpression<UnaryOp::MINUS, ExprType::MATRIX, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<typename Expr>
+inline UnaryExpression<UnaryOp::MINUS, ExprType::MATRIX, Expr> operator-(MatrixExpression<Expr>&& expr) { return UnaryExpression<UnaryOp::MINUS, ExprType::MATRIX, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+template<typename Expr>
+inline CpxUnaryExpression<UnaryOp::MINUS, ExprType::MATRIX, const Expr&> operator-(const CpxMatrixExpression<Expr>& expr) { return CpxUnaryExpression<UnaryOp::MINUS, ExprType::MATRIX, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<typename Expr>
+inline CpxUnaryExpression<UnaryOp::MINUS, ExprType::MATRIX, Expr> operator-(CpxMatrixExpression<Expr>&& expr) { return CpxUnaryExpression<UnaryOp::MINUS, ExprType::MATRIX, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+template<typename Expr>
 inline CpxUnaryExpression<UnaryOp::CONJ, ExprType::MATRIX, const Expr&> conj(const CpxMatrixExpression<Expr>& expr) { return CpxUnaryExpression<UnaryOp::CONJ, ExprType::MATRIX, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
 
 template<typename Expr>
@@ -686,18 +698,6 @@ inline CpxUnaryExpression<UnaryOp::ADJOINT, ExprType::MATRIX, const Expr&> adjoi
 
 template<typename Expr>
 inline CpxUnaryExpression<UnaryOp::ADJOINT, ExprType::MATRIX, Expr> adjoint(CpxMatrixExpression<Expr>&& expr) { return CpxUnaryExpression<UnaryOp::ADJOINT, ExprType::MATRIX, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
-
-template<typename Expr>
-inline UnaryExpression<UnaryOp::MINUS, ExprType::MATRIX, const Expr&> operator-(const MatrixExpression<Expr>& expr) { return UnaryExpression<UnaryOp::MINUS, ExprType::MATRIX, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
-
-template<typename Expr>
-inline UnaryExpression<UnaryOp::MINUS, ExprType::MATRIX, Expr> operator-(MatrixExpression<Expr>&& expr) { return UnaryExpression<UnaryOp::MINUS, ExprType::MATRIX, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
-
-template<typename Expr>
-inline CpxUnaryExpression<UnaryOp::MINUS, ExprType::MATRIX, const Expr&> operator-(const CpxMatrixExpression<Expr>& expr) { return CpxUnaryExpression<UnaryOp::MINUS, ExprType::MATRIX, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
-
-template<typename Expr>
-inline CpxUnaryExpression<UnaryOp::MINUS, ExprType::MATRIX, Expr> operator-(CpxMatrixExpression<Expr>&& expr) { return CpxUnaryExpression<UnaryOp::MINUS, ExprType::MATRIX, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
 
 template<typename LeftExpr, typename RightExpr>
 inline BinaryExpression<BinaryOp::INNER, ExprType::MATRIX, const LeftExpr&, ExprType::MATRIX, const RightExpr&> inner(const MatrixExpression<LeftExpr>& lhs, const MatrixExpression<RightExpr>& rhs) { return BinaryExpression<BinaryOp::INNER, ExprType::MATRIX, const LeftExpr&, ExprType::MATRIX, const RightExpr&>(std::forward<const LeftExpr>( static_cast<const LeftExpr&>(lhs) ), std::forward<const RightExpr>( static_cast<const RightExpr&>(rhs) )); }
@@ -1040,6 +1040,18 @@ inline CpxBinaryExpression<BinaryOp::DIV, ExprType::MATRIX, LeftExpr, ExprType::
 ////////////////////////////////////////////////////////////////////////
 
 template<typename Expr>
+inline UnaryExpression<UnaryOp::MINUS, ExprType::VECTOR, const Expr&> operator-(const VectorExpression<Expr>& expr) { return UnaryExpression<UnaryOp::MINUS, ExprType::VECTOR, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<typename Expr>
+inline UnaryExpression<UnaryOp::MINUS, ExprType::VECTOR, Expr> operator-(VectorExpression<Expr>&& expr) { return UnaryExpression<UnaryOp::MINUS, ExprType::VECTOR, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+template<typename Expr>
+inline CpxUnaryExpression<UnaryOp::MINUS, ExprType::VECTOR, const Expr&> operator-(const CpxVectorExpression<Expr>& expr) { return CpxUnaryExpression<UnaryOp::MINUS, ExprType::VECTOR, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<typename Expr>
+inline CpxUnaryExpression<UnaryOp::MINUS, ExprType::VECTOR, Expr> operator-(CpxVectorExpression<Expr>&& expr) { return CpxUnaryExpression<UnaryOp::MINUS, ExprType::VECTOR, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+template<typename Expr>
 inline CpxUnaryExpression<UnaryOp::CONJ, ExprType::VECTOR, const Expr&> conj(const CpxVectorExpression<Expr>& expr) { return CpxUnaryExpression<UnaryOp::CONJ, ExprType::VECTOR, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
 
 template<typename Expr>
@@ -1056,18 +1068,6 @@ inline CpxUnaryExpression<UnaryOp::NORM, ExprType::VECTOR, const Expr&> norm(con
 
 template<typename Expr>
 inline CpxUnaryExpression<UnaryOp::NORM, ExprType::VECTOR, Expr> norm(CpxVectorExpression<Expr>&& expr) { return CpxUnaryExpression<UnaryOp::NORM, ExprType::VECTOR, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
-
-template<typename Expr>
-inline UnaryExpression<UnaryOp::MINUS, ExprType::VECTOR, const Expr&> operator-(const VectorExpression<Expr>& expr) { return UnaryExpression<UnaryOp::MINUS, ExprType::VECTOR, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
-
-template<typename Expr>
-inline UnaryExpression<UnaryOp::MINUS, ExprType::VECTOR, Expr> operator-(VectorExpression<Expr>&& expr) { return UnaryExpression<UnaryOp::MINUS, ExprType::VECTOR, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
-
-template<typename Expr>
-inline CpxUnaryExpression<UnaryOp::MINUS, ExprType::VECTOR, const Expr&> operator-(const CpxVectorExpression<Expr>& expr) { return CpxUnaryExpression<UnaryOp::MINUS, ExprType::VECTOR, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
-
-template<typename Expr>
-inline CpxUnaryExpression<UnaryOp::MINUS, ExprType::VECTOR, Expr> operator-(CpxVectorExpression<Expr>&& expr) { return CpxUnaryExpression<UnaryOp::MINUS, ExprType::VECTOR, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
 
 template<typename LeftExpr, typename RightExpr>
 inline BinaryExpression<BinaryOp::INNER, ExprType::VECTOR, const LeftExpr&, ExprType::VECTOR, const RightExpr&> inner(const VectorExpression<LeftExpr>& lhs, const VectorExpression<RightExpr>& rhs) { return BinaryExpression<BinaryOp::INNER, ExprType::VECTOR, const LeftExpr&, ExprType::VECTOR, const RightExpr&>(std::forward<const LeftExpr>( static_cast<const LeftExpr&>(lhs) ), std::forward<const RightExpr>( static_cast<const RightExpr&>(rhs) )); }
@@ -1410,24 +1410,6 @@ inline CpxBinaryExpression<BinaryOp::DIV, ExprType::VECTOR, LeftExpr, ExprType::
 ////////////////////////////////////////////////////////////////////////
 
 template<typename Expr>
-inline CpxUnaryExpression<UnaryOp::CONJ, ExprType::SCALAR, const Expr&> conj(const CpxScalarExpression<Expr>& expr) { return CpxUnaryExpression<UnaryOp::CONJ, ExprType::SCALAR, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
-
-template<typename Expr>
-inline CpxUnaryExpression<UnaryOp::CONJ, ExprType::SCALAR, Expr> conj(CpxScalarExpression<Expr>&& expr) { return CpxUnaryExpression<UnaryOp::CONJ, ExprType::SCALAR, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
-
-template<typename Expr>
-inline UnaryExpression<UnaryOp::NORM, ExprType::SCALAR, const Expr&> norm(const ScalarExpression<Expr>& expr) { return UnaryExpression<UnaryOp::NORM, ExprType::SCALAR, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
-
-template<typename Expr>
-inline UnaryExpression<UnaryOp::NORM, ExprType::SCALAR, Expr> norm(ScalarExpression<Expr>&& expr) { return UnaryExpression<UnaryOp::NORM, ExprType::SCALAR, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
-
-template<typename Expr>
-inline CpxUnaryExpression<UnaryOp::NORM, ExprType::SCALAR, const Expr&> norm(const CpxScalarExpression<Expr>& expr) { return CpxUnaryExpression<UnaryOp::NORM, ExprType::SCALAR, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
-
-template<typename Expr>
-inline CpxUnaryExpression<UnaryOp::NORM, ExprType::SCALAR, Expr> norm(CpxScalarExpression<Expr>&& expr) { return CpxUnaryExpression<UnaryOp::NORM, ExprType::SCALAR, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
-
-template<typename Expr>
 inline UnaryExpression<UnaryOp::MINUS, ExprType::SCALAR, const Expr&> operator-(const ScalarExpression<Expr>& expr) { return UnaryExpression<UnaryOp::MINUS, ExprType::SCALAR, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
 
 template<typename Expr>
@@ -1438,6 +1420,132 @@ inline CpxUnaryExpression<UnaryOp::MINUS, ExprType::SCALAR, const Expr&> operato
 
 template<typename Expr>
 inline CpxUnaryExpression<UnaryOp::MINUS, ExprType::SCALAR, Expr> operator-(CpxScalarExpression<Expr>&& expr) { return CpxUnaryExpression<UnaryOp::MINUS, ExprType::SCALAR, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+template<typename Expr>
+inline UnaryExpression<UnaryOp::ABS, ExprType::SCALAR, const Expr&> abs(const ScalarExpression<Expr>& expr) { return UnaryExpression<UnaryOp::ABS, ExprType::SCALAR, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<typename Expr>
+inline UnaryExpression<UnaryOp::ABS, ExprType::SCALAR, Expr> abs(ScalarExpression<Expr>&& expr) { return UnaryExpression<UnaryOp::ABS, ExprType::SCALAR, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+template<typename Expr>
+inline UnaryExpression<UnaryOp::ABS, ExprType::SCALAR, const Expr&> abs(const CpxScalarExpression<Expr>& expr) { return UnaryExpression<UnaryOp::ABS, ExprType::SCALAR, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<typename Expr>
+inline UnaryExpression<UnaryOp::ABS, ExprType::SCALAR, Expr> abs(CpxScalarExpression<Expr>&& expr) { return UnaryExpression<UnaryOp::ABS, ExprType::SCALAR, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+template<typename Expr>
+inline CpxUnaryExpression<UnaryOp::CONJ, ExprType::SCALAR, const Expr&> conj(const CpxScalarExpression<Expr>& expr) { return CpxUnaryExpression<UnaryOp::CONJ, ExprType::SCALAR, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<typename Expr>
+inline CpxUnaryExpression<UnaryOp::CONJ, ExprType::SCALAR, Expr> conj(CpxScalarExpression<Expr>&& expr) { return CpxUnaryExpression<UnaryOp::CONJ, ExprType::SCALAR, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+template<typename Expr>
+inline UnaryExpression<UnaryOp::EXP, ExprType::SCALAR, const Expr&> exp(const ScalarExpression<Expr>& expr) { return UnaryExpression<UnaryOp::EXP, ExprType::SCALAR, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<typename Expr>
+inline UnaryExpression<UnaryOp::EXP, ExprType::SCALAR, Expr> exp(ScalarExpression<Expr>&& expr) { return UnaryExpression<UnaryOp::EXP, ExprType::SCALAR, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+template<typename Expr>
+inline CpxUnaryExpression<UnaryOp::EXP, ExprType::SCALAR, const Expr&> exp(const CpxScalarExpression<Expr>& expr) { return CpxUnaryExpression<UnaryOp::EXP, ExprType::SCALAR, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<typename Expr>
+inline CpxUnaryExpression<UnaryOp::EXP, ExprType::SCALAR, Expr> exp(CpxScalarExpression<Expr>&& expr) { return CpxUnaryExpression<UnaryOp::EXP, ExprType::SCALAR, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+template<typename Expr>
+inline UnaryExpression<UnaryOp::LOG, ExprType::SCALAR, const Expr&> log(const ScalarExpression<Expr>& expr) { return UnaryExpression<UnaryOp::LOG, ExprType::SCALAR, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<typename Expr>
+inline UnaryExpression<UnaryOp::LOG, ExprType::SCALAR, Expr> log(ScalarExpression<Expr>&& expr) { return UnaryExpression<UnaryOp::LOG, ExprType::SCALAR, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+template<typename Expr>
+inline CpxUnaryExpression<UnaryOp::LOG, ExprType::SCALAR, const Expr&> log(const CpxScalarExpression<Expr>& expr) { return CpxUnaryExpression<UnaryOp::LOG, ExprType::SCALAR, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<typename Expr>
+inline CpxUnaryExpression<UnaryOp::LOG, ExprType::SCALAR, Expr> log(CpxScalarExpression<Expr>&& expr) { return CpxUnaryExpression<UnaryOp::LOG, ExprType::SCALAR, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+template<typename Expr>
+inline UnaryExpression<UnaryOp::SQRT, ExprType::SCALAR, const Expr&> sqrt(const ScalarExpression<Expr>& expr) { return UnaryExpression<UnaryOp::SQRT, ExprType::SCALAR, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<typename Expr>
+inline UnaryExpression<UnaryOp::SQRT, ExprType::SCALAR, Expr> sqrt(ScalarExpression<Expr>&& expr) { return UnaryExpression<UnaryOp::SQRT, ExprType::SCALAR, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+template<typename Expr>
+inline CpxUnaryExpression<UnaryOp::SQRT, ExprType::SCALAR, const Expr&> sqrt(const CpxScalarExpression<Expr>& expr) { return CpxUnaryExpression<UnaryOp::SQRT, ExprType::SCALAR, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<typename Expr>
+inline CpxUnaryExpression<UnaryOp::SQRT, ExprType::SCALAR, Expr> sqrt(CpxScalarExpression<Expr>&& expr) { return CpxUnaryExpression<UnaryOp::SQRT, ExprType::SCALAR, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+template<typename Expr>
+inline UnaryExpression<UnaryOp::SIN, ExprType::SCALAR, const Expr&> sin(const ScalarExpression<Expr>& expr) { return UnaryExpression<UnaryOp::SIN, ExprType::SCALAR, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<typename Expr>
+inline UnaryExpression<UnaryOp::SIN, ExprType::SCALAR, Expr> sin(ScalarExpression<Expr>&& expr) { return UnaryExpression<UnaryOp::SIN, ExprType::SCALAR, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+template<typename Expr>
+inline CpxUnaryExpression<UnaryOp::SIN, ExprType::SCALAR, const Expr&> sin(const CpxScalarExpression<Expr>& expr) { return CpxUnaryExpression<UnaryOp::SIN, ExprType::SCALAR, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<typename Expr>
+inline CpxUnaryExpression<UnaryOp::SIN, ExprType::SCALAR, Expr> sin(CpxScalarExpression<Expr>&& expr) { return CpxUnaryExpression<UnaryOp::SIN, ExprType::SCALAR, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+template<typename Expr>
+inline UnaryExpression<UnaryOp::COS, ExprType::SCALAR, const Expr&> cos(const ScalarExpression<Expr>& expr) { return UnaryExpression<UnaryOp::COS, ExprType::SCALAR, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<typename Expr>
+inline UnaryExpression<UnaryOp::COS, ExprType::SCALAR, Expr> cos(ScalarExpression<Expr>&& expr) { return UnaryExpression<UnaryOp::COS, ExprType::SCALAR, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+template<typename Expr>
+inline CpxUnaryExpression<UnaryOp::COS, ExprType::SCALAR, const Expr&> cos(const CpxScalarExpression<Expr>& expr) { return CpxUnaryExpression<UnaryOp::COS, ExprType::SCALAR, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<typename Expr>
+inline CpxUnaryExpression<UnaryOp::COS, ExprType::SCALAR, Expr> cos(CpxScalarExpression<Expr>&& expr) { return CpxUnaryExpression<UnaryOp::COS, ExprType::SCALAR, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+template<typename Expr>
+inline UnaryExpression<UnaryOp::TAN, ExprType::SCALAR, const Expr&> tan(const ScalarExpression<Expr>& expr) { return UnaryExpression<UnaryOp::TAN, ExprType::SCALAR, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<typename Expr>
+inline UnaryExpression<UnaryOp::TAN, ExprType::SCALAR, Expr> tan(ScalarExpression<Expr>&& expr) { return UnaryExpression<UnaryOp::TAN, ExprType::SCALAR, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+template<typename Expr>
+inline CpxUnaryExpression<UnaryOp::TAN, ExprType::SCALAR, const Expr&> tan(const CpxScalarExpression<Expr>& expr) { return CpxUnaryExpression<UnaryOp::TAN, ExprType::SCALAR, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<typename Expr>
+inline CpxUnaryExpression<UnaryOp::TAN, ExprType::SCALAR, Expr> tan(CpxScalarExpression<Expr>&& expr) { return CpxUnaryExpression<UnaryOp::TAN, ExprType::SCALAR, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+template<typename Expr>
+inline UnaryExpression<UnaryOp::ASIN, ExprType::SCALAR, const Expr&> asin(const ScalarExpression<Expr>& expr) { return UnaryExpression<UnaryOp::ASIN, ExprType::SCALAR, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<typename Expr>
+inline UnaryExpression<UnaryOp::ASIN, ExprType::SCALAR, Expr> asin(ScalarExpression<Expr>&& expr) { return UnaryExpression<UnaryOp::ASIN, ExprType::SCALAR, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+template<typename Expr>
+inline CpxUnaryExpression<UnaryOp::ASIN, ExprType::SCALAR, const Expr&> asin(const CpxScalarExpression<Expr>& expr) { return CpxUnaryExpression<UnaryOp::ASIN, ExprType::SCALAR, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<typename Expr>
+inline CpxUnaryExpression<UnaryOp::ASIN, ExprType::SCALAR, Expr> asin(CpxScalarExpression<Expr>&& expr) { return CpxUnaryExpression<UnaryOp::ASIN, ExprType::SCALAR, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+template<typename Expr>
+inline UnaryExpression<UnaryOp::ACOS, ExprType::SCALAR, const Expr&> acos(const ScalarExpression<Expr>& expr) { return UnaryExpression<UnaryOp::ACOS, ExprType::SCALAR, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<typename Expr>
+inline UnaryExpression<UnaryOp::ACOS, ExprType::SCALAR, Expr> acos(ScalarExpression<Expr>&& expr) { return UnaryExpression<UnaryOp::ACOS, ExprType::SCALAR, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+template<typename Expr>
+inline CpxUnaryExpression<UnaryOp::ACOS, ExprType::SCALAR, const Expr&> acos(const CpxScalarExpression<Expr>& expr) { return CpxUnaryExpression<UnaryOp::ACOS, ExprType::SCALAR, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<typename Expr>
+inline CpxUnaryExpression<UnaryOp::ACOS, ExprType::SCALAR, Expr> acos(CpxScalarExpression<Expr>&& expr) { return CpxUnaryExpression<UnaryOp::ACOS, ExprType::SCALAR, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+template<typename Expr>
+inline UnaryExpression<UnaryOp::ATAN, ExprType::SCALAR, const Expr&> atan(const ScalarExpression<Expr>& expr) { return UnaryExpression<UnaryOp::ATAN, ExprType::SCALAR, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<typename Expr>
+inline UnaryExpression<UnaryOp::ATAN, ExprType::SCALAR, Expr> atan(ScalarExpression<Expr>&& expr) { return UnaryExpression<UnaryOp::ATAN, ExprType::SCALAR, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
+
+template<typename Expr>
+inline CpxUnaryExpression<UnaryOp::ATAN, ExprType::SCALAR, const Expr&> atan(const CpxScalarExpression<Expr>& expr) { return CpxUnaryExpression<UnaryOp::ATAN, ExprType::SCALAR, const Expr&>(std::forward<const Expr>( static_cast<const Expr&>(expr) )); }
+
+template<typename Expr>
+inline CpxUnaryExpression<UnaryOp::ATAN, ExprType::SCALAR, Expr> atan(CpxScalarExpression<Expr>&& expr) { return CpxUnaryExpression<UnaryOp::ATAN, ExprType::SCALAR, Expr>(std::forward<Expr>( static_cast<Expr&&>(expr) )); }
 
 template<typename LeftExpr, typename RightExpr>
 inline BinaryExpression<BinaryOp::SUM, ExprType::SCALAR, const LeftExpr&, ExprType::SCALAR, const RightExpr&> operator+(const ScalarExpression<LeftExpr>& lhs, const ScalarExpression<RightExpr>& rhs) { return BinaryExpression<BinaryOp::SUM, ExprType::SCALAR, const LeftExpr&, ExprType::SCALAR, const RightExpr&>(std::forward<const LeftExpr>( static_cast<const LeftExpr&>(lhs) ), std::forward<const RightExpr>( static_cast<const RightExpr&>(rhs) )); }

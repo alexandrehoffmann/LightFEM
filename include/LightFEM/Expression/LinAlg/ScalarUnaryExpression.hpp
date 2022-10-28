@@ -29,7 +29,17 @@
 #include <cmath>
 
 template<> struct UnaryOpType<UnaryOp::MINUS, ExprType::SCALAR> { static constexpr ExprType Type = ExprType::SCALAR; static constexpr bool isDefined = true; };
+template<> struct UnaryOpType<UnaryOp::ABS,   ExprType::SCALAR> { static constexpr ExprType Type = ExprType::SCALAR; static constexpr bool isDefined = true; };
 template<> struct UnaryOpType<UnaryOp::CONJ,  ExprType::SCALAR> { static constexpr ExprType Type = ExprType::SCALAR; static constexpr bool isDefined = true; };
+template<> struct UnaryOpType<UnaryOp::EXP,   ExprType::SCALAR> { static constexpr ExprType Type = ExprType::SCALAR; static constexpr bool isDefined = true; };
+template<> struct UnaryOpType<UnaryOp::LOG,   ExprType::SCALAR> { static constexpr ExprType Type = ExprType::SCALAR; static constexpr bool isDefined = true; };
+template<> struct UnaryOpType<UnaryOp::SQRT,  ExprType::SCALAR> { static constexpr ExprType Type = ExprType::SCALAR; static constexpr bool isDefined = true; };
+template<> struct UnaryOpType<UnaryOp::SIN,   ExprType::SCALAR> { static constexpr ExprType Type = ExprType::SCALAR; static constexpr bool isDefined = true; };
+template<> struct UnaryOpType<UnaryOp::COS,   ExprType::SCALAR> { static constexpr ExprType Type = ExprType::SCALAR; static constexpr bool isDefined = true; };
+template<> struct UnaryOpType<UnaryOp::TAN,   ExprType::SCALAR> { static constexpr ExprType Type = ExprType::SCALAR; static constexpr bool isDefined = true; };
+template<> struct UnaryOpType<UnaryOp::ASIN,  ExprType::SCALAR> { static constexpr ExprType Type = ExprType::SCALAR; static constexpr bool isDefined = true; };
+template<> struct UnaryOpType<UnaryOp::ACOS,  ExprType::SCALAR> { static constexpr ExprType Type = ExprType::SCALAR; static constexpr bool isDefined = true; };
+template<> struct UnaryOpType<UnaryOp::ATAN,  ExprType::SCALAR> { static constexpr ExprType Type = ExprType::SCALAR; static constexpr bool isDefined = true; };
 
 template <typename Expr>
 class UnaryExpression<UnaryOp::MINUS, ExprType::SCALAR, Expr> : public ScalarExpression< UnaryExpression<UnaryOp::MINUS, ExprType::SCALAR, Expr> >
@@ -38,6 +48,116 @@ public:
 	UnaryExpression(Expr&& expr) : m_expr(std::forward<Expr>(expr)) {}
 public:
 	inline double eval() const { return -m_expr.eval(); }
+private:
+	typename RefTypeSelector<Expr>::Type m_expr;
+};
+
+template <typename Expr>
+class UnaryExpression<UnaryOp::ABS, ExprType::SCALAR, Expr> : public ScalarExpression< UnaryExpression<UnaryOp::ABS, ExprType::SCALAR, Expr> >
+{
+public:
+	UnaryExpression(Expr&& expr) : m_expr(std::forward<Expr>(expr)) {}
+public:
+	inline double eval() const { return std::fabs(m_expr.eval()); }
+private:
+	typename RefTypeSelector<Expr>::Type m_expr;
+};
+
+template <typename Expr>
+class UnaryExpression<UnaryOp::EXP, ExprType::SCALAR, Expr> : public ScalarExpression< UnaryExpression<UnaryOp::EXP, ExprType::SCALAR, Expr> >
+{
+public:
+	UnaryExpression(Expr&& expr) : m_expr(std::forward<Expr>(expr)) {}
+public:
+	inline double eval() const { return std::exp(m_expr.eval()); }
+private:
+	typename RefTypeSelector<Expr>::Type m_expr;
+};
+
+template <typename Expr>
+class UnaryExpression<UnaryOp::LOG, ExprType::SCALAR, Expr> : public ScalarExpression< UnaryExpression<UnaryOp::LOG, ExprType::SCALAR, Expr> >
+{
+public:
+	UnaryExpression(Expr&& expr) : m_expr(std::forward<Expr>(expr)) {}
+public:
+	inline double eval() const { return std::log(m_expr.eval()); }
+private:
+	typename RefTypeSelector<Expr>::Type m_expr;
+};
+
+template <typename Expr>
+class UnaryExpression<UnaryOp::SQRT, ExprType::SCALAR, Expr> : public ScalarExpression< UnaryExpression<UnaryOp::SQRT, ExprType::SCALAR, Expr> >
+{
+public:
+	UnaryExpression(Expr&& expr) : m_expr(std::forward<Expr>(expr)) {}
+public:
+	inline double eval() const { return std::sqrt(m_expr.eval()); }
+private:
+	typename RefTypeSelector<Expr>::Type m_expr;
+};
+
+template <typename Expr>
+class UnaryExpression<UnaryOp::SIN, ExprType::SCALAR, Expr> : public ScalarExpression< UnaryExpression<UnaryOp::SIN, ExprType::SCALAR, Expr> >
+{
+public:
+	UnaryExpression(Expr&& expr) : m_expr(std::forward<Expr>(expr)) {}
+public:
+	inline double eval() const { return std::sin(m_expr.eval()); }
+private:
+	typename RefTypeSelector<Expr>::Type m_expr;
+};
+
+template <typename Expr>
+class UnaryExpression<UnaryOp::COS, ExprType::SCALAR, Expr> : public ScalarExpression< UnaryExpression<UnaryOp::COS, ExprType::SCALAR, Expr> >
+{
+public:
+	UnaryExpression(Expr&& expr) : m_expr(std::forward<Expr>(expr)) {}
+public:
+	inline double eval() const { return std::cos(m_expr.eval()); }
+private:
+	typename RefTypeSelector<Expr>::Type m_expr;
+};
+
+template <typename Expr>
+class UnaryExpression<UnaryOp::TAN, ExprType::SCALAR, Expr> : public ScalarExpression< UnaryExpression<UnaryOp::TAN, ExprType::SCALAR, Expr> >
+{
+public:
+	UnaryExpression(Expr&& expr) : m_expr(std::forward<Expr>(expr)) {}
+public:
+	inline double eval() const { return std::tan(m_expr.eval()); }
+private:
+	typename RefTypeSelector<Expr>::Type m_expr;
+};
+
+template <typename Expr>
+class UnaryExpression<UnaryOp::ASIN, ExprType::SCALAR, Expr> : public ScalarExpression< UnaryExpression<UnaryOp::ASIN, ExprType::SCALAR, Expr> >
+{
+public:
+	UnaryExpression(Expr&& expr) : m_expr(std::forward<Expr>(expr)) {}
+public:
+	inline double eval() const { return std::asin(m_expr.eval()); }
+private:
+	typename RefTypeSelector<Expr>::Type m_expr;
+};
+
+template <typename Expr>
+class UnaryExpression<UnaryOp::ACOS, ExprType::SCALAR, Expr> : public ScalarExpression< UnaryExpression<UnaryOp::ACOS, ExprType::SCALAR, Expr> >
+{
+public:
+	UnaryExpression(Expr&& expr) : m_expr(std::forward<Expr>(expr)) {}
+public:
+	inline double eval() const { return std::acos(m_expr.eval()); }
+private:
+	typename RefTypeSelector<Expr>::Type m_expr;
+};
+
+template <typename Expr>
+class UnaryExpression<UnaryOp::ATAN, ExprType::SCALAR, Expr> : public ScalarExpression< UnaryExpression<UnaryOp::ATAN, ExprType::SCALAR, Expr> >
+{
+public:
+	UnaryExpression(Expr&& expr) : m_expr(std::forward<Expr>(expr)) {}
+public:
+	inline double eval() const { return std::atan(m_expr.eval()); }
 private:
 	typename RefTypeSelector<Expr>::Type m_expr;
 };
@@ -66,6 +186,123 @@ public:
 	inline std::complex< double > eval() const { return std::conj(m_expr.eval()); }
 	inline double real() const { return  m_expr.real(); }
 	inline double imag() const { return -m_expr.imag(); }
+private:
+	typename RefTypeSelector<Expr>::Type  m_expr;
+};
+
+template<typename Expr>
+class CpxUnaryExpression<UnaryOp::EXP, ExprType::SCALAR, Expr> : public CpxScalarExpression< CpxUnaryExpression<UnaryOp::EXP, ExprType::SCALAR, Expr> >
+{
+public:
+	CpxUnaryExpression(Expr&& expr) : m_expr(std::forward<Expr>(expr)) {}
+public:
+	inline std::complex< double > eval() const { return std::exp(m_expr.eval()); }
+	inline double real() const { return std::real(eval()); }
+	inline double imag() const { return std::imag(eval()); }
+private:
+	typename RefTypeSelector<Expr>::Type  m_expr;
+};
+
+template<typename Expr>
+class CpxUnaryExpression<UnaryOp::LOG, ExprType::SCALAR, Expr> : public CpxScalarExpression< CpxUnaryExpression<UnaryOp::LOG, ExprType::SCALAR, Expr> >
+{
+public:
+	CpxUnaryExpression(Expr&& expr) : m_expr(std::forward<Expr>(expr)) {}
+public:
+	inline std::complex< double > eval() const { return std::log(m_expr.eval()); }
+	inline double real() const { return std::real(eval()); }
+	inline double imag() const { return std::imag(eval()); }
+private:
+	typename RefTypeSelector<Expr>::Type  m_expr;
+};
+
+template<typename Expr>
+class CpxUnaryExpression<UnaryOp::SQRT, ExprType::SCALAR, Expr> : public CpxScalarExpression< CpxUnaryExpression<UnaryOp::SQRT, ExprType::SCALAR, Expr> >
+{
+public:
+	CpxUnaryExpression(Expr&& expr) : m_expr(std::forward<Expr>(expr)) {}
+public:
+	inline std::complex< double > eval() const { return std::sqrt(m_expr.eval()); }
+	inline double real() const { return std::real(eval()); }
+	inline double imag() const { return std::imag(eval()); }
+private:
+	typename RefTypeSelector<Expr>::Type  m_expr;
+};
+
+template<typename Expr>
+class CpxUnaryExpression<UnaryOp::SIN, ExprType::SCALAR, Expr> : public CpxScalarExpression< CpxUnaryExpression<UnaryOp::SIN, ExprType::SCALAR, Expr> >
+{
+public:
+	CpxUnaryExpression(Expr&& expr) : m_expr(std::forward<Expr>(expr)) {}
+public:
+	inline std::complex< double > eval() const { return std::sin(m_expr.eval()); }
+	inline double real() const { return std::real(eval()); }
+	inline double imag() const { return std::imag(eval()); }
+private:
+	typename RefTypeSelector<Expr>::Type  m_expr;
+};
+
+template<typename Expr>
+class CpxUnaryExpression<UnaryOp::COS, ExprType::SCALAR, Expr> : public CpxScalarExpression< CpxUnaryExpression<UnaryOp::COS, ExprType::SCALAR, Expr> >
+{
+public:
+	CpxUnaryExpression(Expr&& expr) : m_expr(std::forward<Expr>(expr)) {}
+public:
+	inline std::complex< double > eval() const { return std::cos(m_expr.eval()); }
+	inline double real() const { return std::real(eval()); }
+	inline double imag() const { return std::imag(eval()); }
+private:
+	typename RefTypeSelector<Expr>::Type  m_expr;
+};
+
+template<typename Expr>
+class CpxUnaryExpression<UnaryOp::TAN, ExprType::SCALAR, Expr> : public CpxScalarExpression< CpxUnaryExpression<UnaryOp::TAN, ExprType::SCALAR, Expr> >
+{
+public:
+	CpxUnaryExpression(Expr&& expr) : m_expr(std::forward<Expr>(expr)) {}
+public:
+	inline std::complex< double > eval() const { return std::tan(m_expr.eval()); }
+	inline double real() const { return std::real(eval()); }
+	inline double imag() const { return std::imag(eval()); }
+private:
+	typename RefTypeSelector<Expr>::Type  m_expr;
+};
+
+template<typename Expr>
+class CpxUnaryExpression<UnaryOp::ASIN, ExprType::SCALAR, Expr> : public CpxScalarExpression< CpxUnaryExpression<UnaryOp::ASIN, ExprType::SCALAR, Expr> >
+{
+public:
+	CpxUnaryExpression(Expr&& expr) : m_expr(std::forward<Expr>(expr)) {}
+public:
+	inline std::complex< double > eval() const { return std::asin(m_expr.eval()); }
+	inline double real() const { return std::real(eval()); }
+	inline double imag() const { return std::imag(eval()); }
+private:
+	typename RefTypeSelector<Expr>::Type  m_expr;
+};
+
+template<typename Expr>
+class CpxUnaryExpression<UnaryOp::ACOS, ExprType::SCALAR, Expr> : public CpxScalarExpression< CpxUnaryExpression<UnaryOp::ACOS, ExprType::SCALAR, Expr> >
+{
+public:
+	CpxUnaryExpression(Expr&& expr) : m_expr(std::forward<Expr>(expr)) {}
+public:
+	inline std::complex< double > eval() const { return std::acos(m_expr.eval()); }
+	inline double real() const { return std::real(eval()); }
+	inline double imag() const { return std::imag(eval()); }
+private:
+	typename RefTypeSelector<Expr>::Type  m_expr;
+};
+
+template<typename Expr>
+class CpxUnaryExpression<UnaryOp::ATAN, ExprType::SCALAR, Expr> : public CpxScalarExpression< CpxUnaryExpression<UnaryOp::ATAN, ExprType::SCALAR, Expr> >
+{
+public:
+	CpxUnaryExpression(Expr&& expr) : m_expr(std::forward<Expr>(expr)) {}
+public:
+	inline std::complex< double > eval() const { return std::atan(m_expr.eval()); }
+	inline double real() const { return std::real(eval()); }
+	inline double imag() const { return std::imag(eval()); }
 private:
 	typename RefTypeSelector<Expr>::Type  m_expr;
 };

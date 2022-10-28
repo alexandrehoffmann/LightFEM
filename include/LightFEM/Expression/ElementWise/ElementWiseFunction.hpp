@@ -42,7 +42,7 @@ class ElementWiseFunction : public ElementWiseFunctionExpression< Type, ElementW
 public:
 	typedef typename Traits< ElementWiseFunction<Type> >::ValueType ValueType;
 public:
-	ElementWiseFunction(const Element* element = nullptr) : m_values(Element::getNxiNd()), m_containsTrial(false), m_containsTest(false), m_element(element)  {}
+	ElementWiseFunction(const Element* element = nullptr) : m_values({}), m_containsTrial(false), m_containsTest(false), m_element(element)  {}
 	template<typename Expr>	ElementWiseFunction(const ElementWiseFunctionExpression< Type, Expr >& expr);
 public:
 	template<typename Expr> ElementWiseFunction<Type>& operator=  (const ElementWiseFunctionExpression< Type, Expr >& expr);
@@ -55,13 +55,16 @@ public:
 public:
 	inline const ValueType& operator[] (const size_t k) const { return m_values[k]; }
 	inline       ValueType& operator[] (const size_t k)       { return m_values[k]; }
+	
+	inline const ValueType* data() const { return m_values.data(); }
+	inline       ValueType* data()       { return m_values.data(); }
 public:
 	inline bool containsTrial() const { return m_containsTrial; }
 	inline bool containsTest()  const { return m_containsTest; }
 public:
 	inline const Element* getElement() const { return m_element; }
 private:
-	std::vector< ValueType > m_values;
+	std::array< ValueType, Element::getNxiNd() > m_values;
 	bool m_containsTrial;
 	bool m_containsTest;
 	const Element* m_element;
@@ -81,7 +84,7 @@ class CpxElementWiseFunction : public CpxElementWiseFunctionExpression< Type, Cp
 public:
 	typedef typename Traits< CpxElementWiseFunction<Type> >::ValueType ValueType;
 public:
-	CpxElementWiseFunction(const Element* element = nullptr) : m_values(Element::getNxiNd()), m_containsTrial(false), m_containsTest(false), m_element(element)  {}
+	CpxElementWiseFunction(const Element* element = nullptr) : m_values({}), m_containsTrial(false), m_containsTest(false), m_element(element)  {}
 	template<typename Expr>	CpxElementWiseFunction(const ElementWiseFunctionExpression< Type, Expr >& expr);
 	template<typename Expr>	CpxElementWiseFunction(const CpxElementWiseFunctionExpression< Type, Expr >& expr);
 public:
@@ -100,13 +103,16 @@ public:
 public:
 	inline const ValueType& operator[] (const size_t k) const { return m_values[k]; }
 	inline       ValueType& operator[] (const size_t k)       { return m_values[k]; }
+	
+	inline const ValueType* data() const { return m_values.data(); }
+	inline       ValueType* data()       { return m_values.data(); }
 public:
 	inline bool containsTrial() const { return m_containsTrial; }
 	inline bool containsTest()  const { return m_containsTest; }
 public:
 	inline const Element* getElement() const { return m_element; }
 private:
-	std::vector< ValueType > m_values;
+	std::array< ValueType, Element::getNxiNd() > m_values;
 	bool m_containsTrial;
 	bool m_containsTest;
 	const Element* m_element;

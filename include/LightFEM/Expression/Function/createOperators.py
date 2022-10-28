@@ -3,14 +3,14 @@ header_name = "FUNCTION_OPERATORS_HPP"
 binaryOperatorAllowed = {}
 unaryOperatorAllowed = {}
 
-unaryop_list = ["CONJ", "NORM", "TRANSPOSE", "ADJOINT", "MINUS"]
+unaryop_list = ["MINUS", "ABS", "CONJ", "EXP", "LOG", "SQRT", "SIN", "COS", "TAN", "ASIN", "ACOS", "ATAN", "NORM", "TRANSPOSE", "ADJOINT"]
 binaryop_list = ["DDOT", "INNER", "OUTER", "CROSS", "SUM", "SUB", "PROD", "DIV"]
 
 binaryop_name = {"SUM":"operator+", "SUB":"operator-", "PROD":"operator*", "DIV":"operator/", "DDOT":"ddot", "INNER":"inner", "OUTER":"outer", "CROSS":"cross"}
-unaryop_name = {"MINUS":"operator-", "CONJ":"conj", "NORM":"norm", "TRANSPOSE":"transpose", "ADJOINT":"adjoint"}
+unaryop_name = {"MINUS":"operator-", "ABS":"abs", "CONJ":"conj", "EXP":"exp", "LOG":"log", "SQRT":"sqrt", "SIN":"sin", "COS":"cos", "TAN":"tan", "ASIN":"asin", "ACOS":"acos", "ATAN":"atan", "NORM":"norm", "TRANSPOSE":"transpose", "ADJOINT":"adjoint"}
 
-unaryop_for_cpx = {"MINUS":True, "CONJ":True, "NORM":True, "TRANSPOSE":True, "ADJOINT":True}
-unaryop_for_rl = {"MINUS":True, "CONJ":False, "NORM":True, "TRANSPOSE":True, "ADJOINT":False}
+unaryop_for_cpx = {"MINUS":True, "ABS":False, "CONJ":True, "EXP":True, "LOG":True, "SQRT":True, "SIN":True, "COS":True, "TAN":True, "ASIN":True, "ACOS":True, "ATAN":True, "NORM":True, "TRANSPOSE":True, "ADJOINT":True}
+unaryop_for_rl = {"MINUS":True, "ABS":True, "CONJ":False, "EXP":True, "LOG":True, "SQRT":True, "SIN":True, "COS":True, "TAN":True, "ASIN":True, "ACOS":True, "ATAN":True, "NORM":True, "TRANSPOSE":True, "ADJOINT":False}
 
 def get_base_name(cpx):
 	if cpx:
@@ -88,7 +88,17 @@ with open("operators.hpp", "w") as f:
 	f.write("////" +  "min/max operators".center(len("////////////////////////////////////////////////////////////////////////") - 8) + "////\n")
 	f.write("////////////////////////////////////////////////////////////////////////\n")
 	f.write("\n")
-	
+	f.write("template<typename Expr>\n")
+	f.write("double min(const FunctionExpression<ExprType::SCALAR, Expr>& expr);\n")
+	f.write("\n")
+	f.write("template<typename Expr>\n")
+	f.write("std::complex< double > min(const CpxFunctionExpression<ExprType::SCALAR, Expr>& expr);\n")
+	f.write("\n")
+	f.write("template<typename Expr>\n")
+	f.write("double max(const FunctionExpression<ExprType::SCALAR, Expr>& expr);\n")
+	f.write("\n")
+	f.write("template<typename Expr>\n")
+	f.write("std::complex< double > max(const CpxFunctionExpression<ExprType::SCALAR, Expr>& expr);\n")
 	f.write("\n")
 	for op_name in unaryop_list:
 		f.write("////////////////////////////////////////////////////////////////////////\n")
@@ -130,4 +140,5 @@ with open("operators.hpp", "w") as f:
 							+ " lhs, " + ew_arg_type("RightType", "RightExpr", cpx_rhs, tmp_rhs) + " rhs) { return " + binary_ret_type(op_name, "LeftType", "RightType", cpx_lhs, cpx_rhs, tmp_lhs, tmp_rhs, False, True) + "(" \
 							+ fwd_slice_expr("LeftExpr", "lhs", "rhs") + ", " + fwd_expr("RightExpr", "rhs", tmp_rhs) + "); }\n")
 						f.write("\n")
+	f.write("#include <LightFEM/Expression/Function/operators.tpp>\n")
 	f.write("#endif // " + header_name + "\n")

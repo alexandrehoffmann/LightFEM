@@ -57,6 +57,9 @@ public:
 public:
 	inline const ElementWiseFunction<Type>& operator[] (const size_t e) const { return m_values[e]; }
 	inline       ElementWiseFunction<Type>& operator[] (const size_t e)       { return m_values[e]; }
+	
+	inline const ElementWiseFunction<Type>* data() const { return m_values.data(); }
+	inline       ElementWiseFunction<Type>* data()       { return m_values.data(); }
 public:
 	inline bool containsTrial() const { return m_containsTrial; }
 	inline bool containsTest()  const { return m_containsTest; }
@@ -111,6 +114,9 @@ public:
 public:
 	inline const CpxElementWiseFunction<Type>& operator[] (const size_t e) const { return m_values[e]; }
 	inline       CpxElementWiseFunction<Type>& operator[] (const size_t e)       { return m_values[e]; }
+	
+	inline const CpxElementWiseFunction<Type>* data() const { return m_values.data(); }
+	inline       CpxElementWiseFunction<Type>* data()       { return m_values.data(); }
 public:
 	inline bool containsTrial() const { return m_containsTrial; }
 	inline bool containsTest()  const { return m_containsTest; }

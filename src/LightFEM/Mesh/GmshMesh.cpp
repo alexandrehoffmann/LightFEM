@@ -23,6 +23,7 @@
 
 #include <LightFEM/Mesh/GmshMesh.hpp>
 
+#include <stdexcept>
 #include <string>
 #include <iostream>
 #include <fstream>
@@ -55,8 +56,9 @@ GmshMesh::GmshMesh(const std::string& filename)
 	std::ifstream in(filename);
 	if(!in.is_open())
 	{
-		std::cerr << "can't open " << filename << std::endl;
-		exit(EXIT_FAILURE);
+		//std::cerr << "can't open " << filename << std::endl;
+		//exit(EXIT_FAILURE);
+		throw std::runtime_error("can't open " + filename);
 	}
 	readPhysicalNames(in);
 	readEntities(in);

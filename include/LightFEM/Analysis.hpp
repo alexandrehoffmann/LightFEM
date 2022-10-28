@@ -42,6 +42,7 @@
 #include <LightFEM/Analysis/Forms/LinearForm.hpp>
 #include <LightFEM/Analysis/Forms/VectorLinearForm.hpp>
 #include <LightFEM/Analysis/Forms/BilinearForm.hpp>
+#include <LightFEM/Analysis/Forms/DiagonalBilinearForm.hpp>
 #include <LightFEM/Analysis/Forms/VectorBilinearForm.hpp>
 
 #endif // ANALYSIS_INCLUDE_HPP
