@@ -55,4 +55,14 @@ template<typename T, typename Expr>  constexpr decltype(auto) operator-=(std::co
 template<typename T, typename Expr>  constexpr decltype(auto) operator*=(std::complex<T>& lhs, const CpxScalarExpression<Expr>& rhs) { return lhs *= std::complex<double>(rhs); }
 template<typename T, typename Expr>  constexpr decltype(auto) operator/=(std::complex<T>& lhs, const CpxScalarExpression<Expr>& rhs) { return lhs /= std::complex<double>(rhs); }
 
+template<typename Expr> constexpr decltype(auto) operator+(const CpxScalarExpression<Expr>& lhs, const double rhs) { return std::complex<double>(lhs) + rhs; }
+template<typename Expr> constexpr decltype(auto) operator-(const CpxScalarExpression<Expr>& lhs, const double rhs) { return std::complex<double>(lhs) - rhs; }
+template<typename Expr> constexpr decltype(auto) operator*(const CpxScalarExpression<Expr>& lhs, const double rhs) { return std::complex<double>(lhs) * rhs; }
+template<typename Expr> constexpr decltype(auto) operator/(const CpxScalarExpression<Expr>& lhs, const double rhs) { return std::complex<double>(lhs) / rhs; }
+
+template<typename Expr> constexpr decltype(auto) operator+(const double lhs, const CpxScalarExpression<Expr>& rhs) { return lhs + std::complex<double>(rhs); }
+template<typename Expr> constexpr decltype(auto) operator-(const double lhs, const CpxScalarExpression<Expr>& rhs) { return lhs - std::complex<double>(rhs); }
+template<typename Expr> constexpr decltype(auto) operator*(const double lhs, const CpxScalarExpression<Expr>& rhs) { return lhs * std::complex<double>(rhs); }
+template<typename Expr> constexpr decltype(auto) operator/(const double lhs, const CpxScalarExpression<Expr>& rhs) { return lhs / std::complex<double>(rhs); }
+
 #endif // SCALAR_EXPRESSION_HPP

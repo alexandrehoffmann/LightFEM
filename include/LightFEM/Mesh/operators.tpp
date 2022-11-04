@@ -495,7 +495,7 @@ std::complex< double > integral(const Mesh& mesh, const CpxFunctionExpression<Ex
 {
 	if (expr.getMesh() != &mesh) { return 0.0; }
 
-	double value = 0.0;
+	std::complex< double > value = 0.0;
 	for (size_t e=0;e<mesh.getNElem();++e) { value += integral(*mesh.getElem(e), expr[e]); }
 	return value;
 }
@@ -620,7 +620,7 @@ std::complex< double > integral(const Mesh& mesh, std::string domainName, const 
 
 	const int id = mesh.getDomainId(domainName);
 
-	double value = 0.0;
+	std::complex< double > value = 0.0;
 	for (size_t e=0;e<mesh.getNElem();++e) { if (mesh.getElem(e)->isInDomain(id)) { value += integral(*mesh.getElem(e), expr[e]); } }
 	return value;
 }

@@ -150,7 +150,7 @@ CpxFunction<Type>::CpxFunction(const Mesh* mesh, CpxFunctorType f) :
 
 template<ExprType Type>	template<typename Expr>
 CpxFunction<Type>::CpxFunction(const FunctionExpression< Type, Expr >& expr) :
-	m_values(expr.getBoundaryMesh()->getNElem()),
+	m_values(expr.getMesh()->getNElem()),
 	m_containsTrial(expr.containsTrial()),
 	m_containsTest(expr.containsTest()),
 	m_mesh(expr.getMesh())
@@ -163,7 +163,7 @@ CpxFunction<Type>::CpxFunction(const FunctionExpression< Type, Expr >& expr) :
 
 template<ExprType Type>	template<typename Expr>
 CpxFunction<Type>::CpxFunction(const CpxFunctionExpression< Type, Expr >& expr) :
-	m_values(expr.getBoundaryMesh()->getNElem()),
+	m_values(expr.getMesh()->getNElem()),
 	m_containsTrial(expr.containsTrial()),
 	m_containsTest(expr.containsTest()),
 	m_mesh(expr.getMesh())
