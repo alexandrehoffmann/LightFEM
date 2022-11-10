@@ -88,6 +88,7 @@ void SamplingFunction::init(const Mesh* mesh, const std::vector< NodeWorld >& X,
 			if (isInElem)
 			{
 				elemIdAndNode.push_back(std::make_pair(e, Xi));
+				if (elemIdAndNode.size() == 4) { break; } // in 2D a voxel can't be on more than 2 enements
 			}
 		}
 		if (elemIdAndNode.size() == 0) { throw std::invalid_argument("X[" + std::to_string(i) + "] (" + std::to_string(X[i].x) + ", " + std::to_string(X[i].y) + ") cannot be found on mesh."); }
@@ -131,21 +132,42 @@ CpxSamplingFunction::CpxSamplingFunction(const Mesh* mesh, const std::vector< No
 	init(mesh, X, weights);
 }
 
-void CpxSamplingFunction::init(const Mesh* mesh, const std::vector< NodeWorld >& X, const std::vector< std::complex< double > >& weights)
+//void CpxSamplingFunction::init(const Mesh* mesh, const std::vector< NodeWorld >& X, const std::vector< std::complex< double > >& weights)
+//{
+	//for (size_t i=0;i<X.size();++i)
+	//{
+		//bool elemFound = false;
+		//for (size_t e=0;e<mesh->getNElem();++e)
+		//{
+			//const auto [isInElem, Xi] = mesh->getElem(e)->getXRef(X[i], epsilon);
+			//if (isInElem)
+			//{
+				//m_nodesAndWeightsPerElement[e].push_back( CpxNodeAndWeight(Xi, weights[i]) );
+				//elemFound = true;
+				//break;
+			//}
+		//}
+		//if (not elemFound) { throw std::invalid_argument("X[" + std::to_string(i) + "] (" + std::to_string(X[i].x) + ", " + std::to_string(X[i].y) + ") cannot be found on mesh."); }
+	//}
+//}
+void CpxSamplingFunction::init(const Mesh* mesh, const std::vector< NodeWorld >& X, const std::vector< double >& weights)
 {
 	for (size_t i=0;i<X.size();++i)
 	{
-		bool elemFound = false;
+		std::list< std::pair<size_t, NodeRef> > elemIdAndNode;
 		for (size_t e=0;e<mesh->getNElem();++e)
 		{
 			const auto [isInElem, Xi] = mesh->getElem(e)->getXRef(X[i], epsilon);
 			if (isInElem)
 			{
-				m_nodesAndWeightsPerElement[e].push_back( CpxNodeAndWeight(Xi, weights[i]) );
-				elemFound = true;
-				break;
+				elemIdAndNode.push_back(std::make_pair(e, Xi));
+				if (elemIdAndNode.size() == 4) { break; } // in 2D a voxel can't be on more than 2 enements
 			}
 		}
-		if (not elemFound) { throw std::invalid_argument("X[" + std::to_string(i) + "] (" + std::to_string(X[i].x) + ", " + std::to_string(X[i].y) + ") cannot be found on mesh."); }
+		if (elemIdAndNode.size() == 0) { throw std::invalid_argument("X[" + std::to_string(i) + "] (" + std::to_string(X[i].x) + ", " + std::to_string(X[i].y) + ") cannot be found on mesh."); }
+		for (const auto& [e, Xi] : elemIdAndNode)
+		{
+			m_nodesAndWeightsPerElement[e].push_back( NodeAndWeight(Xi, weights[i]) );
+		}
 	}
 }
