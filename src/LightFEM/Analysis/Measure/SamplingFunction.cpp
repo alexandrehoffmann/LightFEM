@@ -150,7 +150,7 @@ CpxSamplingFunction::CpxSamplingFunction(const Mesh* mesh, const std::vector< No
 		//if (not elemFound) { throw std::invalid_argument("X[" + std::to_string(i) + "] (" + std::to_string(X[i].x) + ", " + std::to_string(X[i].y) + ") cannot be found on mesh."); }
 	//}
 //}
-void CpxSamplingFunction::init(const Mesh* mesh, const std::vector< NodeWorld >& X, const std::vector< double >& weights)
+void CpxSamplingFunction::init(const Mesh* mesh, const std::vector< NodeWorld >& X, const std::vector< std::complex< double > >& weights)
 {
 	for (size_t i=0;i<X.size();++i)
 	{
@@ -167,7 +167,7 @@ void CpxSamplingFunction::init(const Mesh* mesh, const std::vector< NodeWorld >&
 		if (elemIdAndNode.size() == 0) { throw std::invalid_argument("X[" + std::to_string(i) + "] (" + std::to_string(X[i].x) + ", " + std::to_string(X[i].y) + ") cannot be found on mesh."); }
 		for (const auto& [e, Xi] : elemIdAndNode)
 		{
-			m_nodesAndWeightsPerElement[e].push_back( NodeAndWeight(Xi, weights[i]) );
+			m_nodesAndWeightsPerElement[e].push_back( CpxNodeAndWeight(Xi, weights[i]) );
 		}
 	}
 }

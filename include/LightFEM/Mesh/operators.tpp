@@ -67,7 +67,7 @@ void printFunction(const std::string& fname, const CpxFunctionExpression<ExprTyp
 		{
 			for (size_t j=0;j<Element::getNxi();++j)
 			{
-				out << element->getXworld(Element::get_xi(i), Element::get_xi(j)).x << " " << element->getXworld(Element::get_xi(i), Element::get_xi(j)).y << " " << std::real(expr[e][Element::index2d(i,j)]) << " " << std:real(expr[e][Element::index2d(i,j)]) << std::endl;
+				out << element->getXworld(Element::get_xi(i), Element::get_xi(j)).x << " " << element->getXworld(Element::get_xi(i), Element::get_xi(j)).y << " " << std::real(expr[e][Element::index2d(i,j)]) << " " << std::imag(expr[e][Element::index2d(i,j)]) << std::endl;
 			}
 			out << std::endl;
 		}
