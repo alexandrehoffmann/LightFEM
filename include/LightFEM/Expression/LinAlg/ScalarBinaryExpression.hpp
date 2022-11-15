@@ -99,8 +99,6 @@ public:
 	CpxBinaryExpression(LeftExpr&& lhs, RightExpr&& rhs) : m_lhs(std::forward<LeftExpr>(lhs)), m_rhs(std::forward<RightExpr>(rhs)) {}
 public:
 	inline std::complex< double > eval() const { return m_lhs.eval() + m_rhs.eval(); }
-	inline double real() const { return m_lhs.real() + m_rhs.real(); }
-	inline double imag() const { return m_lhs.imag() + m_rhs.imag(); }
 private:
 	typename RefTypeSelector<LeftExpr>::Type  m_lhs;
 	typename RefTypeSelector<RightExpr>::Type m_rhs;
@@ -115,8 +113,6 @@ public:
 	CpxBinaryExpression(LeftExpr&& lhs, RightExpr&& rhs) : m_lhs(std::forward<LeftExpr>(lhs)), m_rhs(std::forward<RightExpr>(rhs)) {}
 public:
 	inline std::complex< double > eval() const { return m_lhs.eval() - m_rhs.eval(); }
-	inline double real() const { return m_lhs.real() - m_rhs.real(); }
-	inline double imag() const { return m_lhs.imag() - m_rhs.imag(); }
 private:
 	typename RefTypeSelector<LeftExpr>::Type  m_lhs;
 	typename RefTypeSelector<RightExpr>::Type m_rhs;
@@ -131,8 +127,6 @@ public:
 	CpxBinaryExpression(LeftExpr&& lhs, RightExpr&& rhs) : m_lhs(std::forward<LeftExpr>(lhs)), m_rhs(std::forward<RightExpr>(rhs)) {}
 public:
 	inline std::complex< double > eval() const { return m_lhs.eval()*m_rhs.eval(); }
-	inline double real() const { return eval().real(); }
-	inline double imag() const { return eval().imag(); }
 private:
 	typename RefTypeSelector<LeftExpr>::Type  m_lhs;
 	typename RefTypeSelector<RightExpr>::Type m_rhs;
@@ -147,8 +141,6 @@ public:
 	CpxBinaryExpression(LeftExpr&& lhs, RightExpr&& rhs) : m_lhs(std::forward<LeftExpr>(lhs)), m_rhs(std::forward<RightExpr>(rhs)) {}
 public:
 	inline std::complex< double > eval() const { return m_lhs.eval() / m_rhs.eval(); }
-	inline double real() const { return eval().real(); }
-	inline double imag() const { return eval().imag(); }
 private:
 	typename RefTypeSelector<LeftExpr>::Type  m_lhs;
 	typename RefTypeSelector<RightExpr>::Type m_rhs;

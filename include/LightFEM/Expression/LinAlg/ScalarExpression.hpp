@@ -44,8 +44,8 @@ public:
 	inline std::complex< double > eval() const { return static_cast<Expr const&>(*this).eval(); }
 	
 	inline operator std::complex< double >() const { return static_cast<Expr const&>(*this).eval(); }
-	inline double real() const { return static_cast<Expr const&>(*this).real(); }
-	inline double imag() const { return static_cast<Expr const&>(*this).imag(); }
+	inline double real() const { return std::real(static_cast<Expr const&>(*this).eval()); }
+	inline double imag() const { return std::imag(static_cast<Expr const&>(*this).eval()); }
 };
 
 ////////////////////////////////////////////////////////////////////////

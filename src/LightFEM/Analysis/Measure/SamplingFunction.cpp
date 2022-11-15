@@ -88,6 +88,7 @@ void SamplingFunction::init(const Mesh* mesh, const std::vector< NodeWorld >& X,
 			if (isInElem)
 			{
 				elemIdAndNode.push_back(std::make_pair(e, Xi));
+				if (abs(Xi.xi1) < 1.0 and abs(Xi.xi2) < 1.0) { break; }
 				if (elemIdAndNode.size() == 4) { break; } // in 2D a voxel can't be on more than 2 enements
 			}
 		}
@@ -161,6 +162,7 @@ void CpxSamplingFunction::init(const Mesh* mesh, const std::vector< NodeWorld >&
 			if (isInElem)
 			{
 				elemIdAndNode.push_back(std::make_pair(e, Xi));
+				if (abs(Xi.xi1) < 1.0 and abs(Xi.xi2) < 1.0) { break; }
 				if (elemIdAndNode.size() == 4) { break; } // in 2D a voxel can't be on more than 2 enements
 			}
 		}

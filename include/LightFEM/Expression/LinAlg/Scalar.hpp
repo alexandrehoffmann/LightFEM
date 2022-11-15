@@ -88,8 +88,6 @@ public:
 	CpxScalar& operator/= (const std::complex< double >& rhs) { m_value /= rhs; return *this; }
 public:
 	inline std::complex< double > eval() const { return m_value; }
-	inline double real() const { return m_value.real(); }
-	inline double imag() const { return m_value.imag(); }
 private:
 	std::complex< double > m_value;
 };

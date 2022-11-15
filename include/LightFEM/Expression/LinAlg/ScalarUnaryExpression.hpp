@@ -171,8 +171,6 @@ public:
 	CpxUnaryExpression(Expr&& expr) : m_expr(std::forward<Expr>(expr)) {}
 public:
 	inline std::complex< double > eval() const { return -m_expr.eval(); }
-	inline double real() const { return -m_expr.real(); }
-	inline double imag() const { return -m_expr.imag(); }
 private:
 	typename RefTypeSelector<Expr>::Type m_expr;
 };
@@ -184,8 +182,6 @@ public:
 	CpxUnaryExpression(Expr&& expr) : m_expr(std::forward<Expr>(expr)) {}
 public:
 	inline std::complex< double > eval() const { return std::conj(m_expr.eval()); }
-	inline double real() const { return  m_expr.real(); }
-	inline double imag() const { return -m_expr.imag(); }
 private:
 	typename RefTypeSelector<Expr>::Type  m_expr;
 };
@@ -197,8 +193,6 @@ public:
 	CpxUnaryExpression(Expr&& expr) : m_expr(std::forward<Expr>(expr)) {}
 public:
 	inline std::complex< double > eval() const { return std::exp(m_expr.eval()); }
-	inline double real() const { return std::real(eval()); }
-	inline double imag() const { return std::imag(eval()); }
 private:
 	typename RefTypeSelector<Expr>::Type  m_expr;
 };
@@ -210,8 +204,6 @@ public:
 	CpxUnaryExpression(Expr&& expr) : m_expr(std::forward<Expr>(expr)) {}
 public:
 	inline std::complex< double > eval() const { return std::log(m_expr.eval()); }
-	inline double real() const { return std::real(eval()); }
-	inline double imag() const { return std::imag(eval()); }
 private:
 	typename RefTypeSelector<Expr>::Type  m_expr;
 };
@@ -223,8 +215,6 @@ public:
 	CpxUnaryExpression(Expr&& expr) : m_expr(std::forward<Expr>(expr)) {}
 public:
 	inline std::complex< double > eval() const { return std::sqrt(m_expr.eval()); }
-	inline double real() const { return std::real(eval()); }
-	inline double imag() const { return std::imag(eval()); }
 private:
 	typename RefTypeSelector<Expr>::Type  m_expr;
 };
@@ -236,8 +226,6 @@ public:
 	CpxUnaryExpression(Expr&& expr) : m_expr(std::forward<Expr>(expr)) {}
 public:
 	inline std::complex< double > eval() const { return std::sin(m_expr.eval()); }
-	inline double real() const { return std::real(eval()); }
-	inline double imag() const { return std::imag(eval()); }
 private:
 	typename RefTypeSelector<Expr>::Type  m_expr;
 };
@@ -249,8 +237,6 @@ public:
 	CpxUnaryExpression(Expr&& expr) : m_expr(std::forward<Expr>(expr)) {}
 public:
 	inline std::complex< double > eval() const { return std::cos(m_expr.eval()); }
-	inline double real() const { return std::real(eval()); }
-	inline double imag() const { return std::imag(eval()); }
 private:
 	typename RefTypeSelector<Expr>::Type  m_expr;
 };
@@ -262,8 +248,6 @@ public:
 	CpxUnaryExpression(Expr&& expr) : m_expr(std::forward<Expr>(expr)) {}
 public:
 	inline std::complex< double > eval() const { return std::tan(m_expr.eval()); }
-	inline double real() const { return std::real(eval()); }
-	inline double imag() const { return std::imag(eval()); }
 private:
 	typename RefTypeSelector<Expr>::Type  m_expr;
 };
@@ -275,8 +259,6 @@ public:
 	CpxUnaryExpression(Expr&& expr) : m_expr(std::forward<Expr>(expr)) {}
 public:
 	inline std::complex< double > eval() const { return std::asin(m_expr.eval()); }
-	inline double real() const { return std::real(eval()); }
-	inline double imag() const { return std::imag(eval()); }
 private:
 	typename RefTypeSelector<Expr>::Type  m_expr;
 };
@@ -288,8 +270,6 @@ public:
 	CpxUnaryExpression(Expr&& expr) : m_expr(std::forward<Expr>(expr)) {}
 public:
 	inline std::complex< double > eval() const { return std::acos(m_expr.eval()); }
-	inline double real() const { return std::real(eval()); }
-	inline double imag() const { return std::imag(eval()); }
 private:
 	typename RefTypeSelector<Expr>::Type  m_expr;
 };
@@ -301,8 +281,6 @@ public:
 	CpxUnaryExpression(Expr&& expr) : m_expr(std::forward<Expr>(expr)) {}
 public:
 	inline std::complex< double > eval() const { return std::atan(m_expr.eval()); }
-	inline double real() const { return std::real(eval()); }
-	inline double imag() const { return std::imag(eval()); }
 private:
 	typename RefTypeSelector<Expr>::Type  m_expr;
 };
