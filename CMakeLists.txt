@@ -29,6 +29,7 @@ set(SRCS
 	#
 	src/LightFEM/Expression/LinAlg/RankFourTensor.cpp
 	src/LightFEM/Expression/LinAlg/RankTwoTensor.cpp
+	src/LightFEM/Expression/LinAlg/Matrix.cpp
 	#
 	src/LightFEM/Analysis/TrialFunction.cpp
 	src/LightFEM/Analysis/TestFunction.cpp

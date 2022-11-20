@@ -34,6 +34,7 @@ class Matrix : public MatrixExpression< Matrix >
 {
 public:
 	Matrix(const size_t nrows = 1, const size_t ncols = 1, const double value = 0.0) : m_nrows(nrows), m_ncols(ncols), m_core(value, nrows*ncols) {}
+	Matrix(std::initializer_list< std::initializer_list< double > > values);
 	template<typename Expr>
 	Matrix(const MatrixExpression< Expr >& expr);
 public:
@@ -61,6 +62,7 @@ class CpxMatrix : public CpxMatrixExpression< CpxMatrix >
 {
 public:
 	CpxMatrix(const size_t nrows = 1, const size_t ncols = 1, std::complex< double > value = 0.0) : m_nrows(nrows), m_ncols(ncols), m_core(value, nrows*ncols) {}
+	CpxMatrix(std::initializer_list< std::initializer_list< std::complex< double > > > values);
 	template<typename Expr>
 	CpxMatrix(const MatrixExpression< Expr >& expr) : m_nrows(expr.getNrows()), m_ncols(expr.getNcols()), m_core(m_nrows*m_ncols) { for (size_t i=0; i<expr.getNrows();++i) { for (size_t j=0; j<expr.getNcols();++j) { m_core[flatIndex(i,j)] =  expr(i,j); } } }
 	template<typename Expr>
