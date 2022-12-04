@@ -2,7 +2,7 @@
 
 Matrix::Matrix(std::initializer_list< std::initializer_list< double > > values) : 
 	m_nrows(values.size()),
-	m_ncols(std::cbegin(values)->size()),
+	m_ncols(std::begin(values)->size()),
 	m_core(m_nrows*m_ncols)
 {
 	size_t i=0;
