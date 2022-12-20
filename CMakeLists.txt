@@ -11,7 +11,7 @@ set(CMAKE_VERBOSE_MAKEFILE 0)
 find_package(OpenMP REQUIRED)
 find_package(PkgConfig REQUIRED)
 
-pkg_check_modules(MPI REQUIRED IMPORTED_TARGET mpi)
+pkg_check_modules(MPI REQUIRED IMPORTED_TARGET mpi-cxx)
 
 add_definitions(-DOMPI_SKIP_MPICXX)
 
