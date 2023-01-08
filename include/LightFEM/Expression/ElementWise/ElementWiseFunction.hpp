@@ -42,7 +42,7 @@ class ElementWiseFunction : public ElementWiseFunctionExpression< Type, ElementW
 public:
 	typedef typename Traits< ElementWiseFunction<Type> >::ValueType ValueType;
 public:
-	ElementWiseFunction(const Element* element = nullptr) : m_values({}), m_containsTrial(false), m_containsTest(false), m_element(element)  {}
+	ElementWiseFunction(const Mesh* mesh = nullptr, const Element* element = nullptr) : m_values({}), m_containsTrial(false), m_containsTest(false), m_mesh(mesh), m_element(element)  {}
 	template<typename Expr>	ElementWiseFunction(const ElementWiseFunctionExpression< Type, Expr >& expr);
 public:
 	template<typename Expr> ElementWiseFunction<Type>& operator=  (const ElementWiseFunctionExpression< Type, Expr >& expr);
@@ -51,6 +51,7 @@ public:
 	template<typename Expr>	ElementWiseFunction<Type>& operator*= (const ElementWiseFunctionExpression< ExprType::SCALAR, Expr >& expr);
 	template<typename Expr>	ElementWiseFunction<Type>& operator/= (const ElementWiseFunctionExpression< ExprType::SCALAR, Expr >& expr);
 public:
+	void setMesh(const Mesh* mesh) { m_mesh = mesh; }
 	void setElement(const Element* element) { m_element = element; }
 public:
 	inline const ValueType& operator[] (const size_t k) const { return m_values[k]; }
@@ -62,11 +63,13 @@ public:
 	inline bool containsTrial() const { return m_containsTrial; }
 	inline bool containsTest()  const { return m_containsTest; }
 public:
+	inline const Mesh*    getMesh()    const { return m_mesh;    }
 	inline const Element* getElement() const { return m_element; }
 private:
 	std::array< ValueType, Element::getNxiNd() > m_values;
 	bool m_containsTrial;
 	bool m_containsTest;
+	const Mesh*    m_mesh;
 	const Element* m_element;
 };
 
@@ -84,7 +87,7 @@ class CpxElementWiseFunction : public CpxElementWiseFunctionExpression< Type, Cp
 public:
 	typedef typename Traits< CpxElementWiseFunction<Type> >::ValueType ValueType;
 public:
-	CpxElementWiseFunction(const Element* element = nullptr) : m_values({}), m_containsTrial(false), m_containsTest(false), m_element(element)  {}
+	CpxElementWiseFunction(const Mesh* mesh = nullptr, const Element* element = nullptr) : m_values({}), m_containsTrial(false), m_containsTest(false), m_mesh(mesh), m_element(element)  {}
 	template<typename Expr>	CpxElementWiseFunction(const ElementWiseFunctionExpression< Type, Expr >& expr);
 	template<typename Expr>	CpxElementWiseFunction(const CpxElementWiseFunctionExpression< Type, Expr >& expr);
 public:
@@ -99,6 +102,7 @@ public:
 	template<typename Expr> CpxElementWiseFunction<Type>& operator/= (const ElementWiseFunctionExpression< ExprType::SCALAR, Expr >& expr);
 	template<typename Expr> CpxElementWiseFunction<Type>& operator/= (const CpxElementWiseFunctionExpression< ExprType::SCALAR, Expr >& expr);
 public:
+	void setMesh(const Mesh* mesh) { m_mesh = mesh; }
 	void setElement(const Element* element) { m_element = element; }
 public:
 	inline const ValueType& operator[] (const size_t k) const { return m_values[k]; }
@@ -110,11 +114,13 @@ public:
 	inline bool containsTrial() const { return m_containsTrial; }
 	inline bool containsTest()  const { return m_containsTest; }
 public:
+	inline const Mesh*    getMesh()    const { return m_mesh;    }
 	inline const Element* getElement() const { return m_element; }
 private:
 	std::array< ValueType, Element::getNxiNd() > m_values;
 	bool m_containsTrial;
 	bool m_containsTest;
+	const Mesh*    m_mesh;
 	const Element* m_element;
 };
 

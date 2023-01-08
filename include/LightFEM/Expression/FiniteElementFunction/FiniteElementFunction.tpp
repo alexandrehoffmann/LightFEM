@@ -101,7 +101,10 @@ FiniteElementFunction<Type>& FiniteElementFunction<Type>::discretize()
 
 	for (size_t e=0;e<getMesh()->getNElem();++e)
 	{
+		m_values[e].setMesh(getMesh()); 
 		m_values[e].setElement(getMesh()->getElem(e));
+		
+		m_grad[e].setMesh(getMesh()); 
 		m_grad[e].setElement(getMesh()->getElem(e));
 
 		const std::vector< typename FSpace<Type>::ValueType >& values = m_fSpace->getDiscBasisFunction(-1);
@@ -141,7 +144,10 @@ FiniteElementFunction<Type>& FiniteElementFunction<Type>::discretize(MPI_Comm co
 
 	for (size_t e=0;e<getMesh()->getNElem();++e)
 	{
+		m_values[e].setMesh(getMesh()); 
 		m_values[e].setElement(getMesh()->getElem(e));
+		
+		m_grad[e].setMesh(getMesh()); 
 		m_grad[e].setElement(getMesh()->getElem(e));
 
 		const std::vector< typename FSpace<Type>::ValueType >& values = m_fSpace->getDiscBasisFunction(-1);
@@ -315,7 +321,10 @@ CpxFiniteElementFunction<Type>& CpxFiniteElementFunction<Type>::discretize()
 
 	for (size_t e=0;e<getMesh()->getNElem();++e)
 	{
+		m_values[e].setMesh(getMesh()); 
 		m_values[e].setElement(getMesh()->getElem(e));
+		
+		m_grad[e].setMesh(getMesh()); 
 		m_grad[e].setElement(getMesh()->getElem(e));
 
 		const std::vector< typename FSpace<Type>::ValueType >& values = m_fSpace->getDiscBasisFunction(-1);
@@ -354,7 +363,10 @@ CpxFiniteElementFunction<Type>& CpxFiniteElementFunction<Type>::discretize(MPI_C
 
 	for (size_t e=0;e<getMesh()->getNElem();++e)
 	{
+		m_values[e].setMesh(getMesh()); 
 		m_values[e].setElement(getMesh()->getElem(e));
+		
+		m_grad[e].setMesh(getMesh()); 
 		m_grad[e].setElement(getMesh()->getElem(e));
 
 		const std::vector< typename FSpace<Type>::ValueType >& values = m_fSpace->getDiscBasisFunction(-1);

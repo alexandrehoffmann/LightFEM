@@ -27,6 +27,7 @@
 
 TestFunction::TestFunction(const FunctionSpace* functionSpace, const Element* element, const int locId) :
 	m_functionSpace(functionSpace),
+	m_mesh(functionSpace->getMesh()),
 	m_elem(element),
 	m_locId(locId),
 	m_discBasisFunction(functionSpace->getDiscBasisFunction(locId))
@@ -35,6 +36,7 @@ TestFunction::TestFunction(const FunctionSpace* functionSpace, const Element* el
 
 TestFunction::TestFunction(const TestFunction& other) :
 	m_functionSpace(other.getFunctionSpace()),
+	m_mesh(other.getMesh()),
 	m_elem(other.getElement()),
 	m_locId(other.getLocId()),
 	m_discBasisFunction(other.m_discBasisFunction)
@@ -45,6 +47,7 @@ TestFunction::TestFunction(const TestFunction& other) :
 
 GradTestFunction::GradTestFunction(const TestFunction& testFunction) : 
 	m_functionSpace(testFunction.getFunctionSpace()),
+	m_mesh(testFunction.getMesh()),
 	m_elem(testFunction.getElement()),
 	m_locId(testFunction.getLocId()),
 	m_discGradXiBasisFunctions(testFunction.getFunctionSpace()->getDiscGradXiBasisFunction(testFunction.getLocId()))

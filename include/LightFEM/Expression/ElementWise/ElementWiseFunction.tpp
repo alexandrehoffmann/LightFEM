@@ -31,6 +31,7 @@ ElementWiseFunction<Type>::ElementWiseFunction(const ElementWiseFunctionExpressi
 	m_values(Element::getNxiNd()), 
 	m_containsTrial(expr.containsTrial()), 
 	m_containsTest(expr.containsTest()), 
+	m_mesh(expr.getMesh()),
 	m_element(expr.getElement())
 {
 	for (size_t k=0;k<Element::getNxiNd();++k)
@@ -44,6 +45,7 @@ ElementWiseFunction<Type>& ElementWiseFunction<Type>::operator=  (const ElementW
 {
 	m_containsTrial = expr.containsTrial();
 	m_containsTest = expr.containsTest();
+	m_mesh = expr.getMesh();
 	m_element = expr.getElement();
 	
 	for (size_t k=0;k<Element::getNxiNd();++k)
@@ -56,7 +58,9 @@ ElementWiseFunction<Type>& ElementWiseFunction<Type>::operator=  (const ElementW
 template<ExprType Type>	template<typename Expr>
 ElementWiseFunction<Type>& ElementWiseFunction<Type>::operator+= (const ElementWiseFunctionExpression< Type, Expr >& expr)
 {
+	if (   m_mesh != expr.getMesh())    { throw std::invalid_argument("Both functions must be defined on the same mesh.");    }
 	if (m_element != expr.getElement()) { throw std::invalid_argument("Both functions must be defined on the same element."); }
+	
 	m_containsTrial = m_containsTrial and expr.containsTrial();
 	m_containsTest = m_containsTest and expr.containsTest();
 
@@ -70,7 +74,9 @@ ElementWiseFunction<Type>& ElementWiseFunction<Type>::operator+= (const ElementW
 template<ExprType Type>	template<typename Expr> 
 ElementWiseFunction<Type>& ElementWiseFunction<Type>::operator-= (const ElementWiseFunctionExpression< Type, Expr >& expr)
 {
+	if (   m_mesh != expr.getMesh())    { throw std::invalid_argument("Both functions must be defined on the same mesh.");    }
 	if (m_element != expr.getElement()) { throw std::invalid_argument("Both functions must be defined on the same element."); }
+	
 	m_containsTrial = m_containsTrial and expr.containsTrial();
 	m_containsTest = m_containsTest and expr.containsTest();
 
@@ -84,7 +90,9 @@ ElementWiseFunction<Type>& ElementWiseFunction<Type>::operator-= (const ElementW
 template<ExprType Type>	template<typename Expr>
 ElementWiseFunction<Type>& ElementWiseFunction<Type>::operator*= (const ElementWiseFunctionExpression< ExprType::SCALAR, Expr >& expr)
 {
+	if (   m_mesh != expr.getMesh())    { throw std::invalid_argument("Both functions must be defined on the same mesh.");    }
 	if (m_element != expr.getElement()) { throw std::invalid_argument("Both functions must be defined on the same element."); }
+
 	m_containsTrial = m_containsTrial and expr.containsTrial();
 	m_containsTest = m_containsTest and expr.containsTest();
 
@@ -98,7 +106,9 @@ ElementWiseFunction<Type>& ElementWiseFunction<Type>::operator*= (const ElementW
 template<ExprType Type>	template<typename Expr>
 ElementWiseFunction<Type>& ElementWiseFunction<Type>::operator/= (const ElementWiseFunctionExpression< ExprType::SCALAR, Expr >& expr)
 {
+	if (   m_mesh != expr.getMesh())    { throw std::invalid_argument("Both functions must be defined on the same mesh.");    }
 	if (m_element != expr.getElement()) { throw std::invalid_argument("Both functions must be defined on the same element."); }
+
 	m_containsTrial = m_containsTrial and expr.containsTrial();
 	m_containsTest = m_containsTest and expr.containsTest();
 
@@ -116,6 +126,7 @@ CpxElementWiseFunction<Type>::CpxElementWiseFunction(const ElementWiseFunctionEx
 	m_values(Element::getNxiNd()),
 	m_containsTrial(expr.containsTrial()),
 	m_containsTest(expr.containsTest()),
+	m_mesh(expr.getMesh()),
 	m_element(expr.getElement())
 {
 	for (size_t k=0;k<Element::getNxiNd();++k)
@@ -129,6 +140,7 @@ CpxElementWiseFunction<Type>::CpxElementWiseFunction(const CpxElementWiseFunctio
 	m_values(Element::getNxiNd()),
 	m_containsTrial(expr.containsTrial()),
 	m_containsTest(expr.containsTest()),
+	m_mesh(expr.getMesh()),
 	m_element(expr.getElement())
 {
 	for (size_t k=0;k<Element::getNxiNd();++k)
@@ -142,6 +154,7 @@ CpxElementWiseFunction<Type>& CpxElementWiseFunction<Type>::operator=  (const El
 {
 	m_containsTrial = expr.containsTrial();
 	m_containsTest = expr.containsTest();
+	m_mesh = expr.getMesh();
 	m_element = expr.getElement();
 
 	for (size_t k=0;k<Element::getNxiNd();++k)
@@ -156,6 +169,7 @@ CpxElementWiseFunction<Type>& CpxElementWiseFunction<Type>::operator=  (const Cp
 {
 	m_containsTrial = expr.containsTrial();
 	m_containsTest = expr.containsTest();
+	m_mesh = expr.getMesh();
 	m_element = expr.getElement();
 
 	for (size_t k=0;k<Element::getNxiNd();++k)
@@ -168,7 +182,9 @@ CpxElementWiseFunction<Type>& CpxElementWiseFunction<Type>::operator=  (const Cp
 template<ExprType Type>	template<typename Expr>
 CpxElementWiseFunction<Type>& CpxElementWiseFunction<Type>::operator+= (const ElementWiseFunctionExpression< Type, Expr >& expr)
 {
+	if (   m_mesh != expr.getMesh())    { throw std::invalid_argument("Both functions must be defined on the same mesh.");    }
 	if (m_element != expr.getElement()) { throw std::invalid_argument("Both functions must be defined on the same element."); }
+
 	m_containsTrial = m_containsTrial and expr.containsTrial();
 	m_containsTest = m_containsTest and expr.containsTest();
 
@@ -182,7 +198,9 @@ CpxElementWiseFunction<Type>& CpxElementWiseFunction<Type>::operator+= (const El
 template<ExprType Type>	template<typename Expr>
 CpxElementWiseFunction<Type>& CpxElementWiseFunction<Type>::operator+= (const CpxElementWiseFunctionExpression< Type, Expr >& expr)
 {
+	if (   m_mesh != expr.getMesh())    { throw std::invalid_argument("Both functions must be defined on the same mesh.");    }
 	if (m_element != expr.getElement()) { throw std::invalid_argument("Both functions must be defined on the same element."); }
+
 	m_containsTrial = m_containsTrial and expr.containsTrial();
 	m_containsTest = m_containsTest and expr.containsTest();
 
@@ -196,7 +214,9 @@ CpxElementWiseFunction<Type>& CpxElementWiseFunction<Type>::operator+= (const Cp
 template<ExprType Type>	template<typename Expr>
 CpxElementWiseFunction<Type>& CpxElementWiseFunction<Type>::operator-= (const ElementWiseFunctionExpression< Type, Expr >& expr)
 {
+	if (   m_mesh != expr.getMesh())    { throw std::invalid_argument("Both functions must be defined on the same mesh.");    }
 	if (m_element != expr.getElement()) { throw std::invalid_argument("Both functions must be defined on the same element."); }
+
 	m_containsTrial = m_containsTrial and expr.containsTrial();
 	m_containsTest = m_containsTest and expr.containsTest();
 
@@ -211,7 +231,9 @@ CpxElementWiseFunction<Type>& CpxElementWiseFunction<Type>::operator-= (const El
 template<ExprType Type>	template<typename Expr>
 CpxElementWiseFunction<Type>& CpxElementWiseFunction<Type>::operator-= (const CpxElementWiseFunctionExpression< Type, Expr >& expr)
 {
+	if (   m_mesh != expr.getMesh())    { throw std::invalid_argument("Both functions must be defined on the same mesh.");    }
 	if (m_element != expr.getElement()) { throw std::invalid_argument("Both functions must be defined on the same element."); }
+
 	m_containsTrial = m_containsTrial and expr.containsTrial();
 	m_containsTest = m_containsTest and expr.containsTest();
 
@@ -225,7 +247,9 @@ CpxElementWiseFunction<Type>& CpxElementWiseFunction<Type>::operator-= (const Cp
 template<ExprType Type>	template<typename Expr>
 CpxElementWiseFunction<Type>& CpxElementWiseFunction<Type>::operator*= (const ElementWiseFunctionExpression< ExprType::SCALAR, Expr >& expr)
 {
+	if (   m_mesh != expr.getMesh())    { throw std::invalid_argument("Both functions must be defined on the same mesh.");    }
 	if (m_element != expr.getElement()) { throw std::invalid_argument("Both functions must be defined on the same element."); }
+
 	m_containsTrial = m_containsTrial and expr.containsTrial();
 	m_containsTest = m_containsTest and expr.containsTest();
 
@@ -239,7 +263,9 @@ CpxElementWiseFunction<Type>& CpxElementWiseFunction<Type>::operator*= (const El
 template<ExprType Type>	template<typename Expr>
 CpxElementWiseFunction<Type>& CpxElementWiseFunction<Type>::operator*= (const CpxElementWiseFunctionExpression< ExprType::SCALAR, Expr >& expr)
 {
+	if (   m_mesh != expr.getMesh())    { throw std::invalid_argument("Both functions must be defined on the same mesh.");    }
 	if (m_element != expr.getElement()) { throw std::invalid_argument("Both functions must be defined on the same element."); }
+
 	m_containsTrial = m_containsTrial and expr.containsTrial();
 	m_containsTest = m_containsTest and expr.containsTest();
 
@@ -253,7 +279,9 @@ CpxElementWiseFunction<Type>& CpxElementWiseFunction<Type>::operator*= (const Cp
 template<ExprType Type>	template<typename Expr>
 CpxElementWiseFunction<Type>& CpxElementWiseFunction<Type>::operator/= (const ElementWiseFunctionExpression< ExprType::SCALAR, Expr >& expr)
 {
+	if (   m_mesh != expr.getMesh())    { throw std::invalid_argument("Both functions must be defined on the same mesh.");    }
 	if (m_element != expr.getElement()) { throw std::invalid_argument("Both functions must be defined on the same element."); }
+
 	m_containsTrial = m_containsTrial and expr.containsTrial();
 	m_containsTest = m_containsTest and expr.containsTest();
 
@@ -267,7 +295,9 @@ CpxElementWiseFunction<Type>& CpxElementWiseFunction<Type>::operator/= (const El
 template<ExprType Type>	template<typename Expr>
 CpxElementWiseFunction<Type>& CpxElementWiseFunction<Type>::operator/= (const CpxElementWiseFunctionExpression< ExprType::SCALAR, Expr >& expr)
 {
+	if (   m_mesh != expr.getMesh())    { throw std::invalid_argument("Both functions must be defined on the same mesh.");    }
 	if (m_element != expr.getElement()) { throw std::invalid_argument("Both functions must be defined on the same element."); }
+
 	m_containsTrial = m_containsTrial and expr.containsTrial();
 	m_containsTest = m_containsTest and expr.containsTest();
 

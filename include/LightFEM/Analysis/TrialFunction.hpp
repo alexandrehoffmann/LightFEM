@@ -56,10 +56,12 @@ public:
 	inline bool containsTest()  const { return false; }
 
 	inline const FunctionSpace* getFunctionSpace() const { return m_functionSpace; }
+	inline const Mesh*          getMesh()          const { return m_mesh; }
 	inline const Element*       getElement()       const { return m_elem; }
 	inline       int            getLocId()         const { return m_locId; }
 private:
 	const FunctionSpace* m_functionSpace;
+	const Mesh*          m_mesh;
 	const Element*       m_elem;
 	const int            m_locId;
 
@@ -81,10 +83,12 @@ public:
 	inline bool containsTest()  const { return false; }
 
 	inline const FunctionSpace* getFunctionSpace() const { return m_functionSpace; }
+	inline const Mesh*          getMesh()          const { return m_mesh; }
 	inline const Element*       getElement()       const { return m_elem; }
 	inline       int            getLocId()         const { return m_locId; }
 private:
 	const FunctionSpace* m_functionSpace;
+	const Mesh*          m_mesh;
 	const Element*       m_elem;
 	const int            m_locId;
 

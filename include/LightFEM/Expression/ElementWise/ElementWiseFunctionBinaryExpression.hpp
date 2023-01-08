@@ -36,13 +36,16 @@ public:
 	typedef typename Traits< ElementWiseFunctionBinaryExpression<Op, LeftType, LeftExpr, RightType, RightExpr > >::ReturnType ReturnType;
 public:
 	ElementWiseFunctionBinaryExpression(LeftExpr&& lhs, RightExpr&& rhs) : m_lhs(std::forward<LeftExpr>(lhs)), m_rhs(std::forward<RightExpr>(rhs)) {
-		if (m_lhs.getElement() != m_rhs.getElement()) { throw std::invalid_argument("lhs and rhs must be defined on the same element."); } }
+		if (   m_lhs.getMesh() != m_rhs.getMesh())    { throw std::invalid_argument("lhs and rhs must be defined on the same mesh."); } 
+		if (m_lhs.getElement() != m_rhs.getElement()) { throw std::invalid_argument("lhs and rhs must be defined on the same element."); } 
+	}
 public:
 	inline ReturnType operator[] (const size_t k) const { return ReturnType(m_lhs[k], m_rhs[k]); }
 public:
 	inline bool containsTrial() const { return m_lhs.containsTrial() or m_rhs.containsTrial(); }
 	inline bool containsTest()  const { return m_lhs.containsTest() or m_rhs.containsTest(); }
 public:
+	inline const Mesh*    getMesh()    const { return m_lhs.getMesh();    }
 	inline const Element* getElement() const { return m_lhs.getElement(); }
 private:
 	typename RefTypeSelector<LeftExpr>::Type  m_lhs;
@@ -65,6 +68,7 @@ public:
 	inline bool containsTrial() const { return m_lhs.containsTrial() or m_rhs.containsTrial(); }
 	inline bool containsTest()  const { return m_lhs.containsTest() or m_rhs.containsTest(); }
 public:
+	inline const Mesh*    getMesh()    const { return m_lhs.getMesh();    }
 	inline const Element* getElement() const { return m_lhs.getElement(); }
 private:
 	typename RefTypeSelector<LeftExpr>::Type  m_lhs;

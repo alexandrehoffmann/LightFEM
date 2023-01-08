@@ -484,10 +484,9 @@ double integral(const Mesh& mesh, const FunctionExpression<ExprType::SCALAR, Exp
 template<typename Expr>
 double integral(const Mesh& mesh, const ElementWiseFunctionExpression<ExprType::SCALAR, Expr>& expr)
 {
-	const size_t e = mesh.getElemId(expr.getElement());
-	if (e == mesh.getNElem()) { return 0.0; } // expr not defined on mesh
-
-	return integral(*mesh.getElem(e), expr);
+	if (expr.getMesh() != &mesh) { return 0.0; }
+	
+	return integral(*expr.getElement(), expr);
 }
 
 template<typename Expr>
@@ -503,10 +502,9 @@ std::complex< double > integral(const Mesh& mesh, const CpxFunctionExpression<Ex
 template<typename Expr>
 std::complex< double > integral(const Mesh& mesh, const CpxElementWiseFunctionExpression<ExprType::SCALAR, Expr>& expr)
 {
-	const size_t e = mesh.getElemId(expr.getElement());
-	if (e == mesh.getNElem()) { return 0.0; } // expr not defined on mesh
-
-	return integral(*mesh.getElem(e), expr);
+	if (expr.getMesh() != &mesh) { return 0.0; }
+	
+	return integral(*expr.getElement(), expr);
 }
 
 template<typename Expr>
@@ -522,10 +520,10 @@ double integral(const Mesh& mesh, const FunctionExpression<ExprType::SCALAR, Exp
 template<typename Expr>
 double integral(const Mesh& mesh, const ElementWiseFunctionExpression<ExprType::SCALAR, Expr>& expr, const Measure& measure)
 {
+	if (expr.getMesh() != &mesh) { return 0.0; }
 	const size_t e = mesh.getElemId(expr.getElement());
-	if (e == mesh.getNElem()) { return 0.0; } // expr not defined on mesh
-
-	return integral(*mesh.getElem(e), expr, measure.getNodesAndWeights(e));
+	
+	return integral(*expr.getElement(), expr, measure.getNodesAndWeights(e));
 }
 
 template<typename Expr>
@@ -541,10 +539,11 @@ std::complex< double > integral(const Mesh& mesh, const FunctionExpression<ExprT
 template<typename Expr>
 std::complex< double > integral(const Mesh& mesh, const ElementWiseFunctionExpression<ExprType::SCALAR, Expr>& expr, const CpxMeasure& measure)
 {
-	const size_t e = mesh.getElemId(expr.getElement());
-	if (e == mesh.getNElem()) { return 0.0; } // expr not defined on mesh
+	if (expr.getMesh() != &mesh) { return 0.0; }
 
-	return integral(*mesh.getElem(e), expr, measure.getNodesAndWeights(e));
+	const size_t e = mesh.getElemId(expr.getElement());
+	
+	return integral(*expr.getElement(), expr, measure.getNodesAndWeights(e));
 }
 
 template<typename Expr>
@@ -560,10 +559,11 @@ std::complex< double > integral(const Mesh& mesh, const CpxFunctionExpression<Ex
 template<typename Expr>
 std::complex< double > integral(const Mesh& mesh, const CpxElementWiseFunctionExpression<ExprType::SCALAR, Expr>& expr, const Measure& measure)
 {
-	const size_t e = mesh.getElemId(expr.getElement());
-	if (e == mesh.getNElem()) { return 0.0; } // expr not defined on mesh
+	if (expr.getMesh() != &mesh) { return 0.0; }
 
-	return integral(*mesh.getElem(e), expr, measure.getNodesAndWeights(e));
+	const size_t e = mesh.getElemId(expr.getElement());
+
+	return integral(*expr.getElement(), expr, measure.getNodesAndWeights(e));
 }
 
 template<typename Expr>
@@ -579,10 +579,11 @@ std::complex< double > integral(const Mesh& mesh, const CpxFunctionExpression<Ex
 template<typename Expr>
 std::complex< double > integral(const Mesh& mesh, const CpxElementWiseFunctionExpression<ExprType::SCALAR, Expr>& expr, const CpxMeasure& measure)
 {
-	const size_t e = mesh.getElemId(expr.getElement());
-	if (e == mesh.getNElem()) { return 0.0; } // expr not defined on mesh
+	if (expr.getMesh() != &mesh) { return 0.0; }
 
-	return integral(*mesh.getElem(e), expr, measure.getNodesAndWeights(e));
+	const size_t e = mesh.getElemId(expr.getElement());
+
+	return integral(*expr.getElement(), expr, measure.getNodesAndWeights(e));
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -604,12 +605,14 @@ double integral(const Mesh& mesh, std::string domainName, const FunctionExpressi
 template<typename Expr>
 double integral(const Mesh& mesh, std::string domainName, const ElementWiseFunctionExpression<ExprType::SCALAR, Expr>& expr)
 {
-	const size_t e = mesh.getElemId(expr.getElement());
-	if (e == mesh.getNElem()) { return 0.0; } // expr not defined on mesh
-
 	const int id = mesh.getDomainId(domainName);
-
-	if (mesh.getElem(e)->isInDomain(id)) { return integral(*mesh.getElem(e), expr); }
+	
+	if (expr.getMesh() != &mesh) { return 0.0; }
+	if (expr.getElement()->isInDomain(id)) 
+	{ 
+		const size_t e = mesh.getElemId(expr.getElement()); 
+		return integral(*expr.getElement(), expr); 
+	}
 	return 0.0;
 }
 
@@ -628,12 +631,10 @@ std::complex< double > integral(const Mesh& mesh, std::string domainName, const 
 template<typename Expr>
 std::complex< double > integral(const Mesh& mesh, std::string domainName, const CpxElementWiseFunctionExpression<ExprType::SCALAR, Expr>& expr)
 {
-	const size_t e = mesh.getElemId(expr.getElement());
-	if (e == mesh.getNElem()) { return 0.0; } // expr not defined on mesh
-
 	const int id = mesh.getDomainId(domainName);
-
-	if (mesh.getElem(e)->isInDomain(id)) { return integral(*mesh.getElem(e), expr); }
+	
+	if (expr.getMesh() != &mesh) { return 0.0; }
+	if (expr.getElement()->isInDomain(id)) { return integral(*expr.getElement(), expr); }
 	return 0.0;
 }
 
@@ -652,12 +653,14 @@ double integral(const Mesh& mesh, std::string domainName, const FunctionExpressi
 template<typename Expr>
 double integral(const Mesh& mesh, std::string domainName, const ElementWiseFunctionExpression<ExprType::SCALAR, Expr>& expr, const Measure& measure)
 {
-	const size_t e = mesh.getElemId(expr.getElement());
-	if (e == mesh.getNElem()) { return 0.0; } // expr not defined on mesh
-
 	const int id = mesh.getDomainId(domainName);
-
-	if (mesh.getElem(e)->isInDomain(id)) { return integral(*mesh.getElem(e), expr, measure.getNodesAndWeights(e)); }
+	
+	if (expr.getMesh() != &mesh) { return 0.0; }
+	if (expr.getElement()->isInDomain(id)) 
+	{ 
+		const size_t e = mesh.getElemId(expr.getElement());
+		return integral(*expr.getElement(), expr, measure.getNodesAndWeights(e)); 
+	}
 	return 0.0;
 }
 
@@ -676,12 +679,14 @@ std::complex< double > integral(const Mesh& mesh, std::string domainName, const 
 template<typename Expr>
 std::complex< double > integral(const Mesh& mesh, std::string domainName, const ElementWiseFunctionExpression<ExprType::SCALAR, Expr>& expr, const CpxMeasure& measure)
 {
-	const size_t e = mesh.getElemId(expr.getElement());
-	if (e == mesh.getNElem()) { return 0.0; } // expr not defined on mesh
-
 	const int id = mesh.getDomainId(domainName);
-
-	if (mesh.getElem(e)->isInDomain(id)) { return integral(*mesh.getElem(e), expr, measure.getNodesAndWeights(e)); }
+	
+	if (expr.getMesh() != &mesh) { return 0.0; }
+	if (expr.getElement()->isInDomain(id)) 
+	{ 
+		const size_t e = mesh.getElemId(expr.getElement());
+		return integral(*expr.getElement(), expr, measure.getNodesAndWeights(e)); 
+	}
 	return 0.0;
 }
 
@@ -700,12 +705,14 @@ std::complex< double > integral(const Mesh& mesh, std::string domainName, const 
 template<typename Expr>
 std::complex< double > integral(const Mesh& mesh, std::string domainName, const CpxElementWiseFunctionExpression<ExprType::SCALAR, Expr>& expr, const Measure& measure)
 {
-	const size_t e = mesh.getElemId(expr.getElement());
-	if (e == mesh.getNElem()) { return 0.0; } // expr not defined on mesh
-
 	const int id = mesh.getDomainId(domainName);
-
-	if (mesh.getElem(e)->isInDomain(id)) { return integral(*mesh.getElem(e), expr, measure.getNodesAndWeights(e)); }
+	
+	if (expr.getMesh() != &mesh) { return 0.0; }
+	if (expr.getElement()->isInDomain(id)) 
+	{ 
+		const size_t e = mesh.getElemId(expr.getElement());
+		return integral(*expr.getElement(), expr, measure.getNodesAndWeights(e)); 
+	}
 	return 0.0;
 }
 
@@ -724,12 +731,15 @@ std::complex< double > integral(const Mesh& mesh, std::string domainName, const 
 template<typename Expr>
 std::complex< double > integral(const Mesh& mesh, std::string domainName, const CpxElementWiseFunctionExpression<ExprType::SCALAR, Expr>& expr, const CpxMeasure& measure)
 {
-	const size_t e = mesh.getElemId(expr.getElement());
-	if (e == mesh.getNElem()) { return 0.0; } // expr not defined on mesh
-
 	const int id = mesh.getDomainId(domainName);
-
-	if (mesh.getElem(e)->isInDomain(id)) {return integral(*mesh.getElem(e), expr, measure.getNodesAndWeights(e)); }
+	
+	if (expr.getMesh() != &mesh) { return 0.0; }
+	if (expr.getElement()->isInDomain(id)) 
+	{ 
+		const size_t e = mesh.getElemId(expr.getElement());
+		
+		return integral(*expr.getElement(), expr, measure.getNodesAndWeights(e)); 
+	}
 	return 0.0;
 }
 

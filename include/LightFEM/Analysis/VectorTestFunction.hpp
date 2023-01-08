@@ -56,10 +56,12 @@ public:
 	inline bool containsTest()  const { return true; }
 
 	inline const VectorFunctionSpace* getFunctionSpace() const { return m_functionSpace; }
+	inline const Mesh*                getMesh()          const { return m_mesh; }
 	inline const Element*             getElement()       const { return m_elem; }
 	inline       int                  getLocId()         const { return m_locId; }
 private:
 	const VectorFunctionSpace* m_functionSpace;
+	const Mesh*                m_mesh;
 	const Element*             m_elem;
 	const int                  m_locId;
 
@@ -81,10 +83,12 @@ public:
 	inline bool containsTest()  const { return true; }
 
 	inline const VectorFunctionSpace* getFunctionSpace() const { return m_functionSpace; }
+	inline const Mesh*                getMesh()          const { return m_mesh; }
 	inline const Element*             getElement()       const { return m_elem; }
 	inline       int                  getLocId()         const { return m_locId; }
 private:
 	const VectorFunctionSpace* m_functionSpace;
+	const Mesh*                m_mesh;
 	const Element*             m_elem;
 	const int                  m_locId;
 

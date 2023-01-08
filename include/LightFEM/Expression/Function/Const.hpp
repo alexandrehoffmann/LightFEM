@@ -35,7 +35,7 @@ public:
 public:
 	Const(const Mesh* mesh, const double value) : m_value(value), m_mesh(mesh) {}
 public:
-	inline ReturnType operator[] (const size_t e) const { return ReturnType(m_mesh->getElem(e), m_value); }
+	inline ReturnType operator[] (const size_t e) const { return ReturnType(m_mesh, m_mesh->getElem(e), m_value); }
 
 	inline const Scalar& getValue() const { return m_value; }
 public:
@@ -57,7 +57,7 @@ public:
 public:
 	CpxConst(const Mesh* mesh, const std::complex< double > value) : m_value(value), m_mesh(mesh) {}
 public:
-	inline ReturnType operator[] (const size_t e) const { return ReturnType(m_mesh->getElem(e), m_value); }
+	inline ReturnType operator[] (const size_t e) const { return ReturnType(m_mesh, m_mesh->getElem(e), m_value); }
 
 	inline const CpxScalar& getValue() const { return m_value; }
 public:

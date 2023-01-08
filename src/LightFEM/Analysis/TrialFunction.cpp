@@ -27,6 +27,7 @@
 
 TrialFunction::TrialFunction(const FunctionSpace* functionSpace, const Element* element, const int locId) :
 	m_functionSpace(functionSpace),
+	m_mesh(functionSpace->getMesh()),
 	m_elem(element),
 	m_locId(locId),
 	m_discBasisFunction(functionSpace->getDiscBasisFunction(locId))
@@ -35,6 +36,7 @@ TrialFunction::TrialFunction(const FunctionSpace* functionSpace, const Element* 
 
 TrialFunction::TrialFunction(const TrialFunction& other) :
 	m_functionSpace(other.getFunctionSpace()),
+	m_mesh(other.getMesh()),
 	m_elem(other.getElement()),
 	m_locId(other.getLocId()),
 	m_discBasisFunction(other.m_discBasisFunction)
@@ -45,6 +47,7 @@ TrialFunction::TrialFunction(const TrialFunction& other) :
 
 GradTrialFunction::GradTrialFunction(const TrialFunction& trialFunction) :
 	m_functionSpace(trialFunction.getFunctionSpace()),
+	m_mesh(trialFunction.getMesh()),
 	m_elem(trialFunction.getElement()),
 	m_locId(trialFunction.getLocId()),
 	m_discGradXiBasisFunctions(trialFunction.getFunctionSpace()->getDiscGradXiBasisFunction(trialFunction.getLocId()))

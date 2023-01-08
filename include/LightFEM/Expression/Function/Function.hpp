@@ -42,10 +42,10 @@ template<ExprType Type>
 class Function : public FunctionExpression< Type, Function<Type> >
 {
 public:
-	typedef typename Functor<Type>::type FunctorType;
+	typedef typename Functor<Type>::type                  FunctorType;
 	typedef typename Traits< Function<Type> >::ReturnType ReturnType;
 public:
-	Function(const Mesh* mesh) : m_values(mesh->getNElem()), m_containsTrial(false), m_containsTest(false), m_mesh(mesh) { for (size_t e=0;e<m_mesh->getNElem();++e) { m_values[e].setElement(m_mesh->getElem(e)); } }
+	Function(const Mesh* mesh);
 	Function(const Mesh* mesh, FunctorType f);
 	template<typename Expr>	Function(const FunctionExpression< Type, Expr >& expr);
 public:
@@ -93,11 +93,12 @@ template<ExprType Type>
 class CpxFunction : public CpxFunctionExpression< Type, CpxFunction<Type> >
 {
 public:
-	typedef typename CpxFunctor<Type>::type CpxFunctorType;
+	typedef typename CpxFunctor<Type>::type                  CpxFunctorType;
 	typedef typename Traits< CpxFunction<Type> >::ReturnType ReturnType;
 public:
-	CpxFunction(const Mesh* mesh) : m_values(mesh->getNElem()), m_containsTrial(false), m_containsTest(false), m_mesh(mesh) { for (size_t e=0;e<m_mesh->getNElem();++e) { m_values[e].setElement(m_mesh->getElem(e)); } }
+	CpxFunction(const Mesh* mesh);
 	CpxFunction(const Mesh* mesh, CpxFunctorType f);
+	
 	template<typename Expr>	CpxFunction(const FunctionExpression< Type, Expr >& expr);
 	template<typename Expr>	CpxFunction(const CpxFunctionExpression< Type, Expr >& expr);
 public:

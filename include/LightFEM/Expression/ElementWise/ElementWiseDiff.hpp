@@ -45,6 +45,7 @@ public:
 	inline bool containsTrial() const { return m_grad.containsTrial(); }
 	inline bool containsTest()  const { return m_grad.containsTest(); }
 
+	inline const Mesh*    getMesh()    const { return m_grad.getMesh();    }
 	inline const Element* getElement() const { return m_grad.getElement(); }
 private:
 	typename RefTypeSelector<Expr>::Type  m_grad;
@@ -66,6 +67,7 @@ public:
 	inline bool containsTrial() const { return m_grad.containsTrial(); }
 	inline bool containsTest()  const { return m_grad.containsTest(); }
 
+	inline const Mesh*    getMesh()    const { return m_grad.getMesh();    }
 	inline const Element* getElement() const { return m_grad.getElement(); }
 private:
 	typename RefTypeSelector<Expr>::Type  m_grad;
@@ -94,6 +96,7 @@ public:
 	inline bool containsTrial() const { return m_grad.containsTrial(); }
 	inline bool containsTest()  const { return m_grad.containsTest(); }
 
+	inline const Mesh*    getMesh()    const { return m_grad.getMesh();    }
 	inline const Element* getElement() const { return m_grad.getElement(); }
 private:
 	typename RefTypeSelector<Expr>::Type  m_grad;
@@ -115,6 +118,7 @@ public:
 	inline bool containsTrial() const { return m_grad.containsTrial(); }
 	inline bool containsTest()  const { return m_grad.containsTest(); }
 
+	inline const Mesh*    getMesh()    const { return m_grad.getMesh();    }
 	inline const Element* getElement() const { return m_grad.getElement(); }
 private:
 	typename RefTypeSelector<Expr>::Type  m_grad;

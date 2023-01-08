@@ -26,62 +26,6 @@
 #include <LightFEM/Analysis/FunctionSpace/FunctionSpace.hpp>
 #include <LightFEM/Mesh/Mesh.hpp>
 
-
-DiagonalBilinearForm::DiagonalBilinearForm(const FunctionSpace *Vh, const std::function<double(const TrialFunction&, const TestFunction&)> &form) :
-	m_Vh(Vh),
-	m_coefs(Vh->getNBasisFunction(), 0.0)
-{
-	#pragma omp parallel
-	{
-		std::vector< double > private_coefs(Vh->getNBasisFunction(), 0.0);
-		#pragma omp for
-		for (size_t e=0;e<m_Vh->getMesh()->getNElem();++e)
-		{
-			for (size_t id=0;id<m_Vh->getNBasisFunctionPerElement();++id)
-			{
-				private_coefs[m_Vh->getGlobalId(e, id)] += form(m_Vh->getTrialFunction(e, id), m_Vh->getTestFunction(e, id));
-			}
-		}
-		#pragma omp critical
-		{
-			for (size_t globId=0;globId<m_coefs.size();++globId)
-			{
-				m_coefs[globId] += private_coefs[globId];
-			}
-		}
-	}
-}
-
-DiagonalBilinearForm::DiagonalBilinearForm(const FunctionSpace *Vh, const std::function<double(const TrialFunction&, const TestFunction&)> &form, MPI_Comm com) : 
-	m_Vh(Vh),
-	m_coefs(Vh->getNBasisFunction(), 0.0)
-{
-	std::vector< double > local_coefs(Vh->getNBasisFunction(), 0.0);
-	
-	#pragma omp parallel
-	{
-		MpiRange range(com, m_Vh->getMesh()->getNElem());
-		
-		std::vector< double > private_coefs(Vh->getNBasisFunction(), 0.0);
-		#pragma omp for
-		for (size_t e=range.begin();e<range.end();++e)
-		{
-			for (size_t id=0;id<m_Vh->getNBasisFunctionPerElement();++id)
-			{
-				private_coefs[m_Vh->getGlobalId(e, id)] += form(m_Vh->getTrialFunction(e, id), m_Vh->getTestFunction(e, id));
-			}
-		}
-		#pragma omp critical
-		{
-			for (size_t globId=0;globId<m_coefs.size();++globId)
-			{
-				local_coefs[globId] += private_coefs[globId];
-			}
-		}
-	}
-	MPI_Allreduce(local_coefs.data(), m_coefs.data(), m_coefs.size(), MPI_DOUBLE, MPI_SUM, com);
-}
-
 void DiagonalBilinearForm::setZeroOnBoundary()
 {
 	for (size_t globId=0;globId<m_coefs.size();++globId)
@@ -131,61 +75,6 @@ void DiagonalBilinearForm::setZeroOnBoundary(std::initializer_list<std::string> 
 }
 
 ////////////////////////////////////////////////////////////////////////
-
-CpxDiagonalBilinearForm::CpxDiagonalBilinearForm(const FunctionSpace *Vh, const std::function<std::complex<double>(const TrialFunction &, const TestFunction &)> &form) :
-	m_Vh(Vh),
-	m_coefs(Vh->getNBasisFunction(), 0.0)
-{
-	#pragma omp parallel
-	{
-		std::vector< std::complex< double > > private_coefs(Vh->getNBasisFunction(), 0.0);
-		#pragma omp for
-		for (size_t e=0;e<m_Vh->getMesh()->getNElem();++e)
-		{
-			for (size_t id=0;id<m_Vh->getNBasisFunctionPerElement();++id)
-			{
-				private_coefs[m_Vh->getGlobalId(e, id)] += form(m_Vh->getTrialFunction(e, id), m_Vh->getTestFunction(e, id));
-			}
-		}
-		#pragma omp critical
-		{
-			for (size_t globId=0;globId<m_coefs.size();++globId)
-			{
-				m_coefs[globId] += private_coefs[globId];
-			}
-		}
-	}
-}
-
-CpxDiagonalBilinearForm::CpxDiagonalBilinearForm(const FunctionSpace *Vh, const std::function<std::complex<double>(const TrialFunction &, const TestFunction &)> &form, MPI_Comm com) : 
-	m_Vh(Vh),
-	m_coefs(Vh->getNBasisFunction(), 0.0)
-{
-	std::vector< std::complex< double > > local_coefs(Vh->getNBasisFunction(), 0.0);
-	
-	#pragma omp parallel
-	{
-		MpiRange range(com, m_Vh->getMesh()->getNElem());
-		
-		std::vector< std::complex< double > > private_coefs(Vh->getNBasisFunction(), 0.0);
-		#pragma omp for
-		for (size_t e=range.begin();e<range.end();++e)
-		{
-			for (size_t id=0;id<m_Vh->getNBasisFunctionPerElement();++id)
-			{
-				private_coefs[m_Vh->getGlobalId(e, id)] += form(m_Vh->getTrialFunction(e, id), m_Vh->getTestFunction(e, id));
-			}
-		}
-		#pragma omp critical
-		{
-			for (size_t globId=0;globId<m_coefs.size();++globId)
-			{
-				local_coefs[globId] += private_coefs[globId];
-			}
-		}
-	}
-	MPI_Allreduce(local_coefs.data(), m_coefs.data(), m_coefs.size(), MPI_CXX_DOUBLE_COMPLEX, MPI_SUM, com);
-}
 
 void CpxDiagonalBilinearForm::setZeroOnBoundary()
 {

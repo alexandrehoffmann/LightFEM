@@ -162,10 +162,15 @@ set(HEADERS
 	include/LightFEM/Analysis/FunctionSpace/VectorFunctionSpace.hpp
 	#
 	include/LightFEM/Analysis/Forms/LinearForm.hpp
+	include/LightFEM/Analysis/Forms/LinearForm.tpp
 	include/LightFEM/Analysis/Forms/VectorLinearForm.hpp
+	include/LightFEM/Analysis/Forms/VectorLinearForm.tpp
 	include/LightFEM/Analysis/Forms/BilinearForm.hpp
+	include/LightFEM/Analysis/Forms/BilinearForm.tpp
 	include/LightFEM/Analysis/Forms/DiagonalBilinearForm.hpp
+	include/LightFEM/Analysis/Forms/DiagonalBilinearForm.tpp
 	include/LightFEM/Analysis/Forms/VectorBilinearForm.hpp
+	include/LightFEM/Analysis/Forms/VectorBilinearForm.tpp
 )
 
 # Declare the library target.

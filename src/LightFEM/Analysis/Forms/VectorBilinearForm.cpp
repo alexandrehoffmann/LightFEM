@@ -28,58 +28,6 @@
 
 #include <LightFEM/LightFEM_MPI.hpp>
 
-VectorBilinearForm::VectorBilinearForm(const VectorFunctionSpace *Uh, const VectorFunctionSpace *Vh, const std::function<double (const VectorTrialFunction &, const VectorTestFunction &)> &form) :
-	m_Uh(Uh),
-	m_Vh(Vh)
-{
-	if (Uh->getMesh() != Vh->getMesh()) { throw std::invalid_argument("The two function space must be defined on the same mesh"); }
-
-	std::vector< MatrixEntry > entries(m_Uh->getMesh()->getNElem()*m_Vh->getNBasisFunctionPerElement()*m_Uh->getNBasisFunctionPerElement());
-#pragma omp parallel for
-	for (std::size_t e=0;e<m_Uh->getMesh()->getNElem();++e)
-	{
-		for (std::size_t i=0;i<m_Vh->getNBasisFunctionPerElement();++i)
-		{
-			for (std::size_t j=0;j<m_Uh->getNBasisFunctionPerElement();++j)
-			{
-				entries[j + m_Uh->getNBasisFunctionPerElement()*(i + e*m_Vh->getNBasisFunctionPerElement())].row = m_Vh->getGlobalId(e, i);
-				entries[j + m_Uh->getNBasisFunctionPerElement()*(i + e*m_Vh->getNBasisFunctionPerElement())].col = m_Uh->getGlobalId(e, j);
-				entries[j + m_Uh->getNBasisFunctionPerElement()*(i + e*m_Vh->getNBasisFunctionPerElement())].value = form(m_Uh->getTrialFunction(e, j), m_Vh->getTestFunction(e, i));
-			}
-		}
-	}
-	initEntries(entries);
-}
-
-VectorBilinearForm::VectorBilinearForm(const VectorFunctionSpace *Uh, const VectorFunctionSpace *Vh, const std::function<double (const VectorTrialFunction &, const VectorTestFunction &)> &form, MPI_Comm com) : 
-	m_Uh(Uh),
-	m_Vh(Vh)
-{
-	if (Uh->getMesh() != Vh->getMesh()) { throw std::invalid_argument("The two function space must be defined on the same mesh"); }
-
-	MpiRange range(com, m_Uh->getMesh()->getNElem());
-
-	std::vector< MatrixEntry > local_entries(m_Uh->getMesh()->getNElem()*m_Vh->getNBasisFunctionPerElement()*m_Uh->getNBasisFunctionPerElement());
-#pragma omp parallel for
-	for (std::size_t e=range.begin();e<range.end();++e)
-	{
-		for (std::size_t i=0;i<m_Vh->getNBasisFunctionPerElement();++i)
-		{
-			for (std::size_t j=0;j<m_Uh->getNBasisFunctionPerElement();++j)
-			{
-				local_entries[j + m_Uh->getNBasisFunctionPerElement()*(i + e*m_Vh->getNBasisFunctionPerElement())].row = m_Vh->getGlobalId(e, i);
-				local_entries[j + m_Uh->getNBasisFunctionPerElement()*(i + e*m_Vh->getNBasisFunctionPerElement())].col = m_Uh->getGlobalId(e, j);
-				local_entries[j + m_Uh->getNBasisFunctionPerElement()*(i + e*m_Vh->getNBasisFunctionPerElement())].value = form(m_Uh->getTrialFunction(e, j), m_Vh->getTestFunction(e, i));
-			}
-		}
-	}
-	std::vector< MatrixEntry > entries(m_Uh->getMesh()->getNElem()*m_Vh->getNBasisFunctionPerElement()*m_Uh->getNBasisFunctionPerElement());
-	
-	MPI_Allreduce(local_entries.data(), entries.data(), local_entries.size(), LightFEM_MPI::MPI_MATRIX_ENTRY, LightFEM_MPI::MPI_MATRIX_ENTRY_SUM, com);
-	
-	initEntries(entries);
-}
-
 void VectorBilinearForm::initEntries(std::vector< MatrixEntry >& entries)
 {
 	std::sort(std::begin(entries), std::end(entries), [](const MatrixEntry& lhs, const MatrixEntry& rhs) -> bool
@@ -221,58 +169,6 @@ void VectorBilinearForm::pruneNullEntries(const double tol)
 }
 
 ////////////////////////////////////////////////////////////////////////
-
-CpxVectorBilinearForm::CpxVectorBilinearForm(const VectorFunctionSpace *Uh, const VectorFunctionSpace *Vh, const std::function<std::complex<double>(const VectorTrialFunction &, const VectorTestFunction &)> &form) :
-	m_Uh(Uh),
-	m_Vh(Vh)
-{
-	if (Uh->getMesh() != Vh->getMesh()) { throw std::invalid_argument("The two function space must be defined on the same mesh"); }
-
-	std::vector< CpxMatrixEntry > entries(m_Uh->getMesh()->getNElem()*m_Vh->getNBasisFunctionPerElement()*m_Uh->getNBasisFunctionPerElement());
-#pragma omp parallel for
-	for (std::size_t e=0;e<m_Uh->getMesh()->getNElem();++e)
-	{
-		for (std::size_t i=0;i<m_Vh->getNBasisFunctionPerElement();++i)
-		{
-			for (std::size_t j=0;j<m_Uh->getNBasisFunctionPerElement();++j)
-			{
-				entries[j + m_Uh->getNBasisFunctionPerElement()*(i + e*m_Vh->getNBasisFunctionPerElement())].row = m_Vh->getGlobalId(e, i);
-				entries[j + m_Uh->getNBasisFunctionPerElement()*(i + e*m_Vh->getNBasisFunctionPerElement())].col = m_Uh->getGlobalId(e, j);
-				entries[j + m_Uh->getNBasisFunctionPerElement()*(i + e*m_Vh->getNBasisFunctionPerElement())].value = form(m_Uh->getTrialFunction(e, j), m_Vh->getTestFunction(e, i));
-			}
-		}
-	}
-	initEntries(entries);
-}
-
-CpxVectorBilinearForm::CpxVectorBilinearForm(const VectorFunctionSpace *Uh, const VectorFunctionSpace *Vh, const std::function<std::complex<double>(const VectorTrialFunction &, const VectorTestFunction &)> &form, MPI_Comm com) : 
-	m_Uh(Uh),
-	m_Vh(Vh)
-{
-	if (Uh->getMesh() != Vh->getMesh()) { throw std::invalid_argument("The two function space must be defined on the same mesh"); }
-
-	MpiRange range(com, m_Uh->getMesh()->getNElem());
-
-	std::vector< CpxMatrixEntry > local_entries(m_Uh->getMesh()->getNElem()*m_Vh->getNBasisFunctionPerElement()*m_Uh->getNBasisFunctionPerElement());
-#pragma omp parallel for
-	for (std::size_t e=range.begin();e<range.end();++e)
-	{
-		for (std::size_t i=0;i<m_Vh->getNBasisFunctionPerElement();++i)
-		{
-			for (std::size_t j=0;j<m_Uh->getNBasisFunctionPerElement();++j)
-			{
-				local_entries[j + m_Uh->getNBasisFunctionPerElement()*(i + e*m_Vh->getNBasisFunctionPerElement())].row = m_Vh->getGlobalId(e, i);
-				local_entries[j + m_Uh->getNBasisFunctionPerElement()*(i + e*m_Vh->getNBasisFunctionPerElement())].col = m_Uh->getGlobalId(e, j);
-				local_entries[j + m_Uh->getNBasisFunctionPerElement()*(i + e*m_Vh->getNBasisFunctionPerElement())].value = form(m_Uh->getTrialFunction(e, j), m_Vh->getTestFunction(e, i));
-			}
-		}
-	}
-	std::vector< CpxMatrixEntry > entries(m_Uh->getMesh()->getNElem()*m_Vh->getNBasisFunctionPerElement()*m_Uh->getNBasisFunctionPerElement());
-	
-	MPI_Allreduce(local_entries.data(), entries.data(), local_entries.size(), LightFEM_MPI::MPI_CPX_MATRIX_ENTRY, LightFEM_MPI::MPI_CPX_MATRIX_ENTRY_SUM, com);
-	
-	initEntries(entries);
-}
 
 void CpxVectorBilinearForm::initEntries(std::vector< CpxMatrixEntry >& entries)
 {

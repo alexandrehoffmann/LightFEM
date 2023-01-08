@@ -40,8 +40,8 @@ class FunctionSpace;
 class BilinearForm
 {
 public:
-	BilinearForm(const FunctionSpace* Uh, const FunctionSpace* Vh, const std::function<double(const TrialFunction&, const TestFunction&)>& form);
-	BilinearForm(const FunctionSpace* Uh, const FunctionSpace* Vh, const std::function<double(const TrialFunction&, const TestFunction&)>& form, MPI_Comm com);
+	template<typename Form> BilinearForm(const FunctionSpace* Uh, const FunctionSpace* Vh, Form form);
+	template<typename Form> BilinearForm(const FunctionSpace* Uh, const FunctionSpace* Vh, Form form, MPI_Comm com);
 	BilinearForm(const BilinearForm& other) : m_Uh(other.m_Uh), m_Vh(other.m_Vh), m_entries(other.m_entries) {}
 	
 	void setIdentityOnBoundary();
@@ -71,8 +71,8 @@ private:
 class CpxBilinearForm
 {
 public:
-	CpxBilinearForm(const FunctionSpace* Uh, const FunctionSpace* Vh, const std::function<std::complex<double>(const TrialFunction&, const TestFunction&)>& form);
-	CpxBilinearForm(const FunctionSpace* Uh, const FunctionSpace* Vh, const std::function<std::complex<double>(const TrialFunction&, const TestFunction&)>& form, MPI_Comm com);
+	template<typename Form> CpxBilinearForm(const FunctionSpace* Uh, const FunctionSpace* Vh, Form form);
+	template<typename Form> CpxBilinearForm(const FunctionSpace* Uh, const FunctionSpace* Vh, Form form, MPI_Comm com);
 	CpxBilinearForm(const CpxBilinearForm& other) : m_Uh(other.m_Uh), m_Vh(other.m_Vh), m_entries(other.m_entries) {}
 	
 	void setIdentityOnBoundary();
@@ -96,5 +96,7 @@ private:
 	const FunctionSpace*          m_Vh;
 	std::vector< CpxMatrixEntry > m_entries;
 };
+
+#include <LightFEM/Analysis/Forms/BilinearForm.tpp>
 
 #endif // BILINEAR_FORM_HPP

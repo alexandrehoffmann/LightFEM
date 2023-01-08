@@ -30,15 +30,17 @@
 class ElementWiseConst : public ElementWiseFunctionExpression< ExprType::SCALAR, ElementWiseConst >
 {
 public:
-	ElementWiseConst(const Element* element, const Scalar& value) : m_element(element), m_value(value) {}
+	ElementWiseConst(const Mesh* mesh, const Element* element, const Scalar& value) : m_mesh(mesh), m_element(element), m_value(value) {}
 public:
 	inline const Scalar& operator[] (const size_t ) const { return m_value; }
 public:
 	inline bool containsTrial() const { return false; }
 	inline bool containsTest()  const { return false; }
 public:
+	inline const Mesh*    getMesh()    const { return m_mesh;    }
 	inline const Element* getElement() const { return m_element; }
 private:
+	const Mesh*    m_mesh;
 	const Element* m_element;
 	const Scalar&  m_value;
 };
@@ -48,16 +50,18 @@ private:
 class CpxElementWiseConst : public CpxElementWiseFunctionExpression< ExprType::SCALAR, CpxElementWiseConst >
 {
 public:
-	CpxElementWiseConst(const Element* element, const CpxScalar& value) : m_element(element), m_value(value) {}
+	CpxElementWiseConst(const Mesh* mesh, const Element* element, const CpxScalar& value) : m_mesh(mesh), m_element(element), m_value(value) {}
 public:
 	inline const CpxScalar& operator[] (const size_t ) const { return m_value; }
 public:
 	inline bool containsTrial() const { return false; }
 	inline bool containsTest()  const { return false; }
 public:
+	inline const Mesh*    getMesh()    const { return m_mesh;    }
 	inline const Element* getElement() const { return m_element; }
 private:
-	const Element* m_element;
+	const Mesh*       m_mesh;
+	const Element*    m_element;
 	const CpxScalar&  m_value;
 };
 

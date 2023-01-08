@@ -26,6 +26,7 @@
 
 #include <LightFEM/Expression/Traits.hpp>
 #include <LightFEM/Mesh/Element.hpp>
+#include <LightFEM/Mesh/Mesh.hpp>
 
 template <ExprType Type, typename Expr>
 class ElementWiseFunctionExpression
@@ -39,6 +40,7 @@ public:
 	inline bool containsTrial() const { return static_cast<Expr const&>(*this).containsTrial(); }
 	inline bool containsTest()  const { return static_cast<Expr const&>(*this).containsTest(); }
 public:
+	inline const Mesh*    getMesh()    const { return static_cast<Expr const&>(*this).getMesh();    }
 	inline const Element* getElement() const { return static_cast<Expr const&>(*this).getElement(); }
 };
 
@@ -56,6 +58,7 @@ public:
 	inline bool containsTrial() const { return static_cast<Expr const&>(*this).containsTrial(); }
 	inline bool containsTest()  const { return static_cast<Expr const&>(*this).containsTest(); }
 public:
+	inline const Mesh*    getMesh()    const { return static_cast<Expr const&>(*this).getMesh();    }
 	inline const Element* getElement() const { return static_cast<Expr const&>(*this).getElement(); }
 };
 

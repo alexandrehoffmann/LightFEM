@@ -27,6 +27,20 @@
 #include <LightFEM/Expression/Function/Function.hpp>
 
 template<ExprType Type>
+Function<Type>::Function(const Mesh* mesh) :
+	m_values(mesh->getNElem()), 
+	m_containsTrial(false), 
+	m_containsTest(false), 
+	m_mesh(mesh) 
+{ 
+	for (size_t e=0;e<m_mesh->getNElem();++e) 
+	{ 
+		m_values[e].setMesh(m_mesh); 
+		m_values[e].setElement(m_mesh->getElem(e)); 
+	} 
+}
+
+template<ExprType Type>
 Function<Type>::Function(const Mesh* mesh, FunctorType f) :
 	m_values(mesh->getNElem()),
 	m_containsTrial(false),
@@ -35,6 +49,7 @@ Function<Type>::Function(const Mesh* mesh, FunctorType f) :
 {
 	for (size_t e=0;e<m_mesh->getNElem();++e)
 	{
+		m_values[e].setMesh(m_mesh); 
 		m_values[e].setElement(m_mesh->getElem(e));
 		for (size_t i=0;i<Element::getNxi();++i) { for (size_t j=0;j<Element::getNxi();++j)
 		{
@@ -81,7 +96,7 @@ Function<Type>& Function<Type>::operator+= (const FunctionExpression< Type, Expr
 	
 	for (size_t e=0;e<expr.getMesh()->getNElem();++e)
 	{
-		m_values[e] = expr[e];
+		m_values[e] += expr[e];
 	}
 	return *this;
 }
@@ -95,7 +110,7 @@ Function<Type>& Function<Type>::operator-= (const FunctionExpression< Type, Expr
 
 	for (size_t e=0;e<expr.getMesh()->getNElem();++e)
 	{
-		m_values[e] = expr[e];
+		m_values[e] -= expr[e];
 	}
 	return *this;
 }
@@ -109,7 +124,7 @@ Function<Type>& Function<Type>::operator*= (const FunctionExpression< ExprType::
 
 	for (size_t e=0;e<expr.getMesh()->getNElem();++e)
 	{
-		m_values[e] = expr[e];
+		m_values[e] *= expr[e];
 	}
 	return *this;
 }
@@ -123,12 +138,26 @@ Function<Type>& Function<Type>::operator/= (const FunctionExpression< ExprType::
 
 	for (size_t e=0;e<expr.getMesh()->getNElem();++e)
 	{
-		m_values[e] = expr[e];
+		m_values[e] /= expr[e];
 	}
 	return *this;
 }
 
 ////////////////////////////////////////////////////////////////////////
+
+template<ExprType Type>
+CpxFunction<Type>::CpxFunction(const Mesh* mesh) :
+	m_values(mesh->getNElem()), 
+	m_containsTrial(false), 
+	m_containsTest(false), 
+	m_mesh(mesh) 
+{ 
+	for (size_t e=0;e<m_mesh->getNElem();++e) 
+	{ 
+		m_values[e].setMesh(m_mesh); 
+		m_values[e].setElement(m_mesh->getElem(e)); 
+	} 
+}
 
 template<ExprType Type>
 CpxFunction<Type>::CpxFunction(const Mesh* mesh, CpxFunctorType f) :
@@ -139,6 +168,7 @@ CpxFunction<Type>::CpxFunction(const Mesh* mesh, CpxFunctorType f) :
 {
 	for (size_t e=0;e<m_mesh->getNElem();++e)
 	{
+		m_values[e].setMesh(m_mesh); 
 		m_values[e].setElement(m_mesh->getElem(e));
 		for (size_t i=0;i<Element::getNxi();++i) { for (size_t j=0;j<Element::getNxi();++j)
 		{
@@ -211,7 +241,7 @@ CpxFunction<Type>& CpxFunction<Type>::operator+= (const FunctionExpression< Type
 
 	for (size_t e=0;e<expr.getMesh()->getNElem();++e)
 	{
-		m_values[e] = expr[e];
+		m_values[e] += expr[e];
 	}
 	return *this;
 }
@@ -225,7 +255,7 @@ CpxFunction<Type>& CpxFunction<Type>::operator+= (const CpxFunctionExpression< T
 
 	for (size_t e=0;e<expr.getMesh()->getNElem();++e)
 	{
-		m_values[e] = expr[e];
+		m_values[e] += expr[e];
 	}
 	return *this;
 }
@@ -239,7 +269,7 @@ CpxFunction<Type>& CpxFunction<Type>::operator-= (const FunctionExpression< Type
 
 	for (size_t e=0;e<expr.getMesh()->getNElem();++e)
 	{
-		m_values[e] = expr[e];
+		m_values[e] -= expr[e];
 	}
 	return *this;
 }
@@ -254,7 +284,7 @@ CpxFunction<Type>& CpxFunction<Type>::operator-= (const CpxFunctionExpression< T
 
 	for (size_t e=0;e<expr.getMesh()->getNElem();++e)
 	{
-		m_values[e] = expr[e];
+		m_values[e] -= expr[e];
 	}
 	return *this;
 }
@@ -268,7 +298,7 @@ CpxFunction<Type>& CpxFunction<Type>::operator*= (const FunctionExpression< Expr
 
 	for (size_t e=0;e<expr.getMesh()->getNElem();++e)
 	{
-		m_values[e] = expr[e];
+		m_values[e] *= expr[e];
 	}
 	return *this;
 }
@@ -282,7 +312,7 @@ CpxFunction<Type>& CpxFunction<Type>::operator*= (const CpxFunctionExpression< E
 
 	for (size_t e=0;e<expr.getMesh()->getNElem();++e)
 	{
-		m_values[e] = expr[e];
+		m_values[e] *= expr[e];
 	}
 	return *this;
 }
@@ -296,7 +326,7 @@ CpxFunction<Type>& CpxFunction<Type>::operator/= (const FunctionExpression< Expr
 
 	for (size_t e=0;e<expr.getMesh()->getNElem();++e)
 	{
-		m_values[e] = expr[e];
+		m_values[e] /= expr[e];
 	}
 	return *this;
 }
@@ -310,7 +340,7 @@ CpxFunction<Type>& CpxFunction<Type>::operator/= (const CpxFunctionExpression< E
 
 	for (size_t e=0;e<expr.getMesh()->getNElem();++e)
 	{
-		m_values[e] = expr[e];
+		m_values[e] /= expr[e];
 	}
 	return *this;
 }

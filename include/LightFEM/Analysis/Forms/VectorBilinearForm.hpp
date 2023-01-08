@@ -40,8 +40,8 @@ class VectorFunctionSpace;
 class VectorBilinearForm
 {
 public:
-	VectorBilinearForm(const VectorFunctionSpace* Uh, const VectorFunctionSpace* Vh, const std::function<double(const VectorTrialFunction&, const VectorTestFunction&)>& form);
-	VectorBilinearForm(const VectorFunctionSpace* Uh, const VectorFunctionSpace* Vh, const std::function<double(const VectorTrialFunction&, const VectorTestFunction&)>& form, MPI_Comm com);
+	template<typename Form> VectorBilinearForm(const VectorFunctionSpace* Uh, const VectorFunctionSpace* Vh, Form form);
+	template<typename Form> VectorBilinearForm(const VectorFunctionSpace* Uh, const VectorFunctionSpace* Vh, Form form, MPI_Comm com);
 	VectorBilinearForm(const VectorBilinearForm& other) : m_Uh(other.m_Uh), m_Vh(other.m_Vh), m_entries(other.m_entries) {}
 	
 	void setIdentityOnBoundary();
@@ -58,8 +58,8 @@ public:
 private:
 	void initEntries(std::vector< MatrixEntry >& entries);
 private:
-	const VectorFunctionSpace*       m_Uh;
-	const VectorFunctionSpace*       m_Vh;
+	const VectorFunctionSpace* m_Uh;
+	const VectorFunctionSpace* m_Vh;
 	std::vector< MatrixEntry > m_entries;
 };
 
@@ -68,8 +68,8 @@ private:
 class CpxVectorBilinearForm
 {
 public:
-	CpxVectorBilinearForm(const VectorFunctionSpace* Uh, const VectorFunctionSpace* Vh, const std::function<std::complex<double>(const VectorTrialFunction&, const VectorTestFunction&)>& form);
-	CpxVectorBilinearForm(const VectorFunctionSpace* Uh, const VectorFunctionSpace* Vh, const std::function<std::complex<double>(const VectorTrialFunction&, const VectorTestFunction&)>& form, MPI_Comm com);
+	template<typename Form> CpxVectorBilinearForm(const VectorFunctionSpace* Uh, const VectorFunctionSpace* Vh, Form form);
+	template<typename Form> CpxVectorBilinearForm(const VectorFunctionSpace* Uh, const VectorFunctionSpace* Vh, Form form, MPI_Comm com);
 	CpxVectorBilinearForm(const CpxVectorBilinearForm& other) : m_Uh(other.m_Uh), m_Vh(other.m_Vh), m_entries(other.m_entries) {}
 	
 	void setIdentityOnBoundary();
@@ -85,9 +85,11 @@ public:
 private:
 	void initEntries(std::vector< CpxMatrixEntry >& entries);
 private:
-	const VectorFunctionSpace*          m_Uh;
-	const VectorFunctionSpace*          m_Vh;
+	const VectorFunctionSpace*    m_Uh;
+	const VectorFunctionSpace*    m_Vh;
 	std::vector< CpxMatrixEntry > m_entries;
 };
+
+#include <LightFEM/Analysis/Forms/VectorBilinearForm.tpp>
 
 #endif // VECTOR_BILINEAR_FORM_HPP

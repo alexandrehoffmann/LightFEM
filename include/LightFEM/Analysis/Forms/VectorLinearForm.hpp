@@ -35,8 +35,8 @@ class VectorFunctionSpace;
 class VectorLinearForm
 {
 public:
-	VectorLinearForm(const VectorFunctionSpace* Vh, const std::function<double(const VectorTestFunction&)>& form);
-	VectorLinearForm(const VectorFunctionSpace* Vh, const std::function<double(const VectorTestFunction&)>& form, MPI_Comm com);
+	template<typename Form> VectorLinearForm(const VectorFunctionSpace* Vh, Form form);
+	template<typename Form> VectorLinearForm(const VectorFunctionSpace* Vh, Form form, MPI_Comm com);
 	
 	void setZeroOnBoundary();
 	void setZeroOnBoundary(std::initializer_list< std::string > boundaryNames);
@@ -56,8 +56,8 @@ private:
 class CpxVectorLinearForm
 {
 public:
-	CpxVectorLinearForm(const VectorFunctionSpace* Vh, const std::function<std::complex<double>(const VectorTestFunction&)>& form);
-	CpxVectorLinearForm(const VectorFunctionSpace* Vh, const std::function<std::complex<double>(const VectorTestFunction&)>& form, MPI_Comm com);
+	template<typename Form> CpxVectorLinearForm(const VectorFunctionSpace* Vh, Form form);
+	template<typename Form> CpxVectorLinearForm(const VectorFunctionSpace* Vh, Form form, MPI_Comm com);
 	
 	void setZeroOnBoundary();
 	void setZeroOnBoundary(std::initializer_list<std::string> boundaryNames);
@@ -71,5 +71,7 @@ private:
 	const VectorFunctionSpace*          m_Vh;
 	std::vector< std::complex<double> > m_coefs;
 };
+
+#include <LightFEM/Analysis/Forms/VectorLinearForm.tpp>
 
 #endif // VECTOR_LINEAR_FORM_HPP

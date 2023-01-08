@@ -40,8 +40,8 @@ class FunctionSpace;
 class DiagonalBilinearForm
 {
 public:
-	DiagonalBilinearForm(const FunctionSpace* Vh, const std::function<double(const TrialFunction&, const TestFunction&)>& form);
-	DiagonalBilinearForm(const FunctionSpace* Vh, const std::function<double(const TrialFunction&, const TestFunction&)>& form, MPI_Comm com);
+	template<typename Form> DiagonalBilinearForm(const FunctionSpace* Vh, Form form);
+	template<typename Form> DiagonalBilinearForm(const FunctionSpace* Vh, Form form, MPI_Comm com);
 	
 	void setZeroOnBoundary();
 	void setZeroOnBoundary(std::initializer_list< std::string > boundaryNames);
@@ -64,8 +64,8 @@ private:
 class CpxDiagonalBilinearForm
 {
 public:
-	CpxDiagonalBilinearForm(const FunctionSpace* Vh, const std::function<std::complex<double>(const TrialFunction&, const TestFunction&)>& form);
-	CpxDiagonalBilinearForm(const FunctionSpace* Vh, const std::function<std::complex<double>(const TrialFunction&, const TestFunction&)>& form, MPI_Comm com);
+	template<typename Form> CpxDiagonalBilinearForm(const FunctionSpace* Vh, Form form);
+	template<typename Form> CpxDiagonalBilinearForm(const FunctionSpace* Vh, Form form, MPI_Comm com);
 	
 	void setZeroOnBoundary();
 	void setZeroOnBoundary(std::initializer_list< std::string > boundaryNames);
@@ -82,5 +82,7 @@ private:
 	const FunctionSpace*                m_Vh;
 	std::vector< std::complex<double> > m_coefs;
 };
+
+#include <LightFEM/Analysis/Forms/DiagonalBilinearForm.tpp>
 
 #endif // DIAGONAL_BILINEARFORM_HPP

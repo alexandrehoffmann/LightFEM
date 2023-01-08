@@ -40,6 +40,7 @@ public:
 	inline bool containsTrial() const { return m_expr.containsTrial(); }
 	inline bool containsTest()  const { return m_expr.containsTest(); }
 public:
+	inline const Mesh*    getMesh()    const { return m_expr.getMesh();    }
 	inline const Element* getElement() const { return m_expr.getElement(); }
 private:
 	typename RefTypeSelector<Expr>::Type  m_expr;
@@ -60,6 +61,7 @@ public:
 	inline bool containsTrial() const { return m_expr.containsTrial(); }
 	inline bool containsTest()  const { return m_expr.containsTest(); }
 public:
+	inline const Mesh*    getMesh()    const { return m_expr.getMesh();    }
 	inline const Element* getElement() const { return m_expr.getElement(); }
 private:
 	typename RefTypeSelector<Expr>::Type  m_expr;

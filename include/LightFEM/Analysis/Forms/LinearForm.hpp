@@ -39,8 +39,8 @@ class FunctionSpace;
 class LinearForm
 {
 public:
-	LinearForm(const FunctionSpace* Vh, const std::function<double(const TestFunction&)>& form);
-	LinearForm(const FunctionSpace* Vh, const std::function<double(const TestFunction&)>& form, MPI_Comm com);
+	template<typename Form> LinearForm(const FunctionSpace* Vh, Form form);
+	template<typename Form> LinearForm(const FunctionSpace* Vh, Form form, MPI_Comm com);
 	
 	void setZeroOnBoundary();
 	void setZeroOnBoundary(std::initializer_list< std::string > boundaryNames);
@@ -62,8 +62,8 @@ private:
 class CpxLinearForm
 {
 public:
-	CpxLinearForm(const FunctionSpace* Vh, const std::function<std::complex<double>(const TestFunction&)>& form);
-	CpxLinearForm(const FunctionSpace* Vh, const std::function<std::complex<double>(const TestFunction&)>& form, MPI_Comm com);
+	template<typename Form> CpxLinearForm(const FunctionSpace* Vh, Form form);
+	template<typename Form> CpxLinearForm(const FunctionSpace* Vh, Form form, MPI_Comm com);
 	
 	void setZeroOnBoundary();
 	void setZeroOnBoundary(std::initializer_list< std::string > boundaryNames);
@@ -79,5 +79,7 @@ private:
 	const FunctionSpace*                m_Vh;
 	std::vector< std::complex<double> > m_coefs;
 };
+
+#include <LightFEM/Analysis/Forms/LinearForm.tpp>
 
 #endif // LINEAR_FORM_HPP
