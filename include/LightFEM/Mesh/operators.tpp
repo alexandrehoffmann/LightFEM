@@ -77,19 +77,26 @@ void printFunction(const std::string& fname, const CpxFunctionExpression<ExprTyp
 
 
 template<typename Expr>
-void printFunctionCoarse(const std::string& fname, const FunctionExpression<ExprType::SCALAR, Expr>& expr)
+void printFunctionCoarse(const std::string& fname, const FunctionExpression<ExprType::SCALAR, Expr>& expr, const size_t Nx, const size_t Ny)
 {
 	std::ofstream out(fname);
 
+	const double hx = (Element::get_xi(Element::getNxi()-1) - Element::get_xi(0)) / std::min(size_t(1), std::min(size_t(0), Nx)-1);
+	const double hy = (Element::get_xi(Element::getNxi()-1) - Element::get_xi(0)) / std::min(size_t(1), std::min(size_t(0), Nx)-1);
+
 	for (size_t e=0;e<expr.getMesh()->getNElem();++e)
 	{
+		ElementWiseInterpolator interp_expr(expr);
+		
 		const Element* element = expr.getMesh()->getElem(e);
-
-		for (const size_t i : {size_t(0), Element::getNxi()-1})
+		
+		for (size_t i=0;i<Nx;++i)
 		{
-			for (const size_t j : {size_t(0), Element::getNxi()-1})
+			const double xi1 = Element::get_xi(0) + i*hx;
+			for (size_t j=0;j<Ny;++j)
 			{
-				out << element->getXworld(Element::get_xi(i), Element::get_xi(j)).x << " " << element->getXworld(Element::get_xi(i), Element::get_xi(j)).y << " " << expr[e][Element::index2d(i,j)] << std::endl;
+				const double xi2 = Element::get_xi(0) + j*hy;
+				out << element->getXworld(Element::get_xi(i), Element::get_xi(j)).x << " " << element->getXworld(Element::get_xi(i), Element::get_xi(j)).y << " " << interp_expr(xi1, xi2) << std::endl;
 			}
 			out << std::endl;
 		}
@@ -98,19 +105,29 @@ void printFunctionCoarse(const std::string& fname, const FunctionExpression<Expr
 }
 
 template<typename Expr>
-void printFunctionCoarse(const std::string& fname, const CpxFunctionExpression<ExprType::SCALAR, Expr>& expr)
+void printFunctionCoarse(const std::string& fname, const CpxFunctionExpression<ExprType::SCALAR, Expr>& expr, const size_t Nx, const size_t Ny)
 {
 	std::ofstream out(fname);
+	
+	const double hx = (Element::get_xi(Element::getNxi()-1) - Element::get_xi(0)) / std::min(size_t(1), std::min(size_t(0), Nx)-1);
+	const double hy = (Element::get_xi(Element::getNxi()-1) - Element::get_xi(0)) / std::min(size_t(1), std::min(size_t(0), Nx)-1);
 
 	for (size_t e=0;e<expr.getMesh()->getNElem();++e)
 	{
+		CpxElementWiseInterpolator interp_expr(expr);
+		
 		const Element* element = expr.getMesh()->getElem(e);
 
-		for (const size_t i : {size_t(0), Element::getNxi()-1})
+		for (size_t i=0;i<Nx;++i)
 		{
-			for (const size_t j : {size_t(0), Element::getNxi()-1})
+			const double xi1 = Element::get_xi(0) + i*hx;
+			for (size_t j=0;j<Ny;++j)
 			{
-				out << element->getXworld(Element::get_xi(i), Element::get_xi(j)).x << " " << element->getXworld(Element::get_xi(i), Element::get_xi(j)).y << " " << expr[e][Element::index2d(i,j)].real() << " " << expr[e][Element::index2d(i,j)].imag() << std::endl;
+				const double xi2 = Element::get_xi(0) + j*hy;
+				
+				std::complex< double > v = interp_expr(xi1, xi2);
+				
+				out << element->getXworld(Element::get_xi(i), Element::get_xi(j)).x << " " << element->getXworld(Element::get_xi(i), Element::get_xi(j)).y << " " << v.real() << " " << v.imag() << std::endl;
 			}
 			out << std::endl;
 		}

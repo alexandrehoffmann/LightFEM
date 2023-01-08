@@ -177,8 +177,7 @@ set(HEADERS
 add_library(${PROJECT_NAME} SHARED ${SRCS} ${HEADERS})
 
 # Configure compiler options.
-#target_compile_options(${PROJECT_NAME} PRIVATE -Wundef -Wvarargs -fno-elide-constructors -pedantic-errors -ansi -Wextra -Wall -Woverloaded-virtual -Wuninitialized -Wmissing-declarations -Winit-self -flax-vector-conversions)
-target_compile_options(${PROJECT_NAME} PRIVATE -Wundef -Wvarargs -Wold-style-cast -Wextra -Wall -Woverloaded-virtual -Wuninitialized -Wmissing-declarations -Winit-self -flax-vector-conversions -ansi -pedantic -pedantic-errors)
+target_compile_options(${PROJECT_NAME} PRIVATE -Wundef -Wvarargs -Wextra -Wall -Winit-self -Wold-style-cast -Woverloaded-virtual -Wuninitialized -Wmissing-declarations -Winit-self -flax-vector-conversions -ansi -pedantic -pedantic-errors)
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
 
 # Link dependencies.

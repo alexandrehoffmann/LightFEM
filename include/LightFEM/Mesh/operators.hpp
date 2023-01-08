@@ -44,10 +44,10 @@ template<typename Expr>
 void printFunction(const std::string& fname, const CpxFunctionExpression<ExprType::SCALAR, Expr>& expr);
 
 template<typename Expr>
-void printFunctionCoarse(const std::string& fname, const FunctionExpression<ExprType::SCALAR, Expr>& expr);
+void printFunctionCoarse(const std::string& fname, const FunctionExpression<ExprType::SCALAR, Expr>& expr, const size_t Nx = 2, const size_t Ny = 2);
 
 template<typename Expr>
-void printFunctionCoarse(const std::string& fname, const CpxFunctionExpression<ExprType::SCALAR, Expr>& expr);
+void printFunctionCoarse(const std::string& fname, const CpxFunctionExpression<ExprType::SCALAR, Expr>& expr, const size_t Nx = 2, const size_t Ny = 2);
 
 void printFunctionBin(const std::string& fname, const ScalarField& expr);
 void printFunctionBin(const std::string& fname, const CpxScalarField& expr);

@@ -44,11 +44,11 @@ void init()
 	defineElementWiseScalarField();
 	defineCpxElementWiseScalarField();
 	
-	MPI_Op_create((MPI_User_function*) sum_MPI_MatrixEntry, 1, &MPI_MATRIX_ENTRY_SUM);
-	MPI_Op_create((MPI_User_function*) sum_MPI_CpxMatrixEntry, 1, &MPI_CPX_MATRIX_ENTRY_SUM);
+	MPI_Op_create(static_cast<MPI_User_function*>(sum_MPI_MatrixEntry), 1, &MPI_MATRIX_ENTRY_SUM);
+	MPI_Op_create(static_cast<MPI_User_function*>(sum_MPI_CpxMatrixEntry), 1, &MPI_CPX_MATRIX_ENTRY_SUM);
 	
-	MPI_Op_create((MPI_User_function*) sum_MPI_ElementWiseScalarField, 1, &MPI_ELEMENT_WISE_SCALAR_FIELD_SUM);
-	MPI_Op_create((MPI_User_function*) sum_MPI_CpxElementWiseScalarField, 1, &MPI_CPX_ELEMENT_WISE_SCALAR_FIELD_SUM);
+	MPI_Op_create(static_cast<MPI_User_function*>(sum_MPI_ElementWiseScalarField), 1, &MPI_ELEMENT_WISE_SCALAR_FIELD_SUM);
+	MPI_Op_create(static_cast<MPI_User_function*>(sum_MPI_CpxElementWiseScalarField), 1, &MPI_CPX_ELEMENT_WISE_SCALAR_FIELD_SUM);
 }
 
 void finalize()
