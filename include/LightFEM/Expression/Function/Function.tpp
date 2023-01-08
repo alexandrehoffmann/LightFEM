@@ -40,7 +40,7 @@ Function<Type>::Function(const Mesh* mesh) :
 	} 
 }
 
-template<ExprType Type>
+template<ExprType Type> template<typename FunctorType>
 Function<Type>::Function(const Mesh* mesh, FunctorType f) :
 	m_values(mesh->getNElem()),
 	m_containsTrial(false),
@@ -159,7 +159,7 @@ CpxFunction<Type>::CpxFunction(const Mesh* mesh) :
 	} 
 }
 
-template<ExprType Type>
+template<ExprType Type> template<typename CpxFunctorType>
 CpxFunction<Type>::CpxFunction(const Mesh* mesh, CpxFunctorType f) :
 	m_values(mesh->getNElem()),
 	m_containsTrial(false),

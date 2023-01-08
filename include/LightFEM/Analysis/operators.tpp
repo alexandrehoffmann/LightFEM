@@ -48,24 +48,6 @@ FiniteElementFunction<Type> interp(const typename FiniteElementFunction<Type>::F
 	return FiniteElementFunction<Type>(Vh, coefs.data());
 }
 
-template<ExprType Type>
-FiniteElementFunction<Type> interp(const typename FiniteElementFunction<Type>::FSpaceType* Vh, typename Functor<Type>::type expr)
-{
-	std::vector< Scalar > coefs(Vh->getNBasisFunction());
-
-	for (size_t e=0;e<Vh->getMesh()->getNElem();++e)
-	{
-		for (size_t interpNodeId=0;interpNodeId<Vh->getNLocalInterpolationNodes();++interpNodeId)
-		{
-			const size_t globId = Vh->getGlobalId(e, Vh->getLocalInterpolationFunctionId(interpNodeId));
-			const NodeRef Xi = Vh->getLocalInterpolationNode(interpNodeId);
-			const auto [x, y] = Vh->getMesh()->getElem(e)->getXworld(Xi);
-			coefs[globId] = expr(x, y);
-		}
-	}
-	return FiniteElementFunction<Type>(Vh, coefs.data());
-}
-
 template<ExprType Type, typename Expr>
 CpxFiniteElementFunction<Type> interp(const typename FiniteElementFunction<Type>::FSpaceType* Vh, const CpxFunctionExpression<Type, Expr>& expr)
 {
@@ -78,24 +60,6 @@ CpxFiniteElementFunction<Type> interp(const typename FiniteElementFunction<Type>
 		{
 			const size_t globId = Vh->getGlobalId(e, Vh->getLocalInterpolationFunctionId(interpNodeId));
 			coefs[globId] = interp_expr(Vh->getLocalInterpolationNode(interpNodeId));
-		}
-	}
-	return CpxFiniteElementFunction<Type>(Vh, coefs.data());
-}
-
-template<ExprType Type>
-FiniteElementFunction<Type> interp(const typename FiniteElementFunction<Type>::FSpaceType* Vh, typename CpxFunctor<Type>::type expr)
-{
-	std::vector< CpxScalar > coefs(Vh->getNBasisFunction());
-
-	for (size_t e=0;e<Vh->getMesh()->getNElem();++e)
-	{
-		for (size_t interpNodeId=0;interpNodeId<Vh->getNLocalInterpolationNodes();++interpNodeId)
-		{
-			const size_t globId = Vh->getGlobalId(e, Vh->getLocalInterpolationFunctionId(interpNodeId));
-			const NodeRef Xi = Vh->getLocalInterpolationNode(interpNodeId);
-			const auto [x, y] = Vh->getMesh()->getElem(e)->getXworld(Xi);
-			coefs[globId] = expr(x, y);
 		}
 	}
 	return CpxFiniteElementFunction<Type>(Vh, coefs.data());

@@ -100,14 +100,8 @@ CpxFiniteElementFunctionGradExpression<Type, Expr> grad(CpxFiniteElementFunction
 template<ExprType Type, typename Expr> 
 FiniteElementFunction<Type> interp(const typename FiniteElementFunction<Type>::FSpaceType* Vh, const FunctionExpression<Type, Expr>& expr);
 
-template<ExprType Type>
-FiniteElementFunction<Type> interp(const typename FiniteElementFunction<Type>::FSpaceType* Vh, typename Functor<Type>::type expr);
-
 template<ExprType Type, typename Expr>
 CpxFiniteElementFunction<Type> interp(const typename FiniteElementFunction<Type>::FSpaceType* Vh, const CpxFunctionExpression<Type, Expr>& expr);
-
-template<ExprType Type>
-CpxFiniteElementFunction<Type> interp(const typename FiniteElementFunction<Type>::FSpaceType* Vh, typename CpxFunctor<Type>::type expr);
 
 #include <LightFEM/Analysis/operators.tpp>
 

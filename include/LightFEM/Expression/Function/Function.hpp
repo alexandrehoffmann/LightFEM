@@ -31,23 +31,15 @@
 
 #include <vector>
 
-template< ExprType Type > struct Functor {};
-template<> struct Functor<ExprType::SCALAR>     { typedef const std::function<double(const double, const double)>& type; };
-template<> struct Functor<ExprType::VECTOR>     { typedef const std::function<Vector(const double, const double)>& type; };
-template<> struct Functor<ExprType::MATRIX>     { typedef const std::function<Matrix(const double, const double)>& type; };
-template<> struct Functor<ExprType::RK2_TENSOR> { typedef const std::function<RankTwoTensor(const double, const double)>& type; };
-template<> struct Functor<ExprType::RK4_TENSOR> { typedef const std::function<RankFourTensor(const double, const double)>& type; };
-
 template<ExprType Type>
 class Function : public FunctionExpression< Type, Function<Type> >
 {
 public:
-	typedef typename Functor<Type>::type                  FunctorType;
 	typedef typename Traits< Function<Type> >::ReturnType ReturnType;
 public:
 	Function(const Mesh* mesh);
-	Function(const Mesh* mesh, FunctorType f);
-	template<typename Expr>	Function(const FunctionExpression< Type, Expr >& expr);
+	template<typename FunctorType> Function(const Mesh* mesh, FunctorType f);
+	template<typename Expr>	       Function(const FunctionExpression< Type, Expr >& expr);
 public:
 	template<typename Expr> Function<Type>& operator=  (const FunctionExpression< Type, Expr >& expr);
 	template<typename Expr> Function<Type>& operator+= (const FunctionExpression< Type, Expr >& expr);
@@ -82,25 +74,16 @@ typedef Function<ExprType::RK4_TENSOR> RankFourTensorField;
 
 ////////////////////////////////////////////////////////////////////////
 
-template< ExprType Type > struct CpxFunctor {};
-template<> struct CpxFunctor<ExprType::SCALAR>     { typedef const std::function<std::complex<double>(const double, const double)>& type; };
-template<> struct CpxFunctor<ExprType::VECTOR>     { typedef const std::function<CpxVector(const double, const double)>& type; };
-template<> struct CpxFunctor<ExprType::MATRIX>     { typedef const std::function<CpxMatrix(const double, const double)>& type; };
-template<> struct CpxFunctor<ExprType::RK2_TENSOR> { typedef const std::function<CpxRankTwoTensor(const double, const double)>& type; };
-template<> struct CpxFunctor<ExprType::RK4_TENSOR> { typedef const std::function<CpxRankFourTensor(const double, const double)>& type; };
-
 template<ExprType Type>
 class CpxFunction : public CpxFunctionExpression< Type, CpxFunction<Type> >
 {
 public:
-	typedef typename CpxFunctor<Type>::type                  CpxFunctorType;
 	typedef typename Traits< CpxFunction<Type> >::ReturnType ReturnType;
 public:
 	CpxFunction(const Mesh* mesh);
-	CpxFunction(const Mesh* mesh, CpxFunctorType f);
-	
-	template<typename Expr>	CpxFunction(const FunctionExpression< Type, Expr >& expr);
-	template<typename Expr>	CpxFunction(const CpxFunctionExpression< Type, Expr >& expr);
+	template<typename CpxFunctorType> CpxFunction(const Mesh* mesh, CpxFunctorType f);
+	template<typename Expr>	          CpxFunction(const FunctionExpression< Type, Expr >& expr);
+	template<typename Expr>	          CpxFunction(const CpxFunctionExpression< Type, Expr >& expr);
 public:
 	template<typename Expr> CpxFunction<Type>& operator=  (const FunctionExpression< Type, Expr >& expr);
 	template<typename Expr> CpxFunction<Type>& operator=  (const CpxFunctionExpression< Type, Expr >& expr);
