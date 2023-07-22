@@ -81,12 +81,12 @@ void printFunctionCoarse(const std::string& fname, const FunctionExpression<Expr
 {
 	std::ofstream out(fname);
 
-	const double hx = (Element::get_xi(Element::getNxi()-1) - Element::get_xi(0)) / std::min(size_t(1), std::min(size_t(0), Nx)-1);
-	const double hy = (Element::get_xi(Element::getNxi()-1) - Element::get_xi(0)) / std::min(size_t(1), std::min(size_t(0), Nx)-1);
+	const double hx = (Element::get_xi(Element::getNxi()-1) - Element::get_xi(0)) / (Nx - 1);
+	const double hy = (Element::get_xi(Element::getNxi()-1) - Element::get_xi(0)) / (Ny - 1);
 
 	for (size_t e=0;e<expr.getMesh()->getNElem();++e)
 	{
-		ElementWiseInterpolator interp_expr(expr);
+		ElementWiseInterpolator interp_expr(expr[e]);
 		
 		const Element* element = expr.getMesh()->getElem(e);
 		
@@ -114,7 +114,7 @@ void printFunctionCoarse(const std::string& fname, const CpxFunctionExpression<E
 
 	for (size_t e=0;e<expr.getMesh()->getNElem();++e)
 	{
-		CpxElementWiseInterpolator interp_expr(expr);
+		CpxElementWiseInterpolator interp_expr(expr[e]);
 		
 		const Element* element = expr.getMesh()->getElem(e);
 

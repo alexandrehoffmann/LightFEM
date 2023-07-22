@@ -79,7 +79,7 @@ void FunctionSpace::initIsIdOnBoundary()
 
 		for (size_t locId=0;locId<getNBasisFunctionPerElement();++locId)
 		{
-			m_isIdOnBoundary[getGlobalId(e, locId)] = isLocIdOnBoundary(locId, b);
+			m_isIdOnBoundary[getGlobalId(e, locId)] = m_isIdOnBoundary[getGlobalId(e, locId)] or isLocIdOnBoundary(locId, b);
 		}
 	}
 }
