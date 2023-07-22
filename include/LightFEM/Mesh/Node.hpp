@@ -56,7 +56,7 @@ inline double norm(const NodeRef& node) { return sqrt( node.xi1*node.xi1 + node.
 inline double dist(const NodeWorld& lhs, const NodeWorld& rhs) { return sqrt( (lhs.x - rhs.x)*(lhs.x - rhs.x) + (lhs.y - rhs.y)*(lhs.y - rhs.y) ); }
 inline double dist(const NodeRef& lhs, const NodeRef& rhs) { return sqrt( (lhs.xi1 - rhs.xi1)*(lhs.xi1 - rhs.xi1) + (lhs.xi2 - rhs.xi2)*(lhs.xi2 - rhs.xi2) ); }
 
-inline bool eq(const NodeWorld& lhs, const NodeWorld& rhs, const double eps = 1.0e-11) { return dist(lhs, rhs) < eps*std::min(norm(lhs), norm(rhs)); }
-inline bool eq(const NodeRef& lhs, const NodeRef& rhs, const double eps = 1.0e-11) { return dist(lhs, rhs) < eps*std::min(norm(lhs), norm(rhs)); }
+inline bool eq(const NodeWorld& lhs, const NodeWorld& rhs, const double eps = 1.0e-11) { return dist(lhs, rhs) <= eps*std::min(norm(lhs), norm(rhs)); }
+inline bool eq(const NodeRef& lhs, const NodeRef& rhs, const double eps = 1.0e-11)     { return dist(lhs, rhs) <= eps*std::min(norm(lhs), norm(rhs)); }
 
 #endif // NODE_HPP
