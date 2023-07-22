@@ -50,13 +50,20 @@ struct NodeRef
 	operator Vector() const { return Vector({xi1, xi2}); }
 };
 
-inline double norm(const NodeWorld& node) { return sqrt( node.x*node.x + node.y*node.y ); }
-inline double norm(const NodeRef& node) { return sqrt( node.xi1*node.xi1 + node.xi2*node.xi2 ); }
 
-inline double dist(const NodeWorld& lhs, const NodeWorld& rhs) { return sqrt( (lhs.x - rhs.x)*(lhs.x - rhs.x) + (lhs.y - rhs.y)*(lhs.y - rhs.y) ); }
-inline double dist(const NodeRef& lhs, const NodeRef& rhs) { return sqrt( (lhs.xi1 - rhs.xi1)*(lhs.xi1 - rhs.xi1) + (lhs.xi2 - rhs.xi2)*(lhs.xi2 - rhs.xi2) ); }
+inline double squaredDist(const NodeWorld& lhs, const NodeWorld& rhs) { return (lhs.x - rhs.x)*(lhs.x - rhs.x) + (lhs.y - rhs.y)*(lhs.y - rhs.y); }
+inline double squaredDist(const NodeRef& lhs, const NodeRef& rhs)     { return (lhs.xi1 - rhs.xi1)*(lhs.xi1 - rhs.xi1) + (lhs.xi2 - rhs.xi2)*(lhs.xi2 - rhs.xi2); }
 
-inline bool eq(const NodeWorld& lhs, const NodeWorld& rhs, const double eps = 1.0e-11) { return dist(lhs, rhs) <= eps*std::min(norm(lhs), norm(rhs)); }
-inline bool eq(const NodeRef& lhs, const NodeRef& rhs, const double eps = 1.0e-11)     { return dist(lhs, rhs) <= eps*std::min(norm(lhs), norm(rhs)); }
+inline double squaredNorm(const NodeWorld& node) { return node.x*node.x + node.y*node.y;         }
+inline double squaredNorm(const NodeRef& node)   { return node.xi1*node.xi1 + node.xi2*node.xi2; }
+
+inline double norm(const NodeWorld& node) { return std::sqrt( squaredNorm(node) ); }
+inline double norm(const NodeRef& node)   { return std::sqrt( squaredNorm(node) ); }
+
+inline double dist(const NodeWorld& lhs, const NodeWorld& rhs) { return std::sqrt( squaredDist(lhs, rhs) ); }
+inline double dist(const NodeRef& lhs, const NodeRef& rhs)     { return std::sqrt( squaredDist(lhs, rhs) ); }
+
+inline bool eq(const NodeWorld& lhs, const NodeWorld& rhs, const double eps = 1.0e-11) { return squaredDist(lhs, rhs) <= eps*eps*std::max(squaredNorm(lhs), squaredNorm(rhs)); }
+inline bool eq(const NodeRef& lhs, const NodeRef& rhs, const double eps = 1.0e-11)     { return squaredDist(lhs, rhs) <= eps*eps*std::max(squaredNorm(lhs), squaredNorm(rhs)); }
 
 #endif // NODE_HPP
