@@ -37,7 +37,7 @@ double ElementWiseInterpolator::eval(const double xi1, const double xi2) const
 		for (size_t j=0;j<Element::getNxi();++j) { if (i != j)
 		{
 			lx[i] *= (xi1 - Element::get_xi(j)) / (Element::get_xi(i) - Element::get_xi(j));
-			lx[i] *= (xi2 - Element::get_xi(j)) / (Element::get_xi(i) - Element::get_xi(j));
+			ly[i] *= (xi2 - Element::get_xi(j)) / (Element::get_xi(i) - Element::get_xi(j));
 		}}
 	}
 	
@@ -82,7 +82,7 @@ std::complex< double > CpxElementWiseInterpolator::eval(const double xi1, const 
 		for (size_t j=0;j<Element::getNxi();++j) { if (i != j)
 		{
 			lx[i] *= (xi1 - Element::get_xi(j)) / (Element::get_xi(i) - Element::get_xi(j));
-			lx[i] *= (xi2 - Element::get_xi(j)) / (Element::get_xi(i) - Element::get_xi(j));
+			ly[i] *= (xi2 - Element::get_xi(j)) / (Element::get_xi(i) - Element::get_xi(j));
 		}}
 	}
 	
