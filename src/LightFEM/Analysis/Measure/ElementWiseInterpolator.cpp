@@ -25,16 +25,22 @@
 
 double ElementWiseInterpolator::eval(const double xi1, const double xi2) const
 {
+	std::array<double, Element::getNxi()> lx;
+	std::array<double, Element::getNxi()> ly;
+
+	for (size_t i=0;i<Element::getNxi();++i)
+	{
+		lx[i] = lagrange_1d(xi1, i);
+		ly[i] = lagrange_1d(xi2, i);
+	}
+	
 	double value = 0.0;
 	
 	for (size_t i=0;i<Element::getNxi();++i)
 	{
 		for (size_t j=0;j<Element::getNxi();++j)
-		{
-			const double lx = lagrange_1d(xi1, i);
-			const double ly = lagrange_1d(xi2, j);
-			
-			value += m_fi[Element::index2d(i,j)]*lx*ly;
+		{	
+			value += m_fi[Element::index2d(i,j)]*lx[i]*ly[j];
 		}
 	}
 	
@@ -57,16 +63,22 @@ double ElementWiseInterpolator::lagrange_1d(const double xi, const size_t i)
 
 std::complex< double > CpxElementWiseInterpolator::eval(const double xi1, const double xi2) const
 {
+	std::array<double, Element::getNxi()> lx;
+	std::array<double, Element::getNxi()> ly;
+
+	for (size_t i=0;i<Element::getNxi();++i)
+	{
+		lx[i] = lagrange_1d(xi1, i);
+		ly[i] = lagrange_1d(xi2, i);
+	}
+	
 	std::complex< double > value = 0.0;
 	
 	for (size_t i=0;i<Element::getNxi();++i)
 	{
 		for (size_t j=0;j<Element::getNxi();++j)
 		{
-			const double lx = lagrange_1d(xi1, i);
-			const double ly = lagrange_1d(xi2, j);
-			
-			value += m_fi[Element::index2d(i,j)]*lx*ly;
+			value += m_fi[Element::index2d(i,j)]*lx[i]*ly[j];
 		}
 	}
 	
