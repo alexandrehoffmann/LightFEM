@@ -30,8 +30,15 @@ double ElementWiseInterpolator::eval(const double xi1, const double xi2) const
 
 	for (size_t i=0;i<Element::getNxi();++i)
 	{
-		lx[i] = lagrange_1d(xi1, i);
-		ly[i] = lagrange_1d(xi2, i);
+		//lx[i] = lagrange_1d(xi1, i);
+		//ly[i] = lagrange_1d(xi2, i);
+		lx[i] = 1.0;
+		ly[i] = 1.0;
+		for (size_t j=0;j<Element::getNxi();++j) { if (i != j)
+		{
+			lx[i] *= (xi1 - Element::get_xi(j)) / (Element::get_xi(i) - Element::get_xi(j));
+			lx[i] *= (xi2 - Element::get_xi(j)) / (Element::get_xi(i) - Element::get_xi(j));
+		}}
 	}
 	
 	double value = 0.0;
@@ -68,8 +75,15 @@ std::complex< double > CpxElementWiseInterpolator::eval(const double xi1, const 
 
 	for (size_t i=0;i<Element::getNxi();++i)
 	{
-		lx[i] = lagrange_1d(xi1, i);
-		ly[i] = lagrange_1d(xi2, i);
+		//lx[i] = lagrange_1d(xi1, i);
+		//ly[i] = lagrange_1d(xi2, i);
+		lx[i] = 1.0;
+		ly[i] = 1.0;
+		for (size_t j=0;j<Element::getNxi();++j) { if (i != j)
+		{
+			lx[i] *= (xi1 - Element::get_xi(j)) / (Element::get_xi(i) - Element::get_xi(j));
+			lx[i] *= (xi2 - Element::get_xi(j)) / (Element::get_xi(i) - Element::get_xi(j));
+		}}
 	}
 	
 	std::complex< double > value = 0.0;
