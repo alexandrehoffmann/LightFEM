@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.1)
 
 project(LightFEM VERSION 1.0.0 LANGUAGES CXX DESCRIPTION "Lightweigh HP finite-element library")
 
@@ -177,7 +177,7 @@ set(HEADERS
 add_library(${PROJECT_NAME} SHARED ${SRCS} ${HEADERS})
 
 # Configure compiler options.
-target_compile_options(${PROJECT_NAME} PRIVATE -Wundef -Wvarargs -Wextra -Wall -Winit-self -Wold-style-cast -Woverloaded-virtual -Wuninitialized -Wmissing-declarations -Winit-self -flax-vector-conversions -ansi -pedantic -pedantic-errors)
+target_compile_options(${PROJECT_NAME} PRIVATE -Wundef -Wvarargs -Wextra -Wall -Winit-self -Wold-style-cast -Woverloaded-virtual -Wuninitialized -Wmissing-declarations -Winit-self -flax-vector-conversions -pedantic -pedantic-errors)
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
 
 # Link dependencies.
